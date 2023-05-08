@@ -68,7 +68,7 @@ const Product = new Schema(
     },
   },
 
-  { timestamps: { createdAt: "created" } }
+  { timestamps: { createdAt: "created", updatedAt: "updated" } }
 );
 
 export default (models.Product as Model<typeof Product>) ||
