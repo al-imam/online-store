@@ -1,8 +1,6 @@
-import Image from "next/image";
-
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between py-10">
+    <main className="py-10 flex flex-col min-h-screen items-center justify-between">
       Hello
     </main>
   );
