@@ -1,4 +1,4 @@
-import { Schema, model, models } from "mongoose";
+import { Model, Schema, model, models } from "mongoose";
 
 const Product = new Schema(
   {
@@ -71,4 +71,5 @@ const Product = new Schema(
   { timestamps: { createdAt: "created" } }
 );
 
-export default model("Product", Product);
+export default (models.Product as Model<typeof Product>) ||
+  model("Product", Product);
