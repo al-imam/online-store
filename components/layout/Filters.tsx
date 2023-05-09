@@ -1,5 +1,5 @@
 import React from "react";
-import StarRatings from "react-star-ratings";
+import StarRating from "@/components/utility/StarRating";
 
 const Filters = () => {
   function checkHandler(checkBoxType: string, checkBoxValue: string) {
@@ -129,7 +129,7 @@ const Filters = () => {
                   defaultChecked={checkHandler("ratings", `${rating}`)}
                 />
                 <span className="ml-2 text-gray-500">
-                  <StarRatings
+                  <StarRating
                     rating={5}
                     starRatedColor="#ffb829"
                     numberOfStars={5}

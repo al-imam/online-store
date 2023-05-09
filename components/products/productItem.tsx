@@ -2,7 +2,7 @@ import ServerResponse from "@/types/productInterface";
 import React from "react";
 import type { FunctionComponent } from "react";
 import Link from "next/link";
-import StarRatings from "react-star-ratings";
+import StarRating from "@/components/utility/StarRating";
 import Image from "next/image";
 
 interface ProductItemProps {
@@ -36,7 +36,7 @@ const ProductItem: FunctionComponent<ProductItemProps> = ({ product }) => (
           <div className="flex flex-wrap items-center space-x-2 mb-2">
             <div className="ratings">
               <div className="my-1">
-                <StarRatings
+                <StarRating
                   rating={product.rating}
                   starRatedColor="#ffb829"
                   numberOfStars={5}
@@ -47,7 +47,7 @@ const ProductItem: FunctionComponent<ProductItemProps> = ({ product }) => (
               </div>
             </div>
             <b className="text-gray-300">•</b>
-            <span className="ml-1 text-yellow-500">5</span>
+            <span className="ml-1 text-yellow-500">{product.rating}</span>
           </div>
           <p className="text-gray-500 mb-2">
             {product.description.slice(0, 300)}...
