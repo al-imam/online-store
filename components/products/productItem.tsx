@@ -21,7 +21,7 @@ const ProductItem: FunctionComponent<ProductItemProps> = ({ product }) => (
           }}
         >
           <Image
-            src={product.images[0]?.url}
+            src={product.images[0] ? product.images[0].url : "/product.png"}
             alt="product name"
             height="240"
             width="240"
@@ -50,14 +50,14 @@ const ProductItem: FunctionComponent<ProductItemProps> = ({ product }) => (
             <span className="ml-1 text-yellow-500">{product.rating}</span>
           </div>
           <p className="text-gray-500 mb-2">
-            {product.description.slice(0, 300)}...
+            {product.description.substring(0, 150)}...
           </p>
         </div>
       </div>
       <div className="md:w-1/4 border-t lg:border-t-0 lg:border-l border-gray-200">
         <div className="p-5">
           <span className="text-xl font-semibold text-black">
-            {product.price}
+            ${product.price}
           </span>
           <p className="text-green-500">Free Shipping</p>
           <div className="my-3">

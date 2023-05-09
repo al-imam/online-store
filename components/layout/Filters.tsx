@@ -8,7 +8,6 @@ const Filters = () => {
       if (checkBoxValue === queryParams.get(checkBoxType)) return true;
       return false;
     }
-    return false;
   }
 
   return (
@@ -130,7 +129,7 @@ const Filters = () => {
                 />
                 <span className="ml-2 text-gray-500">
                   <StarRating
-                    rating={5}
+                    rating={rating}
                     starRatedColor="#ffb829"
                     numberOfStars={5}
                     starDimension="20px"
