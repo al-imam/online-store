@@ -1,7 +1,12 @@
 import React from "react";
 import StarRating from "@/components/utility/StarRating";
+import ServerResponse from "@/types/productInterface";
 
-const ProductDetails = () => (
+interface ProductDetailsProps {
+  product: ServerResponse;
+}
+
+const ProductDetails = ({ product }: ProductDetailsProps) => (
   <section className="bg-white py-10">
     <div className="container max-w-screen-xl mx-auto px-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-5">
