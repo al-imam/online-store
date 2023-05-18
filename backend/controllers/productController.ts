@@ -1,5 +1,6 @@
 import Product from "../models/product";
 import { NextApiRequest, NextApiResponse } from "next";
+import { isValidObjectId } from "mongoose";
 
 export async function createProduct(req: NextApiRequest, res: NextApiResponse) {
   const newProduct = await Product.create(req.body);
@@ -15,6 +16,14 @@ export async function getProductById(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  if (!isValidObjectId(req.query.id)) {
+    res.status(400).json({
+      id: "product/:id",
+      error: ":id is not valid ObjectId",
+    });
+  }
+
   const product = await Product.findById(req.query.id);
+
   res.status(200).json(product);
 }
