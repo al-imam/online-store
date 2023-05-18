@@ -1,4 +1,3 @@
-import dbConnect from "@/backend/config/dbConnect";
 import { getProductById } from "@/backend/controllers/productController";
 import createRouter from "next-connect";
 

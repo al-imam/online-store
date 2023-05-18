@@ -8,5 +8,6 @@ interface ProductDetailsPageProps {
 
 export default async ({ params }: ProductDetailsPageProps) => {
   const { data } = await Get<ServerResponse>(`product/${params.id}`);
+
   return <ProductDetails product={data} />;
 };

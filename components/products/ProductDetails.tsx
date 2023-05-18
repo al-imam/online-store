@@ -38,7 +38,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => (
           <div className="flex flex-wrap items-center space-x-2 mb-2">
             <div className="ratings">
               <StarRating
-                rating={5}
+                rating={product.rating}
                 starRatedColor="#ffb829"
                 numberOfStars={5}
                 starDimension="20px"
@@ -46,7 +46,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => (
                 name="rating"
               />
             </div>
-            <span className="text-yellow-500">5</span>
+            <span className="text-yellow-500">{product.rating}</span>
 
             <svg
               width="6px"
@@ -60,13 +60,9 @@ const ProductDetails = ({ product }: ProductDetailsProps) => (
             <span className="text-green-500">Verified</span>
           </div>
 
-          <p className="mb-4 font-semibold text-xl">$234</p>
+          <p className="mb-4 font-semibold text-xl">${product.price}</p>
 
-          <p className="mb-4 text-gray-500">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s.
-          </p>
+          <p className="mb-4 text-gray-500">{product.description}</p>
 
           <div className="flex flex-wrap gap-2 mb-5">
             <button className="px-4 py-2 inline-block text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700">
@@ -81,11 +77,11 @@ const ProductDetails = ({ product }: ProductDetailsProps) => (
             </li>
             <li className="mb-1">
               <b className="font-medium w-36 inline-block">Category:</b>
-              <span className="text-gray-500">Electonics</span>
+              <span className="text-gray-500">{product.category}</span>
             </li>
             <li className="mb-1">
               <b className="font-medium w-36 inline-block">Seller / Brand:</b>
-              <span className="text-gray-500">Apple</span>
+              <span className="text-gray-500">{product.seller}</span>
             </li>
           </ul>
         </main>
