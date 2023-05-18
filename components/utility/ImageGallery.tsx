@@ -33,6 +33,7 @@ export default ({ images }: ImageGalleryProps) => {
           <a
             className="inline-block border border-gray-200 p-1 rounded-md hover:border-blue-500 cursor-pointer"
             onClick={() => changeImage(image.url)}
+            key={image.url}
           >
             <img
               className="w-14 h-14"
