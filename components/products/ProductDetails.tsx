@@ -74,6 +74,11 @@ const ProductDetails = ({ product }: ProductDetailsProps) => (
           <ul className="mb-5">
             <li className="mb-1">
               <b className="font-medium w-36 inline-block">Stock</b>
+              {product.stock > 0 ? (
+                <span className="text-green-500">In Stock</span>
+              ) : (
+                <span className="text-red-500">Out Of Stock</span>
+              )}
             </li>
             <li className="mb-1">
               <b className="font-medium w-36 inline-block">Category:</b>
