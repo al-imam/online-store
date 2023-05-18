@@ -14,7 +14,7 @@ const Header = () => (
               style={{ height: "50px", width: "60px" }}
               height="40"
               width="120"
-              alt="BuyItNow"
+              alt="online-store"
               className="scale-150"
             />
           </Link>
@@ -45,7 +45,7 @@ const Header = () => (
                 height="40"
                 width="40"
                 className="w-10 h-10 rounded-full"
-                src={"/logo192.png"}
+                src="/avatar.jpeg"
               />
               <div className="space-y-1 font-medium">
                 <p>
