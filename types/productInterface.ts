@@ -1,4 +1,4 @@
-interface Image {
+export interface Image {
   product_id: string;
   url: string;
 }

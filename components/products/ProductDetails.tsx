@@ -1,6 +1,7 @@
 import React from "react";
 import StarRating from "@/components/utility/StarRating";
 import ServerResponse from "@/types/productInterface";
+import ImageGallery from "@/components/utility/ImageGallery";
 
 interface ProductDetailsProps {
   product: ServerResponse;
@@ -10,30 +11,9 @@ const ProductDetails = ({ product }: ProductDetailsProps) => (
   <section className="bg-white py-10">
     <div className="container max-w-screen-xl mx-auto px-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-5">
-        <aside>
-          <div className="border border-gray-200 shadow-sm p-3 text-center rounded mb-5">
-            <img
-              className="object-cover inline-block"
-              src="/logo192.png"
-              alt="Product title"
-              width="340"
-              height="340"
-            />
-          </div>
-          <div className="space-x-2 overflow-auto text-center whitespace-nowrap">
-            <a className="inline-block border border-gray-200 p-1 rounded-md hover:border-blue-500 cursor-pointer">
-              <img
-                className="w-14 h-14"
-                src={"/logo192.png"}
-                alt="Product title"
-                width="500"
-                height="500"
-              />
-            </a>
-          </div>
-        </aside>
+        <ImageGallery images={product.images} />
         <main>
-          <h2 className="font-semibold text-2xl mb-4">Product title</h2>
+          <h2 className="font-semibold text-2xl mb-4">{product.name}</h2>
 
           <div className="flex flex-wrap items-center space-x-2 mb-2">
             <div className="ratings">
