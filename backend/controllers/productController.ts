@@ -10,3 +10,11 @@ export async function getAllProduct(req: NextApiRequest, res: NextApiResponse) {
   const allProduct = await Product.find();
   res.status(200).json(allProduct);
 }
+
+export async function getProductById(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const product = await Product.findById(req.query.id);
+  res.status(200).json(product);
+}
