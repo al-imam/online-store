@@ -19,7 +19,7 @@ const Product = new Schema(
 
     images: [
       {
-        product_id: String,
+        id: String,
         url: String,
       },
     ],
@@ -43,12 +43,12 @@ const Product = new Schema(
       {
         rating: {
           type: Number,
-          required: [true, "reviews required rating"],
+          required: [true, "review required rating"],
         },
 
         comment: {
           type: String,
-          required: [true, "reviews required comment"],
+          required: [true, "review required comment"],
         },
 
         created: {
@@ -68,7 +68,7 @@ const Product = new Schema(
     },
   },
 
-  { timestamps: { createdAt: "created", updatedAt: "updated" } }
+  { timestamps: { createdAt: "created", updatedAt: false } }
 );
 
 export default (models.Product as Model<typeof Product>) ||
