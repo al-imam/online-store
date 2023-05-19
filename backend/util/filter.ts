@@ -20,7 +20,7 @@ interface QUERY {
   name: { $regex: string; $options: "i" };
   category: string;
   price: Partial<{ $gte: number; $lte: number }>;
-  rating: number;
+  rating: { $gte: number };
 }
 
 function filter(query: Partial<filterQuery>) {
@@ -37,7 +37,7 @@ function filter(query: Partial<filterQuery>) {
     if (query.max) q.price.$lte = parseNumber(query.max, Infinity);
   }
 
-  if (query.rating) q.rating = parseNumber(query.rating, 0);
+  if (query.rating) q.rating = { $gte: parseNumber(query.rating, 0) };
 
   return q;
 }
