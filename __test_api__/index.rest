@@ -1,5 +1,5 @@
 ### get all product
-GET http://localhost:3000/api/product
+GET http://localhost:3000/api/product?search=dynamic
 
 
 ### create new product
