@@ -1,3 +1,7 @@
+function isEmpty(o: object): boolean {
+  return Object.keys(o).length === 0;
+}
+
 function filter(
   query: Partial<{
     search: string;
@@ -7,7 +11,7 @@ function filter(
     rating: string;
   }>
 ) {
-  console.log(query);
+  if (isEmpty(query)) return {};
 }
 
 export default filter;
