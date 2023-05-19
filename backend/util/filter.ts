@@ -14,9 +14,9 @@ function filter(query: Partial<filterQuery>) {
   const q: any = {};
   if (isEmpty(query)) return q;
 
-  if (query.search) {
-    q.name = { $regex: query.search, $options: "i" };
-  }
+  if (query.search) q.name = { $regex: query.search, $options: "i" };
+
+  if (query.category) q.category = query.category.toLowerCase();
 
   console.log(q);
 
