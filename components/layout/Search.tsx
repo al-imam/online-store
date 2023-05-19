@@ -10,8 +10,9 @@ const Search = () => {
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-
-    if (search !== "") router.push(`/?search=${search}`);
+    const qp = new URLSearchParams(window.location.search);
+    if (search !== "") qp.set("search", search);
+    router.push(`/?${qp.toString()}`);
   }
 
   return (
