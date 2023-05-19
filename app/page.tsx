@@ -8,10 +8,14 @@ interface HomeProps {
   searchParams: Partial<QueryInterface>;
 }
 
+interface DATA {
+  total: number;
+  single: number;
+  products: ServerResponse[];
+}
+
 export default async function Home({ searchParams }: HomeProps) {
-  const { data } = await Get<ServerResponse[]>(
-    `product/?${stringifyQuery(searchParams)}`
-  );
+  const { data } = await Get<DATA>(`product/?${stringifyQuery(searchParams)}`);
 
   return <ListProduct data={data} />;
 }

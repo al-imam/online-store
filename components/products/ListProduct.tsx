@@ -6,7 +6,7 @@ import ProductItem from "@/components/products/productItem";
 import Pagination from "@/components/layout/Pagination";
 
 interface ListProductProps {
-  data: ServerResponse[];
+  data: { products: ServerResponse[]; total: number; single: number };
 }
 
 const ListProduct: FunctionComponent<ListProductProps> = ({ data }) => (
@@ -15,10 +15,11 @@ const ListProduct: FunctionComponent<ListProductProps> = ({ data }) => (
       <div className="flex flex-col md:flex-row -mx-4">
         <Filters />
         <main className="md:w-2/3 lg:w-3/4 px-3">
-          {data.map((product) => (
+          {data.products.map((product) => (
             <ProductItem key={product._id} product={product} />
           ))}
-          <Pagination />
+
+          <Pagination total={data.total} single={data.single} />
         </main>
       </div>
     </div>

@@ -2,13 +2,18 @@
 
 import ReactJsPagination from "react-js-pagination";
 
-function Pagination() {
+interface PaginationProps {
+  total: number;
+  single: number;
+}
+
+function Pagination({ total, single }: PaginationProps) {
   return (
     <div className="flex mt-20 justify-center">
       <ReactJsPagination
         activePage={1}
-        itemsCountPerPage={2}
-        totalItemsCount={345}
+        itemsCountPerPage={single}
+        totalItemsCount={total}
         onChange={() => {}}
         nextPageText="Next"
         prevPageText="Prev"
