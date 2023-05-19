@@ -16,15 +16,15 @@ Content-Type: application/json
     "stock": 5,
     "images": [
       {
-        "product_id": "buyitnow/products/gclqht0hjco0jyy9s2bx",
+        "id": "buyitnow/products/gclqht0hjco0jyy9s2bx",
         "url": "http://res.cloudinary.com/shopitnow-udemy/image/upload/v1674393848/buyitnow/products/gclqht0hjco0jyy9s2bx.jpg"
       },
       {
-        "product_id": "buyitnow/products/qdilqh5oizvnwfu2bkzq",
+        "id": "buyitnow/products/qdilqh5oizvnwfu2bkzq",
         "url": "http://res.cloudinary.com/shopitnow-udemy/image/upload/v1674393852/buyitnow/products/qdilqh5oizvnwfu2bkzq.jpg"
       },
       {
-        "product_id": "buyitnow/products/cjtvzn5crbcyddo2hlai",
+        "id": "buyitnow/products/cjtvzn5crbcyddo2hlai",
         "url": "http://res.cloudinary.com/shopitnow-udemy/image/upload/v1674393855/buyitnow/products/cjtvzn5crbcyddo2hlai.jpg"
       }
     ],
@@ -40,11 +40,11 @@ Content-Type: application/json
     "stock": 1000,
     "images": [
       {
-        "product_id": "buyitnow/products/fqxj6dfj5r8s4oaagz0l",
+        "id": "buyitnow/products/fqxj6dfj5r8s4oaagz0l",
         "url": "http://res.cloudinary.com/shopitnow-udemy/image/upload/v1674393888/buyitnow/products/fqxj6dfj5r8s4oaagz0l.jpg"
       },
       {
-        "product_id": "buyitnow/products/e12y4ylevohb5usvw06x",
+        "id": "buyitnow/products/e12y4ylevohb5usvw06x",
         "url": "http://res.cloudinary.com/shopitnow-udemy/image/upload/v1674393890/buyitnow/products/e12y4ylevohb5usvw06x.jpg"
       }
     ],
@@ -60,15 +60,15 @@ Content-Type: application/json
     "stock": 1000,
     "images": [
       {
-        "product_id": "buyitnow/products/jpp9bg2uaywrq4kpyzlo",
+        "id": "buyitnow/products/jpp9bg2uaywrq4kpyzlo",
         "url": "http://res.cloudinary.com/shopitnow-udemy/image/upload/v1674393914/buyitnow/products/jpp9bg2uaywrq4kpyzlo.jpg"
       },
       {
-        "product_id": "buyitnow/products/yuvap3tajtqe5wbuhlxz",
+        "id": "buyitnow/products/yuvap3tajtqe5wbuhlxz",
         "url": "http://res.cloudinary.com/shopitnow-udemy/image/upload/v1674393916/buyitnow/products/yuvap3tajtqe5wbuhlxz.jpg"
       },
       {
-        "product_id": "buyitnow/products/hqu1oeutqwsxxs0vnupz",
+        "id": "buyitnow/products/hqu1oeutqwsxxs0vnupz",
         "url": "http://res.cloudinary.com/shopitnow-udemy/image/upload/v1674393923/buyitnow/products/hqu1oeutqwsxxs0vnupz.jpg"
       }
     ],
@@ -84,11 +84,11 @@ Content-Type: application/json
     "stock": 500,
     "images": [
       {
-        "product_id": "buyitnow/products/yctoxcyf8qgre4uoobnv",
+        "id": "buyitnow/products/yctoxcyf8qgre4uoobnv",
         "url": "http://res.cloudinary.com/shopitnow-udemy/image/upload/v1674393951/buyitnow/products/yctoxcyf8qgre4uoobnv.jpg"
       },
       {
-        "product_id": "buyitnow/products/wbrj0ivayqajozzkeb51",
+        "id": "buyitnow/products/wbrj0ivayqajozzkeb51",
         "url": "http://res.cloudinary.com/shopitnow-udemy/image/upload/v1674393954/buyitnow/products/wbrj0ivayqajozzkeb51.jpg"
       }
     ],
