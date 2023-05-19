@@ -6,12 +6,11 @@ import product from "../models/product";
 
 const single = 2;
 
-function calculateSkipNumber(num: string, fallback: number) {
+function calculateSkipNumber(num: string, fallback: number = 0) {
   const n = parseInt(num as string);
-  if (!isNaN(n)) {
-    return n === 0 ? 0 : n * single;
-  }
-  return fallback;
+  if (isNaN(n)) return fallback;
+
+  return n === 0 ? 0 : n * single - single;
 }
 
 export async function createProduct(req: NextApiRequest, res: NextApiResponse) {
@@ -21,7 +20,7 @@ export async function createProduct(req: NextApiRequest, res: NextApiResponse) {
 
 export async function getAllProduct(req: NextApiRequest, res: NextApiResponse) {
   const products = await Product.find(filter(req.query), undefined, {
-    skip: calculateSkipNumber(req.query.page as string, 0),
+    skip: calculateSkipNumber(req.query.page as string),
     limit: single,
   });
 

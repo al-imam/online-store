@@ -21,13 +21,9 @@ function Pagination({ total, single }: PaginationProps) {
   const page = parseInteger(sp?.get("page") as string);
 
   function changePage(nextPage: number) {
-    if (typeof window !== "undefined") {
-      const queryParams = new URLSearchParams(window.location.search);
-
-      queryParams.set("page", nextPage.toString());
-
-      router.push(`/?${queryParams.toString()}`);
-    }
+    const queryParams = new URLSearchParams(window.location.search);
+    queryParams.set("page", nextPage.toString());
+    router.push(`/?${queryParams.toString()}`);
   }
 
   return (
