@@ -3,6 +3,7 @@ import type { FunctionComponent } from "react";
 import ServerResponse from "@/types/productInterface";
 import Filters from "@/components/layout/Filters";
 import ProductItem from "@/components/products/productItem";
+import Pagination from "@/components/layout/Pagination";
 
 interface ListProductProps {
   data: ServerResponse[];
@@ -17,6 +18,7 @@ const ListProduct: FunctionComponent<ListProductProps> = ({ data }) => (
           {data.map((product) => (
             <ProductItem key={product._id} product={product} />
           ))}
+          <Pagination />
         </main>
       </div>
     </div>
