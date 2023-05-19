@@ -16,8 +16,15 @@ interface filterQuery {
   rating: string;
 }
 
+interface QUERY {
+  name: { $regex: string; $options: "i" };
+  category: string;
+  price: Partial<{ $gte: number; $lte: number }>;
+  rating: number;
+}
+
 function filter(query: Partial<filterQuery>) {
-  const q: any = {};
+  const q: Partial<QUERY> = {};
   if (isEmpty(query)) return q;
 
   if (query.search) q.name = { $regex: query.search, $options: "i" };
