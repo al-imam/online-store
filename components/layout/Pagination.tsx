@@ -1,20 +1,42 @@
 "use client";
 
 import ReactJsPagination from "react-js-pagination";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface PaginationProps {
   total: number;
   single: number;
 }
 
+function parseInteger(str: string, fallback = 1) {
+  const num = parseInt(str);
+  if (!isNaN(num)) return num;
+  return fallback;
+}
+
 function Pagination({ total, single }: PaginationProps) {
+  const sp = useSearchParams();
+  const router = useRouter();
+
+  const page = parseInteger(sp?.get("page") as string);
+
+  function changePage(nextPage: number) {
+    if (typeof window !== "undefined") {
+      const queryParams = new URLSearchParams(window.location.search);
+
+      queryParams.set("page", nextPage.toString());
+
+      router.push(`/?${queryParams.toString()}`);
+    }
+  }
+
   return (
     <div className="flex mt-20 justify-center">
       <ReactJsPagination
-        activePage={1}
+        activePage={page}
         itemsCountPerPage={single}
         totalItemsCount={total}
-        onChange={() => {}}
+        onChange={changePage}
         nextPageText="Next"
         prevPageText="Prev"
         itemClass="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
