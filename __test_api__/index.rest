@@ -1,5 +1,5 @@
 ### get all product
-GET http://localhost:3000/api/product?category=laptops
+GET http://localhost:3000/api/product?max=ert&min=100
 
 
 ### create new product
