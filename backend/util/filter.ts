@@ -24,6 +24,12 @@ function filter(query: Partial<filterQuery>) {
 
   if (query.category) q.category = query.category.toLowerCase();
 
+  if (query.min || query.max) {
+    q.price = {};
+    if (query.min) q.price.$gte = parseNumber(query.min, 0);
+    if (query.max) q.price.$lte = parseNumber(query.max, Infinity);
+  }
+
   console.log(q);
 
   return q;
