@@ -30,7 +30,7 @@ function filter(query: Partial<filterQuery>) {
     if (query.max) q.price.$lte = parseNumber(query.max, Infinity);
   }
 
-  console.log(q);
+  if (query.rating) q.rating = parseNumber(query.rating, 0);
 
   return q;
 }
