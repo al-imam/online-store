@@ -1,3 +1,5 @@
+import QueryInterface from "@/types/queryInterface";
+
 function isEmpty(o: object): boolean {
   return Object.keys(o).length === 0;
 }
@@ -8,14 +10,6 @@ function parseNumber(num: string, fallback: number) {
   return fallback;
 }
 
-interface filterQuery {
-  search: string;
-  min: string;
-  max: string;
-  category: string;
-  rating: string;
-}
-
 interface QUERY {
   name: { $regex: string; $options: "i" };
   category: string;
@@ -23,7 +17,7 @@ interface QUERY {
   rating: { $gte: number };
 }
 
-function filter(query: Partial<filterQuery>) {
+function filter(query: Partial<QueryInterface>) {
   const q: Partial<QUERY> = {};
   if (isEmpty(query)) return q;
 
