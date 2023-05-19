@@ -2,10 +2,15 @@ import Product from "../models/product";
 import { NextApiRequest, NextApiResponse } from "next";
 import { isValidObjectId } from "mongoose";
 import filter from "../util/filter";
+import product from "../models/product";
 
-function parseNumber(num: string, fallback: number) {
+const single = 2;
+
+function calculateSkipNumber(num: string, fallback: number) {
   const n = parseInt(num as string);
-  if (!isNaN(n)) return n;
+  if (!isNaN(n)) {
+    return n === 0 ? 0 : n * single;
+  }
   return fallback;
 }
 
@@ -15,11 +20,14 @@ export async function createProduct(req: NextApiRequest, res: NextApiResponse) {
 }
 
 export async function getAllProduct(req: NextApiRequest, res: NextApiResponse) {
-  const allProduct = await Product.find(filter(req.query), undefined, {
-    skip: parseNumber(req.query.skip as string, 0),
-    limit: 3,
+  const products = await Product.find(filter(req.query), undefined, {
+    skip: calculateSkipNumber(req.query.page as string, 0),
+    limit: single,
   });
-  res.status(200).json(allProduct);
+
+  const total = await product.countDocuments();
+
+  res.status(200).json({ products, total, single });
 }
 
 export async function getProductById(
