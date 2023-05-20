@@ -1,6 +1,7 @@
 import QueryInterface from "@/types/queryInterface";
 import categories from "@/utility/categories";
 import capitalize from "@/utility/capitalize";
+import escapeStringRegexp from "escape-string-regexp";
 
 function isEmpty(o: object): boolean {
   return Object.keys(o).length === 0;
@@ -21,9 +22,12 @@ interface QUERY {
 
 function filter(query: Partial<QueryInterface>) {
   const q: Partial<QUERY> = {};
+
   if (isEmpty(query)) return q;
 
-  if (query.search) q.name = { $regex: query.search, $options: "i" };
+  if (query.search) {
+    q.name = { $regex: escapeStringRegexp(query.search), $options: "i" };
+  }
 
   if (query.category) {
     if (categories.includes(capitalize(query.category))) {

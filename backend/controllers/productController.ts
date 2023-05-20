@@ -2,7 +2,6 @@ import Product from "../models/product";
 import { NextApiRequest, NextApiResponse } from "next";
 import { isValidObjectId } from "mongoose";
 import filter from "../util/filter";
-import product from "../models/product";
 
 const single = 2;
 
@@ -19,14 +18,18 @@ export async function createProduct(req: NextApiRequest, res: NextApiResponse) {
 }
 
 export async function getAllProduct(req: NextApiRequest, res: NextApiResponse) {
-  const products = await Product.find(filter(req.query), undefined, {
-    skip: calculateSkipNumber(req.query.page as string),
-    limit: single,
-  });
+  try {
+    const products = await Product.find(filter(req.query), undefined, {
+      skip: calculateSkipNumber(req.query.page as string),
+      limit: single,
+    });
 
-  const total = await Product.find(filter(req.query)).countDocuments();
+    const total = await Product.find(filter(req.query)).countDocuments();
 
-  res.status(200).json({ products, total, single });
+    res.status(200).json({ products, total, single });
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 export async function getProductById(
