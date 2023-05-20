@@ -11,7 +11,13 @@ const Search = () => {
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
     const qp = new URLSearchParams(window.location.search);
-    if (search !== "") qp.set("search", search);
+
+    if (search !== "") {
+      qp.set("search", search);
+    } else {
+      qp.delete("search");
+    }
+
     router.push(`/?${qp.toString()}`);
   }
 
@@ -26,7 +32,6 @@ const Search = () => {
         placeholder="Enter your keyword"
         value={search}
         onChange={(e) => updateStore({ search: e.target.value })}
-        required
       />
       <button
         type="button"
