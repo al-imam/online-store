@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { FormEvent } from "react";
 import StarRating from "@/components/utility/StarRating";
 import useObjectStore from "use-object-store";
 import { useRouter } from "next/navigation";
@@ -47,15 +47,34 @@ const Filters = () => {
 
   const minmax = {
     min(number: number) {
-      if (isNaN(number)) updateStore({ min: undefined });
+      if (isNaN(number)) return updateStore({ min: undefined });
       updateStore({ min: number });
     },
 
     max(number: number) {
-      if (isNaN(number)) updateStore({ max: undefined });
+      if (isNaN(number)) return updateStore({ max: undefined });
       updateStore({ max: number });
     },
   };
+
+  function changePriceQuery(e: FormEvent) {
+    e.preventDefault();
+
+    const qp = new URLSearchParams(window.location.search);
+
+    if (store.min) {
+      qp.set("min", store.min.toString());
+    } else {
+      qp.delete("min");
+    }
+    if (store.max) {
+      qp.set("max", store.max.toString());
+    } else {
+      qp.delete("max");
+    }
+
+    router.push(`/?${qp.toString()}`);
+  }
 
   return (
     <aside className="md:w-1/3 lg:w-1/4 px-4">
@@ -67,7 +86,11 @@ const Filters = () => {
       </a>
       <div className="hidden md:block px-6 py-4 border border-gray-200 bg-white rounded shadow-sm">
         <h3 className="font-semibold mb-2">Price ($)</h3>
-        <div className="grid md:grid-cols-3 gap-x-2">
+        <form
+          onSubmit={changePriceQuery}
+          className="grid md:grid-cols-3 gap-x-2"
+          noValidate
+        >
           {prices.map((v) => (
             <div className="mb-4">
               <input
@@ -86,7 +109,7 @@ const Filters = () => {
               Go
             </button>
           </div>
-        </div>
+        </form>
       </div>
 
       <div className="hidden md:block px-6 py-4 border border-gray-200 bg-white rounded shadow-sm">
