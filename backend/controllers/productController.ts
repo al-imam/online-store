@@ -24,7 +24,7 @@ export async function getAllProduct(req: NextApiRequest, res: NextApiResponse) {
     limit: single,
   });
 
-  const total = await product.countDocuments();
+  const total = await Product.find(filter(req.query)).countDocuments();
 
   res.status(200).json({ products, total, single });
 }
