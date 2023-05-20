@@ -1,13 +1,15 @@
-import queryString from "query-string";
-
 function stringifyQuery(query: { [key: string]: string }) {
-  return queryString.stringify(
-    Object.keys(query)
-      .filter((key) => query[key] !== "")
-      .reduce((cur, key) => {
-        return Object.assign(cur, { [key]: query[key] });
-      }, {})
-  );
+  const noEmptyQuery: { [key: string]: string } = {};
+
+  for (const key in query) {
+    if (query[key] !== "") {
+      noEmptyQuery[key] = query[key];
+    }
+  }
+
+  const qp = new URLSearchParams(noEmptyQuery);
+
+  return qp.toString();
 }
 
 export default stringifyQuery;
