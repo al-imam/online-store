@@ -1,13 +1,30 @@
+"use client";
+
 import React from "react";
 import StarRating from "@/components/utility/StarRating";
+import useObjectStore from "use-object-store";
+import { useRouter } from "next/navigation";
+
+const categories = ["Electronics", "Laptops", "Toys", "Office", "Beauty"];
 
 const Filters = () => {
-  function checkHandler(checkBoxType: string, checkBoxValue: string) {
-    if (typeof window !== "undefined") {
-      const queryParams = new URLSearchParams(window.location.search);
-      if (checkBoxValue === queryParams.get(checkBoxType)) return true;
-      return false;
+  const router = useRouter();
+  const [store, updateStore] = useObjectStore<{ selected: string | null }>({
+    selected: null,
+  });
+
+  function changeQuery(select: string) {
+    const qp = new URLSearchParams(window.location.search);
+
+    if (select === store.selected) {
+      updateStore({ selected: null });
+      qp.delete("category");
+    } else {
+      updateStore({ selected: select });
+      qp.set("category", select.toLowerCase());
     }
+
+    router.push(`/?${qp.toString()}`);
   }
 
   return (
@@ -51,66 +68,21 @@ const Filters = () => {
         <h3 className="font-semibold mb-2">Category</h3>
 
         <ul className="space-y-1">
-          <li>
-            <label className="flex items-center">
-              <input
-                name="category"
-                type="checkbox"
-                value="Electronics"
-                className="h-4 w-4"
-                defaultChecked={checkHandler("category", "electronics")}
-              />
-              <span className="ml-2 text-gray-500"> Electronics </span>
-            </label>
-          </li>
-          <li>
-            <label className="flex items-center">
-              <input
-                name="category"
-                type="checkbox"
-                value="Laptops"
-                className="h-4 w-4"
-                defaultChecked={checkHandler("category", "laptops")}
-              />
-              <span className="ml-2 text-gray-500"> Laptops </span>
-            </label>
-          </li>
-          <li>
-            <label className="flex items-center">
-              <input
-                name="category"
-                type="checkbox"
-                value="Toys"
-                className="h-4 w-4"
-                defaultChecked={checkHandler("category", "toys")}
-              />
-              <span className="ml-2 text-gray-500"> Toys </span>
-            </label>
-          </li>
-          <li>
-            <label className="flex items-center">
-              <input
-                name="category"
-                type="checkbox"
-                value="Office"
-                className="h-4 w-4"
-                defaultChecked={checkHandler("category", "office")}
-              />
-              <span className="ml-2 text-gray-500"> Office </span>
-            </label>
-          </li>
-          <li>
-            <label className="flex items-center">
-              <input
-                name="category"
-                type="checkbox"
-                value="Beauty"
-                className="h-4 w-4"
-                defaultChecked={checkHandler("category", "beauty")}
-              />
-              <span className="ml-2 text-gray-500"> Beauty </span>
-            </label>
-          </li>
+          {categories.map((category) => (
+            <li>
+              <label className="flex items-center">
+                <input
+                  onChange={(e) => changeQuery(e.target.value)}
+                  name="category"
+                  type="checkbox"
+                  value={category}
+                  className="h-4 w-4"
+                  checked={store.selected === category}
+                />
+                <span className="ml-2 text-gray-500"> {category} </span>
+              </label>
+            </li>
+          ))}
         </ul>
 
         <hr className="my-4" />
@@ -125,7 +97,6 @@ const Filters = () => {
                   type="checkbox"
                   value={rating}
                   className="h-4 w-4"
-                  defaultChecked={checkHandler("ratings", `${rating}`)}
                 />
                 <span className="ml-2 text-gray-500">
                   <StarRating
