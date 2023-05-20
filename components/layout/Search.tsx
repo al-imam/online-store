@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent } from "react";
+import { ChangeEvent, FormEvent } from "react";
 import useObjectStore from "use-object-store";
 import { useRouter } from "next/navigation";
 
@@ -21,6 +21,18 @@ const Search = () => {
     router.push(`/?${qp.toString()}`);
   }
 
+  function searchChange(e: ChangeEvent<HTMLInputElement>) {
+    if (e.target.value === "") {
+      const qp = new URLSearchParams(window.location.search);
+      const sq = qp.get("search");
+      if (sq !== "" && sq !== null) {
+        qp.delete("search");
+        router.push(`/?${qp.toString()}`);
+      }
+    }
+    updateStore({ search: e.target.value });
+  }
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -31,7 +43,7 @@ const Search = () => {
         type="text"
         placeholder="Enter your keyword"
         value={search}
-        onChange={(e) => updateStore({ search: e.target.value })}
+        onChange={searchChange}
       />
       <button
         type="button"
