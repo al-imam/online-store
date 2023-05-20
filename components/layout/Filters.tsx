@@ -7,21 +7,31 @@ import { useRouter } from "next/navigation";
 
 const categories = ["Electronics", "Laptops", "Toys", "Office", "Beauty"];
 
+type SN = string | null;
+
+interface Store {
+  category: SN;
+  rating: SN;
+}
+
+type FixQueryProblem = { rating: SN } | { category: SN };
+
 const Filters = () => {
   const router = useRouter();
-  const [store, updateStore] = useObjectStore<{ selected: string | null }>({
-    selected: null,
+  const [store, updateStore] = useObjectStore<Store>({
+    category: null,
+    rating: null,
   });
 
-  function changeQuery(select: string) {
+  function changeQuery(select: string, query: "category" | "rating") {
     const qp = new URLSearchParams(window.location.search);
 
-    if (select === store.selected) {
-      updateStore({ selected: null });
-      qp.delete("category");
+    if (select === store[query]) {
+      updateStore({ [query]: null } as FixQueryProblem);
+      qp.delete(query);
     } else {
-      updateStore({ selected: select });
-      qp.set("category", select.toLowerCase());
+      updateStore({ [query]: select } as FixQueryProblem);
+      qp.set(query, select.toLowerCase());
     }
 
     router.push(`/?${qp.toString()}`);
@@ -72,12 +82,12 @@ const Filters = () => {
             <li>
               <label className="flex items-center">
                 <input
-                  onChange={(e) => changeQuery(e.target.value)}
+                  onChange={(e) => changeQuery(e.target.value, "category")}
                   name="category"
                   type="checkbox"
                   value={category}
                   className="h-4 w-4"
-                  checked={store.selected === category}
+                  checked={store.category === category}
                 />
                 <span className="ml-2 text-gray-500"> {category} </span>
               </label>
@@ -90,17 +100,19 @@ const Filters = () => {
         <h3 className="font-semibold mb-2">Ratings</h3>
         <ul className="space-y-1">
           <li>
-            {[5, 4, 3, 2, 1].map((rating) => (
+            {["5", "4", "3", "2", "1"].map((rating) => (
               <label key={rating} className="flex items-center">
                 <input
                   name="ratings"
                   type="checkbox"
                   value={rating}
                   className="h-4 w-4"
+                  onChange={(e) => changeQuery(e.target.value, "rating")}
+                  checked={store.rating === rating}
                 />
                 <span className="ml-2 text-gray-500">
                   <StarRating
-                    rating={rating}
+                    rating={parseInt(rating)}
                     starRatedColor="#ffb829"
                     numberOfStars={5}
                     starDimension="20px"
