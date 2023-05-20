@@ -4,6 +4,13 @@ import React, { FormEvent } from "react";
 import StarRating from "@/components/utility/StarRating";
 import useObjectStore from "use-object-store";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
+function capitalize(word: string | null) {
+  if (word === null) return "";
+  const lower = word.toLowerCase();
+  return word.charAt(0).toUpperCase() + lower.slice(1);
+}
 
 const categories = ["Electronics", "Laptops", "Toys", "Office", "Beauty"];
 const prices = [
@@ -30,6 +37,29 @@ const Filters = () => {
     max: undefined,
     min: undefined,
   });
+
+  useEffect(() => {
+    const qp = new URLSearchParams(window.location.search);
+
+    if (categories.includes(capitalize(qp.get("category")))) {
+      updateStore({ category: capitalize(qp.get("category")) });
+    }
+
+    if (qp.get("rating") !== null) {
+      const rating = parseInt(qp.get("rating") as any);
+      if (!isNaN(rating)) updateStore({ rating: qp.get("rating") });
+    }
+
+    if (qp.get("min") !== null) {
+      const min = parseFloat(qp.get("min") as any);
+      if (!isNaN(min)) updateStore({ min: min });
+    }
+
+    if (qp.get("max") !== null) {
+      const max = parseFloat(qp.get("max") as any);
+      if (!isNaN(max)) updateStore({ max: max });
+    }
+  }, []);
 
   function changeQuery(select: string, query: "category" | "rating") {
     const qp = new URLSearchParams(window.location.search);
