@@ -1,4 +1,6 @@
 import QueryInterface from "@/types/queryInterface";
+import categories from "@/utility/categories";
+import capitalize from "@/utility/capitalize";
 
 function isEmpty(o: object): boolean {
   return Object.keys(o).length === 0;
@@ -23,7 +25,11 @@ function filter(query: Partial<QueryInterface>) {
 
   if (query.search) q.name = { $regex: query.search, $options: "i" };
 
-  if (query.category) q.category = query.category.toLowerCase();
+  if (query.category) {
+    if (categories.includes(capitalize(query.category))) {
+      q.category = query.category.toLowerCase();
+    }
+  }
 
   if (query.min || query.max) {
     q.price = {};

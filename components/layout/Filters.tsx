@@ -5,14 +5,9 @@ import StarRating from "@/components/utility/StarRating";
 import useObjectStore from "use-object-store";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import capitalize from "@/utility/capitalize";
+import categories from "@/utility/categories";
 
-function capitalize(word: string | null) {
-  if (word === null) return "";
-  const lower = word.toLowerCase();
-  return word.charAt(0).toUpperCase() + lower.slice(1);
-}
-
-const categories = ["Electronics", "Laptops", "Toys", "Office", "Beauty"];
 const prices = [
   { ui: "Min", store: "min" },
   { ui: "Max", store: "max" },
@@ -41,7 +36,7 @@ const Filters = () => {
   useEffect(() => {
     const qp = new URLSearchParams(window.location.search);
 
-    if (categories.includes(capitalize(qp.get("category")))) {
+    if (categories.includes(capitalize(qp.get("category")) as any)) {
       updateStore({ category: capitalize(qp.get("category")) });
     }
 
