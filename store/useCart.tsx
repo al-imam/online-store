@@ -67,7 +67,8 @@ const useCart = create<
         },
       }),
       { name: "cart-items", skipHydration: true }
-    )
+    ),
+    { enabled: true }
   )
 );
 

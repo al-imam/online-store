@@ -9,14 +9,7 @@ const Header = () => (
       <div className="flex flex-wrap items-center">
         <div className="flex-shrink-0 mr-5">
           <Link href="/">
-            <Image
-              src="/product.png"
-              style={{ height: "50px", width: "60px" }}
-              height="40"
-              width="120"
-              alt="online-store"
-              className="scale-150"
-            />
+            <span className="text-gray-700 text-xl">store</span>
           </Link>
         </div>
         <Search />
