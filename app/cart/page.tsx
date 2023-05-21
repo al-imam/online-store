@@ -1,4 +1,4 @@
-import CartDetails from "@/components/cart/cartDetails";
+import CartDetails from "@/components/cart/CartDetails";
 
 const CartDetailsPage = () => <CartDetails />;
 
