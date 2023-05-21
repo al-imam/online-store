@@ -1,22 +1,14 @@
 import { create } from "zustand";
-
-interface ItemInterface {
-  id: string;
-  name: string;
-  price: number;
-  imageURL: string;
-  stock: number;
-  seller: string;
-  quantity: number;
-}
+import CartItemInterface from "@/types/cartItemInterface";
 
 interface StoreInterface {
-  items: ItemInterface[];
+  items: CartItemInterface[];
+  addItem(item: CartItemInterface): void;
 }
 
 const useCart = create<StoreInterface>((set) => ({
   items: [],
-  addItem(item: ItemInterface) {
+  addItem(item: CartItemInterface) {
     return set((store) => ({ items: [...store.items, item] }));
   },
 }));
