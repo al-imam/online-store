@@ -2,9 +2,14 @@
 
 import Link from "next/link";
 import useCart from "@/store/useCart";
+import { useEffect } from "react";
 
 const CartLink = () => {
   const count = useCart((store) => store.items).length;
+
+  useEffect(() => {
+    (async () => await useCart.persist.rehydrate())();
+  }, []);
 
   return (
     <Link
