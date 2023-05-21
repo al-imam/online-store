@@ -1,7 +1,7 @@
-import React from "react";
 import Link from "next/link";
 import Search from "@/components/layout/Search";
 import Image from "next/image";
+import CartLink from "@/components/utility/CartLink";
 
 const Header = () => (
   <header className="bg-white py-2 border-b">
@@ -22,15 +22,7 @@ const Header = () => (
         <Search />
 
         <div className="flex items-center space-x-2 ml-auto">
-          <Link
-            href="/cart"
-            className="px-3 py-2 inline-block text-center text-gray-700 bg-white shadow-sm border border-gray-200 rounded-md hover:bg-gray-100 hover:border-gray-300"
-          >
-            <i className="text-gray-400 w-5 fa fa-shopping-cart"></i>
-            <span className="hidden lg:inline ml-1">
-              Cart (<b>0</b>)
-            </span>
-          </Link>
+          <CartLink />
           <Link
             href="/login"
             className="px-3 py-2 inline-block text-center text-gray-700 bg-white shadow-sm border border-gray-200 rounded-md hover:bg-gray-100 hover:border-gray-300"
