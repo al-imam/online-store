@@ -4,7 +4,7 @@ import CartItemInterface from "@/types/cartItemInterface";
 interface StoreInterface {
   items: CartItemInterface[];
   addItem(item: CartItemInterface): void;
-  updateItem(id: string): void;
+  updateItem(item: CartItemInterface): void;
 }
 
 const useCart = create<StoreInterface>((set, get) => ({
@@ -12,19 +12,23 @@ const useCart = create<StoreInterface>((set, get) => ({
 
   addItem(item: CartItemInterface) {
     const { items, updateItem } = get();
+
     const update = items.find((e) => e.id === item.id);
-    if (update) return updateItem(update.id);
+    if (update) return updateItem(update);
+
     set({ items: [...items, item] });
   },
 
-  updateItem(id: string) {
+  updateItem(item: CartItemInterface) {
+    if (!(item.stock > item.quantity)) return;
+
     set((store) => ({
-      items: store.items.map((item) => {
-        if (item.id === id) {
-          item.quantity++;
-          return item;
+      items: store.items.map((el) => {
+        if (el.id === item.id) {
+          el.quantity++;
+          return el;
         }
-        return item;
+        return el;
       }),
     }));
   },
