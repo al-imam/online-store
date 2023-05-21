@@ -32,6 +32,16 @@ function validateBody(items: ItemType[]) {
             missingItems.push(item[0]);
           }
         }
+
+        if (item instanceof Object && !Array.isArray(item)) {
+          if (!req.body.hasOwnProperty(item.property)) {
+            missingItems.push(item);
+          }
+
+          if (!item.validate(req.body[item.property])) {
+            missingItems.push(item);
+          }
+        }
       });
 
       if (missingItems.length === 0) return next();
