@@ -16,6 +16,9 @@ interface StoreInterface {
 
 const useCart = create<StoreInterface>((set) => ({
   items: [],
+  addItem(item: ItemInterface) {
+    return set((store) => ({ items: [...store.items, item] }));
+  },
 }));
 
 export default useCart;
