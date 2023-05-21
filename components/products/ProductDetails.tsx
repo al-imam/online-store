@@ -3,6 +3,7 @@ import StarRating from "@/components/utility/StarRating";
 import ServerResponse from "@/types/productInterface";
 import ImageGallery from "@/components/utility/ImageGallery";
 import BreadCrumbs from "@/components/layout/BreadCrumbs";
+import AddToCartButton from "../utility/AddToCartButton";
 
 interface ProductDetailsProps {
   product: ServerResponse;
@@ -59,10 +60,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => (
             <p className="mb-4 text-gray-500">{product.description}</p>
 
             <div className="flex flex-wrap gap-2 mb-5">
-              <button className="px-4 py-2 inline-block text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700">
-                <i className="fa fa-shopping-cart mr-2"></i>
-                Add to cart
-              </button>
+              <AddToCartButton />
             </div>
 
             <ul className="mb-5">

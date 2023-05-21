@@ -1,9 +1,9 @@
 import ServerResponse from "@/types/productInterface";
-import React from "react";
 import type { FunctionComponent } from "react";
 import Link from "next/link";
 import StarRating from "@/components/utility/StarRating";
 import Image from "next/image";
+import AddToCartButton from "@/components/utility/AddToCartButton";
 
 interface ProductItemProps {
   product: ServerResponse;
@@ -64,9 +64,7 @@ const ProductItem: FunctionComponent<ProductItemProps> = ({ product }) => (
           </span>
           <p className="text-green-500">Free Shipping</p>
           <div className="my-3">
-            <a className="px-4 py-2 inline-block text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 cursor-pointer">
-              Add to Cart
-            </a>
+            <AddToCartButton />
           </div>
         </div>
       </div>
