@@ -11,7 +11,7 @@ interface ObjectValidate {
 
 type ItemType = string | [string, ValidateFunction] | ObjectValidate;
 
-function validateBody(items: ItemType[]) {
+function validateBody(items: ItemType[], config = { strict: true }) {
   return wrap(
     async (req: NextApiRequest, res: NextApiResponse, next: NextHandler) => {
       const missingItems: any[] = [];
@@ -24,7 +24,7 @@ function validateBody(items: ItemType[]) {
         }
 
         if (Array.isArray(item)) {
-          if (!req.body.hasOwnProperty(item[0])) {
+          if (!req.body.hasOwnProperty(item[0]) && config.strict) {
             missingItems.push(item[0]);
           }
 
@@ -34,7 +34,7 @@ function validateBody(items: ItemType[]) {
         }
 
         if (item instanceof Object && !Array.isArray(item)) {
-          if (!req.body.hasOwnProperty(item.property)) {
+          if (!req.body.hasOwnProperty(item.property) && config.strict) {
             missingItems.push(item);
           }
 
