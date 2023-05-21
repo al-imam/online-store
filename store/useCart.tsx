@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist, devtools } from "zustand/middleware";
 import CartItemInterface from "@/types/cartItemInterface";
 
 interface StoreInterface {
@@ -9,55 +10,65 @@ interface StoreInterface {
   deleteItem(id: string): void;
 }
 
-const useCart = create<StoreInterface>((set, get) => ({
-  items: [],
+const useCart = create<
+  StoreInterface,
+  [["zustand/devtools", never], ["zustand/persist", StoreInterface]]
+>(
+  devtools(
+    persist(
+      (set, get) => ({
+        items: [],
 
-  addItem(item) {
-    const { items, addQuantity } = get();
+        addItem(item) {
+          const { items, addQuantity } = get();
 
-    const update = items.find((e) => e.id === item.id);
-    if (update) return addQuantity(update);
+          const update = items.find((e) => e.id === item.id);
+          if (update) return addQuantity(update);
 
-    set({ items: [...items, item] });
-  },
+          set({ items: [...items, item] });
+        },
 
-  deleteItem(id) {
-    set((store) => ({
-      items: store.items.filter((item) => item.id !== id),
-    }));
-  },
+        deleteItem(id) {
+          set((store) => ({
+            items: store.items.filter((item) => item.id !== id),
+          }));
+        },
 
-  addQuantity(item) {
-    const { items } = get();
+        addQuantity(item) {
+          const { items } = get();
 
-    if (item && item.stock > item.quantity) {
-      set({
-        items: items.map((el) => {
-          if (el.id === item.id) {
-            el.quantity++;
-            return el;
+          if (item && item.stock > item.quantity) {
+            set({
+              items: items.map((el) => {
+                if (el.id === item.id) {
+                  el.quantity++;
+                  return el;
+                }
+                return el;
+              }),
+            });
           }
-          return el;
-        }),
-      });
-    }
-  },
+        },
 
-  removeQuantity(item) {
-    const { items } = get();
+        removeQuantity(item) {
+          const { items } = get();
 
-    if (item.quantity > 1) {
-      set({
-        items: items.map((el) => {
-          if (el.id === item.id) {
-            el.quantity--;
-            return el;
+          if (item.quantity > 1) {
+            set({
+              items: items.map((el) => {
+                if (el.id === item.id) {
+                  el.quantity--;
+                  return el;
+                }
+                return el;
+              }),
+            });
           }
-          return el;
-        }),
-      });
-    }
-  },
-}));
+        },
+      }),
+      { name: "cart-items" }
+    )
+  )
+);
 
 export default useCart;
