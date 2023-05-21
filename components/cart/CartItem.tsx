@@ -1,13 +1,6 @@
 import CartItemInterface from "@/types/cartItemInterface";
 import Quantity from "@/components/cart/Quantity";
-
-function calculate(price: number, quantity: number) {
-  const total = quantity * price;
-  if (total.toString().includes(".")) {
-    return total.toFixed(2);
-  }
-  return total;
-}
+import round from "@/utility/round";
 
 const CartItem = ({ item }: { item: CartItemInterface }) => {
   return (
@@ -34,7 +27,7 @@ const CartItem = ({ item }: { item: CartItemInterface }) => {
         <div>
           <div className="leading-5">
             <p className="font-semibold not-italic">
-              ${calculate(item.quantity, item.price)}
+              ${round(item.quantity * item.price)}
             </p>
             <small className="text-gray-400">${item.price} / per item</small>
           </div>
