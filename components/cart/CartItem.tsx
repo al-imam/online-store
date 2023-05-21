@@ -1,6 +1,7 @@
 import CartItemInterface from "@/types/cartItemInterface";
 import Quantity from "@/components/cart/Quantity";
 import round from "@/utility/round";
+import RemoveItem from "@/components/cart/RemoveItem";
 
 const CartItem = ({ item }: { item: CartItemInterface }) => {
   return (
@@ -34,9 +35,7 @@ const CartItem = ({ item }: { item: CartItemInterface }) => {
         </div>
         <div className="flex-auto">
           <div className="float-right">
-            <a className="px-4 py-2 inline-block text-red-600 bg-white shadow-sm border border-gray-200 rounded-md hover:bg-gray-100 cursor-pointer">
-              Remove
-            </a>
+            <RemoveItem id={item.id} />
           </div>
         </div>
       </div>

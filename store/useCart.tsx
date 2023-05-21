@@ -6,6 +6,7 @@ interface StoreInterface {
   addItem(item: CartItemInterface): void;
   addQuantity(item: CartItemInterface): void;
   removeQuantity(item: CartItemInterface): void;
+  deleteItem(id: string): void;
 }
 
 const useCart = create<StoreInterface>((set, get) => ({
@@ -18,6 +19,12 @@ const useCart = create<StoreInterface>((set, get) => ({
     if (update) return addQuantity(update);
 
     set({ items: [...items, item] });
+  },
+
+  deleteItem(id) {
+    set((store) => ({
+      items: store.items.filter((item) => item.id !== id),
+    }));
   },
 
   addQuantity(item) {
