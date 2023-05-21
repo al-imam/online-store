@@ -117,7 +117,7 @@ const Filters = () => {
           noValidate
         >
           {prices.map((v) => (
-            <div className="mb-4">
+            <div className="mb-4" key={v.ui}>
               <input
                 name={v.store}
                 className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
@@ -142,7 +142,7 @@ const Filters = () => {
 
         <ul className="space-y-1">
           {categories.map((category) => (
-            <li>
+            <li key={category}>
               <label className="flex items-center">
                 <input
                   onChange={(e) => changeQuery(e.target.value, "category")}
