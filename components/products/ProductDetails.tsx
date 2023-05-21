@@ -60,7 +60,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => (
             <p className="mb-4 text-gray-500">{product.description}</p>
 
             <div className="flex flex-wrap gap-2 mb-5">
-              <AddToCartButton />
+              <AddToCartButton product={product} />
             </div>
 
             <ul className="mb-5">

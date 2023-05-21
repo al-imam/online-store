@@ -64,7 +64,7 @@ const ProductItem: FunctionComponent<ProductItemProps> = ({ product }) => (
           </span>
           <p className="text-green-500">Free Shipping</p>
           <div className="my-3">
-            <AddToCartButton />
+            <AddToCartButton product={product} />
           </div>
         </div>
       </div>
