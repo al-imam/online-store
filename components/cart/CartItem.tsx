@@ -1,5 +1,13 @@
 import CartItemInterface from "@/types/cartItemInterface";
 
+function calculate(price: number, quantity: number) {
+  const total = quantity * price;
+  if (total.toString().includes(".")) {
+    return total.toFixed(2);
+  }
+  return total;
+}
+
 const CartItem = ({ item }: { item: CartItemInterface }) => {
   return (
     <div>
@@ -8,16 +16,16 @@ const CartItem = ({ item }: { item: CartItemInterface }) => {
           <figure className="flex leading-5">
             <div>
               <div className="block w-16 h-16 rounded border border-gray-200 overflow-hidden">
-                <img src={"/logo192.png"} alt="Title" />
+                <img src={item.imageURL} alt={item.name} />
               </div>
             </div>
             <figcaption className="ml-3">
               <p>
                 <a href="#" className="hover:text-blue-600">
-                  Product name
+                  {item.name}
                 </a>
               </p>
-              <p className="mt-1 text-gray-400"> Seller: Apple</p>
+              <p className="mt-1 text-gray-400"> Seller: {item.seller}</p>
             </figcaption>
           </figure>
         </div>
@@ -46,8 +54,10 @@ const CartItem = ({ item }: { item: CartItemInterface }) => {
         </div>
         <div>
           <div className="leading-5">
-            <p className="font-semibold not-italic">$898</p>
-            <small className="text-gray-400">$98 / per item</small>
+            <p className="font-semibold not-italic">
+              ${calculate(item.quantity, item.price)}
+            </p>
+            <small className="text-gray-400">${item.price} / per item</small>
           </div>
         </div>
         <div className="flex-auto">
