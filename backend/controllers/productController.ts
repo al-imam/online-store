@@ -1,7 +1,7 @@
-import Product from "../models/product";
-import { NextApiRequest, NextApiResponse } from "next";
-import { isValidObjectId } from "mongoose";
-import filter from "../util/filter";
+import Product from "@/backend/models/product";
+import filter from "@/backend/util/filter";
+import RequestHandler from "@/types/RequestHandler";
+import wrap from "@/utility/wrapHandler";
 
 const single = 2;
 
@@ -12,34 +12,33 @@ function calculateSkipNumber(num: string, fallback: number = 0) {
   return n === 0 ? 0 : n * single - single;
 }
 
-export async function createProduct(req: NextApiRequest, res: NextApiResponse) {
-  const newProduct = await Product.create(req.body);
-  res.status(201).json(newProduct);
-}
+const addProduct: RequestHandler = wrap(async (req, res) => {
+  const newDocs = await Product.create(req.body._valid_object);
+  res.status(201).json(newDocs);
+});
 
-export async function getAllProduct(req: NextApiRequest, res: NextApiResponse) {
-  const products = await Product.find(filter(req.query), undefined, {
+const getProducts: RequestHandler = wrap(async (req, res) => {
+  const docs = await Product.find(filter(req.query), undefined, {
     skip: calculateSkipNumber(req.query.page as string),
     limit: single,
   });
 
   const total = await Product.find(filter(req.query)).countDocuments();
 
-  res.status(200).json({ products, total, single });
-}
+  res.status(200).json({ products: docs, total, single });
+});
 
-export async function getProductById(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (!isValidObjectId(req.query.id)) {
+const getProduct: RequestHandler = wrap(async (req, res) => {
+  const doc = await Product.findById(req.query.id);
+
+  if (doc === null) {
     res.status(400).json({
-      id: "product/:id",
-      error: ":id is not valid ObjectId",
+      code: "product/:id",
+      error: "No product found by id",
     });
   }
 
-  const product = await Product.findById(req.query.id);
+  res.status(200).json(doc);
+});
 
-  res.status(200).json(product);
-}
+export { addProduct, getProduct, getProducts };

@@ -1,7 +1,7 @@
 import dbConnect from "@/backend/config/dbConnect";
 import {
-  createProduct,
-  getAllProduct,
+  getProducts,
+  addProduct,
 } from "@/backend/controllers/productController";
 import validateBody from "@/backend/middleware/validateBody";
 import createRouter from "next-connect";
@@ -45,8 +45,9 @@ router.post(
     ],
     { strict: false }
   ),
-  createProduct
+  addProduct
 );
-router.get(getAllProduct);
+
+router.get(getProducts);
 
 export default router;

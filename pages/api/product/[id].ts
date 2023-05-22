@@ -1,8 +1,8 @@
-import { getProductById } from "@/backend/controllers/productController";
+import { getProduct } from "@/backend/controllers/productController";
 import createRouter from "next-connect";
 
 const router = createRouter();
 
-router.get(getProductById);
+router.get(getProduct);
 
 export default router;
