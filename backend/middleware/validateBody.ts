@@ -26,7 +26,6 @@ function validateBody(validators: ItemType[], config = { strict: true }) {
           }
 
           missings.push(validator);
-          continue;
         }
 
         if (Array.isArray(validator)) {
@@ -40,8 +39,8 @@ function validateBody(validators: ItemType[], config = { strict: true }) {
             continue;
           }
 
+          if (req.body[validator[0]] === undefined) continue;
           valids[validator[0]] = req.body[validator[0]];
-          continue;
         }
 
         if (validator instanceof Object && !Array.isArray(validator)) {
@@ -55,8 +54,8 @@ function validateBody(validators: ItemType[], config = { strict: true }) {
             continue;
           }
 
+          if (req.body[validator.property] === undefined) continue;
           valids[validator.property] = req.body[validator.property];
-          continue;
         }
       }
 
