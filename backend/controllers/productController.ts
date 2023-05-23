@@ -1,6 +1,5 @@
 import Product from "@/backend/models/product";
 import filter from "@/backend/util/filter";
-import RequestHandler from "@/types/RequestHandler";
 import wrap from "@/utility/wrapHandler";
 
 const single = 2;
@@ -12,12 +11,12 @@ function calculateSkipNumber(num: string, fallback: number = 0) {
   return n === 0 ? 0 : n * single - single;
 }
 
-const addProduct: RequestHandler = wrap(async (req, res) => {
+const addProduct = wrap(async (req, res) => {
   const newDocs = await Product.create(req.body._valid_object);
   res.status(201).json(newDocs);
 }, "create-product");
 
-const getProducts: RequestHandler = wrap(async (req, res) => {
+const getProducts = wrap(async (req, res) => {
   const docs = await Product.find(filter(req.query), undefined, {
     skip: calculateSkipNumber(req.query.page as string),
     limit: single,
@@ -28,7 +27,7 @@ const getProducts: RequestHandler = wrap(async (req, res) => {
   res.status(200).json({ products: docs, total, single });
 }, "query-product");
 
-const getProduct: RequestHandler = wrap(async (req, res) => {
+const getProduct = wrap(async (req, res) => {
   const doc = await Product.findById(req.query.id);
 
   if (doc === null) {
@@ -42,4 +41,3 @@ const getProduct: RequestHandler = wrap(async (req, res) => {
 }, "get-product-by-id");
 
 export { addProduct, getProduct, getProducts };
-

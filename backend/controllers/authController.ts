@@ -1,9 +1,9 @@
 import User from "@/backend/models/user";
-import RequestHandler from "@/types/RequestHandler";
+import wrap from "@/utility/wrapHandler";
 
-const singup: RequestHandler = async (req, res) => {
-  const user = await User.create(req.body);
+const singup = wrap(async (req, res) => {
+  const user = await User.create(req.body._valid_object);
   res.status(201).json(user);
-};
+}, "singup");
 
 export { singup };
