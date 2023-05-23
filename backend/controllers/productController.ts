@@ -15,7 +15,7 @@ function calculateSkipNumber(num: string, fallback: number = 0) {
 const addProduct: RequestHandler = wrap(async (req, res) => {
   const newDocs = await Product.create(req.body._valid_object);
   res.status(201).json(newDocs);
-});
+}, "create-product");
 
 const getProducts: RequestHandler = wrap(async (req, res) => {
   const docs = await Product.find(filter(req.query), undefined, {
@@ -26,19 +26,20 @@ const getProducts: RequestHandler = wrap(async (req, res) => {
   const total = await Product.find(filter(req.query)).countDocuments();
 
   res.status(200).json({ products: docs, total, single });
-});
+}, "query-product");
 
 const getProduct: RequestHandler = wrap(async (req, res) => {
   const doc = await Product.findById(req.query.id);
 
   if (doc === null) {
     res.status(400).json({
-      code: "product/:id",
+      code: "get-product-by-id",
       error: "No product found by id",
     });
   }
 
   res.status(200).json(doc);
-});
+}, "get-product-by-id");
 
 export { addProduct, getProduct, getProducts };
+

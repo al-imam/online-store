@@ -1,11 +1,11 @@
 import dbConnect from "@/backend/config/dbConnect";
 import {
-  getProducts,
   addProduct,
+  getProducts,
 } from "@/backend/controllers/productController";
 import validateBody from "@/backend/middleware/validateBody";
-import createRouter from "next-connect";
 import categories from "@/utility/categories";
+import createRouter from "next-connect";
 
 dbConnect(process.env.MONGO_URI as string);
 
