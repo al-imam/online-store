@@ -1,4 +1,8 @@
-function getProfile(char: string) {
+function getProfile(char: string): {
+  bg: string;
+  fg: string;
+  char: string;
+} {
   const colorWhile = Math.floor(Math.random() * 360);
   return {
     bg: `hsl(${colorWhile} 100% 75%)`,
