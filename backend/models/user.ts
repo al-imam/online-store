@@ -1,6 +1,17 @@
-import { Model, Schema, model, models } from "mongoose";
+import getProfile from "@/utility/getProfile";
+import { Model, Schema, model, models, SchemaTypes } from "mongoose";
 
-const userSchema = new Schema({
+type AvatarType = string | { bg: string; fg: string; char: string };
+
+interface UserInterface {
+  name: string;
+  email: string;
+  password: string;
+  avatar: AvatarType;
+  role: string;
+}
+
+const userSchema = new Schema<UserInterface>({
   name: {
     type: String,
     required: [true, "name required for account"],
@@ -16,8 +27,10 @@ const userSchema = new Schema({
     select: false,
   },
   avatar: {
-    id: String,
-    url: String,
+    type: SchemaTypes.Mixed,
+    default: function () {
+      return getProfile(typeof this.email === "string" ? this.email[0] : "U");
+    },
   },
   role: {
     type: String,
