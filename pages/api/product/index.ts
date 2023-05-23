@@ -7,7 +7,7 @@ import validateBody from "@/backend/middleware/validateBody";
 import categories from "@/utility/categories";
 import createRouter from "next-connect";
 
-dbConnect(process.env.MONGO_URI as string);
+dbConnect();
 
 const router = createRouter();
 

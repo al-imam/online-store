@@ -35,3 +35,16 @@ Content-Type: application/json
   "reviews": [],
   "rating": 4.5
 }
+
+
+### singup
+POST http://localhost:3000/api/auth/singup
+Content-Type: application/json
+
+{
+  "name": "alimam",
+  "email": "alimam@gmail.com",
+  "password": "23423423",
+  "role": "user",
+  "avatar": "g"
+}
