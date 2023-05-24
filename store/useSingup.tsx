@@ -9,16 +9,18 @@ interface StoreInterface {
   nameSet: (name: string) => void;
   emailSet: (email: string) => void;
   passwordSet: (password: string) => void;
+  get(): StoreInterface;
 }
 
 const useSingup = create<StoreInterface, [["zustand/devtools", never]]>(
-  devtools((set) => ({
+  devtools((set, get) => ({
     name: "",
     email: "",
     password: "",
     nameSet: (name) => set({ name }),
     emailSet: (email) => set({ email }),
     passwordSet: (password) => set({ password }),
+    get: () => get(),
   }))
 );
 
