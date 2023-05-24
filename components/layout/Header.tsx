@@ -17,11 +17,11 @@ const Header = () => (
         <div className="flex items-center space-x-2 ml-auto">
           <CartLink />
           <Link
-            href="/login"
+            href="/singup"
             className="px-3 py-2 inline-block text-center text-gray-700 bg-white shadow-sm border border-gray-200 rounded-md hover:bg-gray-100 hover:border-gray-300"
           >
             <i className="text-gray-400 w-5 fa fa-user"></i>
-            <span className="hidden lg:inline ml-1">Sign in</span>
+            <span className="hidden lg:inline ml-1">singup</span>
           </Link>
           <Link href="/me">
             <div className="flex items-center mb-4 space-x-3 mt-4 cursor-pointer">

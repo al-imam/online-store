@@ -1,5 +1,3 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { NextHandler } from "next-connect";
 import wrap from "@/utility/wrapHandler";
 
 type ValidateFunction = (value: any) => boolean;
