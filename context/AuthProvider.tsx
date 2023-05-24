@@ -30,6 +30,8 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
   );
 };
 
+export { AuthProvider };
+
 function useAuth() {
   return useContext(AuthContext) as Value;
 }
