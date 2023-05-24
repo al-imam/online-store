@@ -1,6 +1,5 @@
 import { create } from "zustand";
-import { persist, devtools } from "zustand/middleware";
-import CartItemInterface from "@/types/cartItemInterface";
+import { devtools } from "zustand/middleware";
 
 interface StoreInterface {
   name: string;
@@ -10,6 +9,7 @@ interface StoreInterface {
   emailSet: (email: string) => void;
   passwordSet: (password: string) => void;
   get(): StoreInterface;
+  clear(): void;
 }
 
 const useSingup = create<StoreInterface, [["zustand/devtools", never]]>(
@@ -21,6 +21,7 @@ const useSingup = create<StoreInterface, [["zustand/devtools", never]]>(
     emailSet: (email) => set({ email }),
     passwordSet: (password) => set({ password }),
     get: () => get(),
+    clear: () => set({ name: "", email: "", password: "" }),
   }))
 );
 

@@ -11,11 +11,13 @@ interface SingupProps {}
 const Singup: FunctionComponent<SingupProps> = () => {
   const { singup } = useAuth();
   const get = useSingup((store) => store.get);
+  const clear = useSingup((store) => store.clear);
 
   async function singupUser(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const { email, password, name } = get();
     await singup({ name, email, password });
+    clear();
   }
 
   return (
