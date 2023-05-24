@@ -9,7 +9,11 @@ interface InputProps {
 }
 
 const Input: FunctionComponent<
-  InputProps & Omit<InputHTMLAttributes<HTMLInputElement>, "className" | "name">
+  InputProps &
+    Omit<
+      InputHTMLAttributes<HTMLInputElement>,
+      "className" | "name" | "value" | "onChange"
+    >
 > = ({ text, name, ...rest }) => {
   const value = useSingup((store) => store[name]);
   const setValue = useSingup((store) => store[`${name}Set`]);
