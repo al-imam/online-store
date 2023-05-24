@@ -1,9 +1,10 @@
 import type { FunctionComponent } from "react";
+import Singup from "@/components/auth/Singup";
 
-interface SingupProps {}
+interface SingupPageProps {}
 
-const Singup: FunctionComponent<SingupProps> = ({}) => {
-  return <p>Hello</p>;
+const SingupPage: FunctionComponent<SingupPageProps> = ({}) => {
+  return <Singup />;
 };
 
-export default Singup;
+export default SingupPage;
