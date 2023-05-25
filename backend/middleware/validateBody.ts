@@ -2,7 +2,10 @@ import wrap from "@/utility/wrapHandler";
 import validate from "nested-object-validate";
 import { ValidatorType } from "nested-object-validate/dist/types";
 
-function validateBody(validators: ValidatorType[], config = { strict: true }) {
+function validateBody(
+  validators: ValidatorType[],
+  config?: { strict: boolean }
+) {
   return wrap(async (req, res, next) => {
     if (!(req.body instanceof Object && !Array.isArray(req.body))) {
       return res.status(400).json({
@@ -11,7 +14,7 @@ function validateBody(validators: ValidatorType[], config = { strict: true }) {
       });
     }
 
-    const result = validate(req.body, validators);
+    const result = validate(req.body, validators, config);
 
     if (result.valid) {
       if (
