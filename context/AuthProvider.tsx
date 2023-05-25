@@ -3,6 +3,7 @@
 import { FunctionComponent, ReactNode, createContext, useContext } from "react";
 import { Post } from "@/utility/request";
 import { AxiosResponse } from "axios";
+import { SignInResponse, signIn } from "next-auth/react";
 
 interface User {
   name: string;
@@ -12,6 +13,7 @@ interface User {
 
 interface Value {
   singup: ({ name, email, password }: User) => Promise<AxiosResponse<any, any>>;
+  singin(email: string, password: string): Promise<SignInResponse | undefined>;
 }
 
 const AuthContext = createContext<Value | null>(null);
@@ -25,8 +27,17 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
     return Post("auth/singup", { name, email, password });
   }
 
+  function singin(
+    email: string,
+    password: string
+  ): Promise<SignInResponse | undefined> {
+    return signIn("credentials", { email, password, redirect: false });
+  }
+
   return (
-    <AuthContext.Provider value={{ singup }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ singup, singin }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 
