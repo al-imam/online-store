@@ -54,4 +54,5 @@ user.pre("save", async function (next) {
   this.password = await hash(this.password, 10);
 });
 
-export default (models.User as Model<typeof user>) || model("User", user);
+export default (models.User as Model<UserInterface>) ||
+  model<UserInterface>("User", user);
