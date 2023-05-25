@@ -1,5 +1,6 @@
 import getProfile from "@/utility/getProfile";
 import { Model, Schema, model, models, SchemaTypes } from "mongoose";
+import { hash } from "bcryptjs";
 
 type AvatarType = string | { bg: string; fg: string; char: string };
 
@@ -26,13 +27,12 @@ const user = new Schema<UserInterface>({
   password: {
     type: String,
     required: [true, "password required for account"],
-    select: false,
   },
 
   avatar: {
     type: SchemaTypes.Mixed,
     default: function () {
-      return getProfile(typeof this.email === "string" ? this.email[0] : "U");
+      return getProfile(typeof this.email === "string" ? this.email[0] : "u");
     },
   },
 
@@ -41,6 +41,14 @@ const user = new Schema<UserInterface>({
     default: "user",
     enum: ["user", "admin"],
   },
+});
+
+user.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    next();
+  }
+
+  this.password = await hash(this.password, 10);
 });
 
 export default (models.User as Model<typeof user>) || model("User", user);
