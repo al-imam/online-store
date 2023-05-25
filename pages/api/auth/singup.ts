@@ -6,7 +6,7 @@ import createRouter from "next-connect";
 
 dbConnect();
 
-function Undefined(value: any, callback: () => boolean) {
+function Undefined(value: any, callback: () => boolean | string) {
   if (value === undefined) return true;
   return callback();
 }
@@ -18,27 +18,35 @@ router.post(
     ["name", (name) => typeof name === "string" && name.length < 30],
     [
       "email",
-      (email) => typeof email === "string" && email.match(emailRegex) !== null,
+      (email) =>
+        (typeof email === "string" && email.match(emailRegex) !== null) ||
+        "email is not valid",
     ],
     [
       "password",
-      (password) => typeof password === "string" && password.length >= 6,
+      (password) =>
+        (typeof password === "string" && password.length >= 6) ||
+        "password must've string and 6 character or upper",
     ],
   ]),
   validateBody(
     [
       [
         "role",
-        (role) => Undefined(role, () => ["user", "admin"].includes(role)),
+        (role) =>
+          Undefined(role, () => ["user", "admin"].includes(role)) ||
+          `${role} is not valid role`,
       ],
       [
         "avatar",
-        (avatar) => Undefined(avatar, () => avatar.match(urlRegex) !== null),
+        (avatar) =>
+          Undefined(
+            avatar,
+            () => avatar.match(urlRegex) !== null || "url is not valid"
+          ),
       ],
     ],
-    {
-      strict: false,
-    }
+    { strict: false }
   ),
   singup
 );

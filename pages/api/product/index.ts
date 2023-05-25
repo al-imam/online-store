@@ -43,7 +43,10 @@ router.post(
     [
       "category",
       (category) =>
-        categories.map((i) => i.toLowerCase()).includes(category) ||
+        (typeof category === "string" &&
+          categories
+            .map((i) => i.toLowerCase())
+            .includes(category.toLowerCase())) ||
         `${category} is not a valid category!`,
     ],
   ]),
