@@ -3,7 +3,11 @@ import wrap from "@/utility/wrapHandler";
 
 const singup = wrap(async (req, res) => {
   const user = await User.create(req.body._valid_object);
-  res.status(201).json(user);
+  res.status(201).json(remove(user));
 }, "singup");
+
+function remove({ name, email, avatar, _id }: { [key: string]: any }) {
+  return { name, email, avatar, _id };
+}
 
 export { singup };

@@ -12,36 +12,39 @@ interface UserInterface {
   role: string;
 }
 
-const user = new Schema<UserInterface>({
-  name: {
-    type: String,
-    required: [true, "name required for account"],
-  },
+const user = new Schema<UserInterface>(
+  {
+    name: {
+      type: String,
+      required: [true, "name required for account"],
+    },
 
-  email: {
-    type: String,
-    required: [true, "name required for account"],
-    unique: true,
-  },
+    email: {
+      type: String,
+      required: [true, "name required for account"],
+      unique: true,
+    },
 
-  password: {
-    type: String,
-    required: [true, "password required for account"],
-  },
+    password: {
+      type: String,
+      required: [true, "password required for account"],
+    },
 
-  avatar: {
-    type: SchemaTypes.Mixed,
-    default: function () {
-      return getProfile(typeof this.email === "string" ? this.email[0] : "u");
+    avatar: {
+      type: SchemaTypes.Mixed,
+      default: function () {
+        return getProfile(typeof this.email === "string" ? this.email[0] : "u");
+      },
+    },
+
+    role: {
+      type: String,
+      default: "user",
+      enum: ["user", "admin"],
     },
   },
-
-  role: {
-    type: String,
-    default: "user",
-    enum: ["user", "admin"],
-  },
-});
+  { timestamps: { createdAt: "created", updatedAt: false } }
+);
 
 user.pre("save", async function (next) {
   if (!this.isModified("password")) {
