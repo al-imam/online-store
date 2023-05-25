@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
-import "./globals.css";
+import "@/app/globals.css";
 import Header from "@/components/layout/Header";
-import { AuthProvider } from "@/context/AuthProvider";
+import GlobalProvider from "@/context/GlobalProvider";
 
 export const metadata = {
   title: "Create Next App",
@@ -12,10 +12,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <AuthProvider>
+        <GlobalProvider>
           <Header />
           {children}
-        </AuthProvider>
+        </GlobalProvider>
       </body>
     </html>
   );
