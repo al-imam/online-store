@@ -42,7 +42,7 @@ POST http://localhost:3000/api/auth/singup
 Content-Type: application/json
 
 {
-  "name": "alimam",
-  "email": "alimam@gmail.com",
-  "password": "23423423"
+  "name": "al-imam",
+  "email": "nirob@mail.dev",
+  "password": "481769"
 }
