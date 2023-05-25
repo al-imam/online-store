@@ -18,14 +18,33 @@ function validUndefined(value: any, callback: () => boolean) {
 
 router.post(
   validateBody([
-    ["name", (name) => typeof name === "string"],
-    ["description", (description) => typeof description === "string"],
-    ["price", (price) => typeof price === "number"],
-    ["stock", (stock) => typeof stock === "number"],
-    ["seller", (seller) => typeof seller === "string"],
+    ["name", (name) => typeof name === "string" || "name must've string!"],
+    [
+      "description",
+      (description) =>
+        typeof description === "string" || "name must've string!",
+    ],
+    [
+      "price",
+      (price) =>
+        (typeof price === "number" && price > 0) ||
+        "price must've number and greater than zero!",
+    ],
+    [
+      "stock",
+      (stock) =>
+        (typeof stock === "number" && stock >= 0) ||
+        "stock must've number and not've minus number!",
+    ],
+    [
+      "seller",
+      (seller) => typeof seller === "string" || "seller must've string!",
+    ],
     [
       "category",
-      (category) => categories.map((i) => i.toLowerCase()).includes(category),
+      (category) =>
+        categories.map((i) => i.toLowerCase()).includes(category) ||
+        `${category} is not a valid category!`,
     ],
   ]),
   validateBody(
