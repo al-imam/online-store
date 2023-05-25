@@ -11,7 +11,7 @@ dbConnect();
 
 const router = createRouter();
 
-function validUndefined(value: any, callback: () => boolean) {
+function validUndefined(value: any, callback: () => boolean | string) {
   if (value === undefined) return true;
   return callback();
 }
@@ -51,15 +51,33 @@ router.post(
     [
       [
         "rating",
-        (rating) => validUndefined(rating, () => typeof rating === "number"),
+        (rating) =>
+          validUndefined(
+            rating,
+            () =>
+              (typeof rating === "number" && rating >= 0 && rating <= 5) ||
+              "rating must've number and between 0 to 5!"
+          ),
       ],
       [
         "images",
-        (images) => validUndefined(images, () => Array.isArray(images)),
+        (images) =>
+          validUndefined(
+            images,
+            () =>
+              Array.isArray(images) ||
+              "images must've array of image url and id!"
+          ),
       ],
       [
         "reviews",
-        (reviews) => validUndefined(reviews, () => Array.isArray(reviews)),
+        (reviews) =>
+          validUndefined(
+            reviews,
+            () =>
+              Array.isArray(reviews) ||
+              "reviews must've array of comment and rating!"
+          ),
       ],
     ],
     { strict: false }
