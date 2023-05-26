@@ -1,32 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
-import { signIn } from "next-auth/react";
-import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
+import useObjectStore from "use-object-store";
+import Input from "@/components/form/Input";
+import useAuth from "@/context/AuthProvider";
+
+const init = { email: "", password: "" };
 
 const Singin = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const router = useRouter();
+  const [store, updateStore] = useObjectStore(init);
+  const { singin } = useAuth();
 
   const submitHandler = async (e: any) => {
     e.preventDefault();
-
-    const data = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    });
-
-    if (data?.error) {
-      toast.error(data.error);
-    }
-
-    if (data?.ok) {
-      router.push("/");
+    if (Object.values(store).every((v) => v !== "")) {
+      await singin(store);
+      updateStore(init);
     }
   };
 
@@ -36,32 +25,21 @@ const Singin = () => {
       className="mt-10 mb-20 p-4 md:p-7 mx-auto rounded bg-white shadow-lg"
     >
       <form onSubmit={submitHandler}>
-        <h2 className="mb-5 text-2xl font-semibold">Login</h2>
+        <h2 className="mb-5 text-2xl font-semibold">Singin</h2>
 
-        <div className="mb-4">
-          <label className="block mb-1"> Email </label>
-          <input
-            className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
-            type="text"
-            placeholder="Type your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
+        <Input
+          text="Email"
+          placeholder="Type your email"
+          value={store.email}
+          setValue={(email) => updateStore({ email })}
+        />
 
-        <div className="mb-4">
-          <label className="block mb-1"> Password </label>
-          <input
-            className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
-            type="password"
-            placeholder="Type your password"
-            minLength={6}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
+        <Input
+          text="Password"
+          placeholder="Type your password"
+          value={store.password}
+          setValue={(password) => updateStore({ password })}
+        />
 
         <button
           type="submit"

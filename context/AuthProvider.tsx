@@ -12,8 +12,8 @@ interface User {
 }
 
 interface Value {
-  singup: ({ name, email, password }: User) => Promise<AxiosResponse<any, any>>;
-  singin(email: string, password: string): Promise<SignInResponse | undefined>;
+  singup: (object: User) => Promise<AxiosResponse<any, any>>;
+  singin: (object: Omit<User, "name">) => Promise<SignInResponse | undefined>;
 }
 
 const AuthContext = createContext<Value | null>(null);
@@ -27,10 +27,10 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
     return Post("auth/singup", { name, email, password });
   }
 
-  function singin(
-    email: string,
-    password: string
-  ): Promise<SignInResponse | undefined> {
+  function singin({
+    email,
+    password,
+  }: Omit<User, "name">): Promise<SignInResponse | undefined> {
     return signIn("credentials", { email, password, redirect: false });
   }
 
