@@ -34,11 +34,21 @@ export default function () {
                 alt="avatar"
                 height="40"
                 width="40"
-                className="w-10 h-10 rounded-full"
+                className="w-10 h-10 rounded-full "
                 src={currentUser.avatar}
               />
             ) : (
-              ""
+              <div
+                className="w-10 h-10 rounded-full flex"
+                style={{ backgroundColor: currentUser.avatar.bg }}
+              >
+                <span
+                  className="m-auto text-3xl"
+                  style={{ color: currentUser.avatar.fg }}
+                >
+                  {currentUser.avatar.char.toUpperCase()}
+                </span>
+              </div>
             )}
 
             <div className="space-y-1 font-medium">
