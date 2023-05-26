@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import "@/app/globals.css";
 import Header from "@/components/layout/Header";
 import GlobalProvider from "@/context/GlobalProvider";
-import "react-toastify/dist/ReactToastify.css";
 
 export const metadata = {
   title: "Create Next App",
