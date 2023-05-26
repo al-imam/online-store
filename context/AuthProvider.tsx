@@ -37,12 +37,17 @@ interface AuthProviderProps {
 
 const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
+  const [wait, setWait] = useState(true);
 
   const { data } = useSession();
 
   useEffect(() => {
-    if (!data) return setCurrentUser(null);
-    setCurrentUser(data.user as CurrentUser);
+    if (data) {
+      setCurrentUser(data.user as CurrentUser);
+    } else {
+      setCurrentUser(null);
+    }
+    setWait(false);
   }, [data]);
 
   function singup({ name, email, password }: User) {
@@ -58,7 +63,7 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ singup, singin, currentUser }}>
-      {children}
+      {wait || children}
     </AuthContext.Provider>
   );
 };
