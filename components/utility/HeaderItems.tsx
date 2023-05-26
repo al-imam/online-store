@@ -29,13 +29,18 @@ export default function () {
       {currentUser ? (
         <Link href="/me">
           <div className="flex items-center space-x-3 cursor-pointer">
-            <Image
-              alt="avatar"
-              height="40"
-              width="40"
-              className="w-10 h-10 rounded-full"
-              src="/avatar.jpeg"
-            />
+            {typeof currentUser.avatar === "string" ? (
+              <Image
+                alt="avatar"
+                height="40"
+                width="40"
+                className="w-10 h-10 rounded-full"
+                src={currentUser.avatar}
+              />
+            ) : (
+              ""
+            )}
+
             <div className="space-y-1 font-medium">
               <p>
                 {currentUser.name}
