@@ -4,20 +4,20 @@ import { FormEvent, FunctionComponent } from "react";
 import Link from "next/link";
 import Input from "@/components/form/Input";
 import useAuth from "@/context/AuthProvider";
-import useSingup from "@/store/useSingup";
+import useObjectStore from "use-object-store";
 
 interface SingupProps {}
 
+const init = { name: "", email: "", password: "" };
+
 const Singup: FunctionComponent<SingupProps> = () => {
   const { singup } = useAuth();
-  const get = useSingup((store) => store.get);
-  const clear = useSingup((store) => store.clear);
+  const [store, updateStore] = useObjectStore(init);
 
   async function singupUser(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const { email, password, name } = get();
-    await singup({ name, email, password });
-    clear();
+    await singup(store);
+    updateStore(init);
   }
 
   return (
@@ -28,18 +28,28 @@ const Singup: FunctionComponent<SingupProps> = () => {
       <form onSubmit={singupUser} noValidate>
         <h2 className="mb-5 text-2xl font-semibold"> Create account </h2>
 
-        <Input text="Full name" placeholder="Type your name" name="name" />
+        <Input
+          text="Full name"
+          placeholder="Type your name"
+          name="name"
+          value={store.name}
+          setValue={(name) => updateStore({ name })}
+        />
         <Input
           text="Email"
           placeholder="Type your email"
           type="email"
           name="email"
+          value={store.email}
+          setValue={(email) => updateStore({ email })}
         />
         <Input
           text="Password"
           placeholder="Type your password"
           type="password"
           name="password"
+          value={store.password}
+          setValue={(password) => updateStore({ password })}
         />
 
         <button
