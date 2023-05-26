@@ -13,10 +13,9 @@ const Singin = () => {
 
   const submitHandler = async (e: any) => {
     e.preventDefault();
-    if (Object.values(store).every((v) => v !== "")) {
-      await singin(store);
-      updateStore(init);
-    }
+    if (Object.values(store).some((v) => v === "")) return;
+    await singin(store);
+    updateStore(init);
   };
 
   return (

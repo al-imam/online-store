@@ -16,6 +16,7 @@ const Singup: FunctionComponent<SingupProps> = () => {
 
   async function singupUser(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (Object.values(store).some((v) => v === "")) return;
     await singup(store);
     updateStore(init);
   }
@@ -63,8 +64,8 @@ const Singup: FunctionComponent<SingupProps> = () => {
 
         <p className="text-center mt-5">
           Already have an account?
-          <Link href="/login" className="text-blue-500">
-            login
+          <Link href="/singin" className="text-blue-500">
+            Singin
           </Link>
         </p>
       </form>

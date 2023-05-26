@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import Image from "next/image";
 import useAuth from "@/context/AuthProvider";
 
-const CartLink = () => {
+export default function () {
   const { currentUser } = useAuth();
 
   const count = useCart((store) => store.items).length;
@@ -57,6 +57,4 @@ const CartLink = () => {
       )}
     </div>
   );
-};
-
-export default CartLink;
+}
