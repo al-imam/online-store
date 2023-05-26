@@ -3,7 +3,7 @@
 import useAuth from "@/context/AuthProvider";
 import Image from "next/image";
 
-export default function ({ w = 4, h = 4 }) {
+export default function ({ w = 4, h = w }: { w?: number; h?: number }) {
   const { currentUser } = useAuth();
 
   return currentUser ? (

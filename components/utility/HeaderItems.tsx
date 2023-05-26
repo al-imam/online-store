@@ -3,7 +3,7 @@
 import Link from "next/link";
 import useCart from "@/store/useCart";
 import { useEffect } from "react";
-import Image from "next/image";
+import Avatar from "@/components/utility/Avatar";
 import useAuth from "@/context/AuthProvider";
 
 export default function () {
@@ -29,27 +29,7 @@ export default function () {
       {currentUser ? (
         <Link href="/me">
           <div className="flex items-center space-x-3 cursor-pointer">
-            {typeof currentUser.avatar === "string" ? (
-              <Image
-                alt="avatar"
-                height="40"
-                width="40"
-                className="w-10 h-10 rounded-full "
-                src={currentUser.avatar}
-              />
-            ) : (
-              <div
-                className="w-10 h-10 rounded-full flex"
-                style={{ backgroundColor: currentUser.avatar.bg }}
-              >
-                <span
-                  className="m-auto text-3xl"
-                  style={{ color: currentUser.avatar.fg }}
-                >
-                  {currentUser.avatar.char.toUpperCase()}
-                </span>
-              </div>
-            )}
+            <Avatar w={2.5} />
 
             <div className="space-y-1 font-medium">
               <p>
