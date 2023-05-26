@@ -4,6 +4,19 @@ import dbConnect from "@/backend/config/dbConnect";
 import User from "@/backend/models/user";
 import { compareSync } from "bcryptjs";
 
+function remove({
+  name,
+  email,
+  avatar,
+  _id,
+  created,
+  role,
+}: {
+  [key: string]: any;
+}) {
+  return { name, email, avatar, _id, created, role };
+}
+
 const options: AuthOptions = {
   session: { strategy: "jwt" },
   providers: [
@@ -21,18 +34,25 @@ const options: AuthOptions = {
           throw new Error("email and password not match!");
         }
 
-        return {
-          id: search._id as any,
-          name: search.name,
-          email: search.email,
-        };
+        return remove(search) as any;
       },
       credentials: {},
     }),
   ],
+  callbacks: {
+    jwt: async ({ token, user }) => {
+      user && (token.user = user);
+
+      return token;
+    },
+    session: async ({ session, token }) => {
+      session.user = token.user as any;
+      return session;
+    },
+  },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    signIn: "/auth/signin",
+    signIn: "/signin",
   },
 };
 
