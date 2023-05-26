@@ -21,6 +21,9 @@ interface User {
 
 interface CurrentUser extends Omit<User, "password"> {
   avatar: string | { char: string; bg: string; fg: string };
+  _id: string;
+  created: string;
+  role: string;
 }
 
 interface Value {
