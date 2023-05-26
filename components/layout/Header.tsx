@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Search from "@/components/layout/Search";
-import Image from "next/image";
-import CartLink from "@/components/utility/CartLink";
+import HeaderItems from "@/components/utility/HeaderItems";
 
 const Header = () => (
   <header className="bg-white py-2 border-b">
@@ -14,35 +13,7 @@ const Header = () => (
         </div>
         <Search />
 
-        <div className="flex items-center space-x-2 ml-auto">
-          <CartLink />
-          <Link
-            href="/singup"
-            className="px-3 py-2 inline-block text-center text-gray-700 bg-white shadow-sm border border-gray-200 rounded-md hover:bg-gray-100 hover:border-gray-300"
-          >
-            <i className="text-gray-400 w-5 fa fa-user"></i>
-            <span className="hidden lg:inline ml-1">singup</span>
-          </Link>
-          <Link href="/me">
-            <div className="flex items-center mb-4 space-x-3 mt-4 cursor-pointer">
-              <Image
-                alt="avatar"
-                height="40"
-                width="40"
-                className="w-10 h-10 rounded-full"
-                src="/avatar.jpeg"
-              />
-              <div className="space-y-1 font-medium">
-                <p>
-                  Nirob
-                  <time className="block text-sm text-gray-500 dark:text-gray-400">
-                    alimam01828@gmail.com
-                  </time>
-                </p>
-              </div>
-            </div>
-          </Link>
-        </div>
+        <HeaderItems />
 
         <div className="lg:hidden ml-2">
           <button
