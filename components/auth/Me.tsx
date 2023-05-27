@@ -3,12 +3,17 @@
 import Link from "next/link";
 import useAuth from "@/context/AuthProvider";
 import Avatar from "@/components/utility/Avatar";
+import { Fragment } from "react";
+
+const time = new Intl.DateTimeFormat("en", {
+  dateStyle: "long",
+});
 
 export default function () {
   const { currentUser } = useAuth();
 
-  return (
-    <>
+  return currentUser ? (
+    <Fragment>
       <figure className="flex items-center" style={{ gap: 8 }}>
         <div>
           <Avatar />
@@ -16,8 +21,8 @@ export default function () {
         <figcaption>
           <h5 className="text-gray-950 text-lg">{currentUser?.name}</h5>
           <div>
-            <p>Email: {currentUser?.email}</p>
-            <p>Joined On: {currentUser?.created}</p>
+            <p>Email: {currentUser.email}</p>
+            <p>Joined On: {time.format(new Date(currentUser.created))}</p>
           </div>
         </figcaption>
       </figure>
@@ -31,6 +36,6 @@ export default function () {
       </Link>
 
       <hr className="my-4" />
-    </>
-  );
+    </Fragment>
+  ) : null;
 }
