@@ -46,3 +46,18 @@ Content-Type: application/json
   "email": "nirob@mail.dev",
   "password": "481769"
 }
+
+
+### singup
+POST http://localhost:3000/api/address
+Content-Type: application/json
+
+{
+  "country": "india",
+  "street": "sonapur road",
+  "city": "dhaka",
+  "state": "kovirhat",
+  "phone": "01881614926",
+  "zip": "3800"
+}
+
