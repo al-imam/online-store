@@ -12,6 +12,7 @@ import { Post } from "@/utility/request";
 import { AxiosResponse } from "axios";
 import { SignInResponse, signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 
 interface User {
   name: string;
@@ -41,6 +42,7 @@ interface AuthProviderProps {
 const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
   const [wait, setWait] = useState(true);
+  const query = useSearchParams();
 
   const { data } = useSession();
 
@@ -61,7 +63,11 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
     email,
     password,
   }: Omit<User, "name">): Promise<SignInResponse | undefined> {
-    return signIn("credentials", { email, password, redirect: false });
+    return signIn("credentials", {
+      email,
+      password,
+      callbackUrl: query?.get("callbackUrl") || "/",
+    });
   }
 
   return (
