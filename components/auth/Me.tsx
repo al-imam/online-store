@@ -21,8 +21,8 @@ export default function () {
         <figcaption>
           <h5 className="text-gray-950 text-lg">{currentUser?.name}</h5>
           <div>
-            <p>Email: {currentUser.email}</p>
-            <p>Joined On: {time.format(new Date(currentUser.created))}</p>
+            <span>Email: {currentUser.email}</span>
+            <span>Joined On: {time.format(new Date(currentUser.created))}</span>
           </div>
         </figcaption>
       </figure>
