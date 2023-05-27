@@ -17,6 +17,16 @@ function SHOC(name: string): [string, (value: any) => string | boolean] {
   ];
 }
 
+function NHOC(name: string): [string, (value: any) => string | boolean] {
+  return [
+    name,
+    (value: any) =>
+      ((typeof value === "number" || typeof value === "string") &&
+        !isNaN(parseInt(value as string))) ||
+      `${name} must've number`,
+  ];
+}
+
 router.post(
   validateBody([
     [
@@ -29,6 +39,8 @@ router.post(
     SHOC("street"),
     SHOC("state"),
     SHOC("city"),
+    NHOC("phone"),
+    NHOC("zip"),
   ]),
   addAddress
 );
