@@ -2,9 +2,21 @@
 
 import { FormEvent, useState } from "react";
 import { countries } from "countries-list";
+import useObjectStore from "use-object-store";
+
+const countriesList = Object.values(countries);
+
+const init = {
+  street: "",
+  city: "",
+  state: "",
+  zip: "",
+  phone: "",
+  country: "",
+};
 
 export default function () {
-  const countriesList = Object.values(countries);
+  const [address, updateAddress] = useObjectStore(init);
 
   const [street, setStreet] = useState("");
   const [city, setCity] = useState("");
@@ -32,8 +44,8 @@ export default function () {
               className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
               type="text"
               placeholder="Type your address"
-              value={street}
-              onChange={(e) => setStreet(e.target.value)}
+              value={address.street}
+              onChange={(e) => updateAddress({ street: e.target.value })}
             />
           </div>
 
@@ -44,8 +56,8 @@ export default function () {
                 className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
                 type="text"
                 placeholder="Type your city"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
+                value={address.city}
+                onChange={(e) => updateAddress({ city: e.target.value })}
               />
             </div>
 
@@ -55,8 +67,8 @@ export default function () {
                 className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
                 type="text"
                 placeholder="Type state here"
-                value={state}
-                onChange={(e) => setState(e.target.value)}
+                value={address.state}
+                onChange={(e) => updateAddress({ state: e.target.value })}
               />
             </div>
           </div>
@@ -68,8 +80,8 @@ export default function () {
                 className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
                 type="number"
                 placeholder="Type zip code here"
-                value={zipCode}
-                onChange={(e) => setZipCode(e.target.value)}
+                value={address.zip}
+                onChange={(e) => updateAddress({ zip: e.target.value })}
               />
             </div>
 
@@ -79,8 +91,8 @@ export default function () {
                 className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
                 type="number"
                 placeholder="Type phone no here"
-                value={phoneNo}
-                onChange={(e) => setPhonoNo(e.target.value)}
+                value={address.phone}
+                onChange={(e) => updateAddress({ phone: e.target.value })}
               />
             </div>
           </div>
@@ -89,8 +101,8 @@ export default function () {
             <label className="block mb-1"> Country </label>
             <select
               className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
-              value={country}
-              onChange={(e) => setCountry(e.target.value)}
+              value={address.country}
+              onChange={(e) => updateAddress({ country: e.target.value })}
             >
               {countriesList.map((country) => (
                 <option key={country.name} value={country.name}>

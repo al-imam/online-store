@@ -1,3 +1,5 @@
+import NewAddress from "@/components/user/NewAddress";
+
 export default function () {
-  return <h1>create new address</h1>;
+  return <NewAddress />;
 }
