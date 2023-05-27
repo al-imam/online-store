@@ -10,6 +10,13 @@ const countrys = Object.values(countries);
 
 dbConnect();
 
+function SHOC(name: string): [string, (value: any) => string | boolean] {
+  return [
+    name,
+    (value: any) => typeof value === "string" || `${name} must've string`,
+  ];
+}
+
 router.post(
   validateBody([
     [
@@ -19,6 +26,9 @@ router.post(
           ? true
           : `${country} is not valid country`,
     ],
+    SHOC("street"),
+    SHOC("state"),
+    SHOC("city"),
   ]),
   addAddress
 );
