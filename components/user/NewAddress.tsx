@@ -5,7 +5,9 @@ import { countries } from "countries-list";
 import useObjectStore from "use-object-store";
 import { Post } from "@/utility/request";
 
-const countriesList = Object.values(countries);
+const countriesList = Object.values(countries).sort((a, b) =>
+  a.name.localeCompare(b.name)
+);
 
 const init = {
   street: "",
