@@ -1,8 +1,9 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent } from "react";
 import { countries } from "countries-list";
 import useObjectStore from "use-object-store";
+import { Post } from "@/utility/request";
 
 const countriesList = Object.values(countries);
 
@@ -12,21 +13,17 @@ const init = {
   state: "",
   zip: "",
   phone: "",
-  country: "",
+  country: countries.BD.name,
 };
 
 export default function () {
   const [address, updateAddress] = useObjectStore(init);
 
-  const [street, setStreet] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [zipCode, setZipCode] = useState("");
-  const [phoneNo, setPhonoNo] = useState("");
-  const [country, setCountry] = useState("");
-
-  const submitHandler = (e: FormEvent) => {
+  const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
+    if (Object.values(address).some((v) => v.trim() === "")) return;
+    await Post("address", address);
+    updateAddress(init);
   };
 
   return (

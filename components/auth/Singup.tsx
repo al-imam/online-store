@@ -16,7 +16,7 @@ const Singup: FunctionComponent<SingupProps> = () => {
 
   async function singupUser(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (Object.values(store).some((v) => v === "")) return;
+    if (Object.values(store).some((v) => v.trim() === "")) return;
     await singup(store);
     updateStore(init);
   }

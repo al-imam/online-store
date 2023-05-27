@@ -13,7 +13,7 @@ const Singin = () => {
 
   const submitHandler = async (e: any) => {
     e.preventDefault();
-    if (Object.values(store).some((v) => v === "")) return;
+    if (Object.values(store).some((v) => v.trim() === "")) return;
     await singin(store);
     updateStore(init);
   };
