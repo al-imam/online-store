@@ -74,3 +74,4 @@ Content-Type: application/json
 
 ### get al addresses fix issue get all address by single user 
 GET http://localhost:3000/api/address
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzM5ODA4NDZkMzU4ZTAyNDVhOTNkZiIsImlhdCI6MTY4NTM4NTA0NX0.JcGbvSMcxK_ljaUg64jlhc9RU8OUmpYpCVKI7gsOcxI

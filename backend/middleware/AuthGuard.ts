@@ -2,11 +2,21 @@ import verifyJWTToken from "../util/VerifyJWTToken";
 import wrap from "@/utility/wrapHandler";
 import { isValidObjectId } from "mongoose";
 
-export default wrap(async ({ headers: { authorization }, body }, res, next) => {
-  if (authorization && authorization.startsWith("Bearer ")) {
-    const { id } = verifyJWTToken(authorization.replace("Bearer ", ""));
+export default wrap(async (req, res, next) => {
+  const auth = req.headers.authorization;
+  if (auth && auth.startsWith("Bearer ")) {
+    const id = verifyJWTToken(auth.replace("Bearer ", ""));
+
     if (id !== null && isValidObjectId(id)) {
-      body._id = id;
+      if (
+        req.body instanceof Object &&
+        !Array.isArray(req.body) &&
+        req.body !== null
+      ) {
+        req.body.ObjectID = id;
+      } else {
+        req.body = { ObjectID: id };
+      }
       return next();
     }
   }

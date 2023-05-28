@@ -6,6 +6,7 @@ import {
 } from "@/backend/controllers/addressController";
 import validateBody from "@/backend/middleware/validateBody";
 import { countries } from "countries-list";
+import AuthGuard from "@/backend/middleware/AuthGuard";
 
 const router = createRouter();
 
@@ -48,6 +49,6 @@ router.post(
   addAddress
 );
 
-router.get(getAddresses);
+router.get(AuthGuard, getAddresses);
 
 export default router;
