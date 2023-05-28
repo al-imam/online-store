@@ -23,7 +23,7 @@ interface CurrentUser extends Omit<User, "password"> {
   role: string;
 }
 
-type Auth = User & { onError: (e: any) => void; onSuccess: () => void };
+type Auth = User & { onError?: (e: any) => void; onSuccess?: () => void };
 
 interface Value {
   singup: (object: Auth) => void;
@@ -39,7 +39,7 @@ interface AuthProviderProps {
 
 const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
-  const [wait, setWait] = useState(true);
+  const [wait, setWait] = useState(false);
 
   async function singup({
     name,

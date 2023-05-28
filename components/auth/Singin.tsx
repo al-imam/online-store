@@ -19,14 +19,17 @@ const Singin = () => {
       return toast.error("Enter valid email and password");
     }
 
-    try {
-      const res = await singin(store);
-      if (!res?.ok) throw new Error("");
-      updateStore(init);
-      return toast.success("Singin success full!");
-    } catch (e) {
-      toast.error("Authentication failed!");
-    }
+    singin({
+      ...store,
+      onSuccess() {
+        updateStore(init);
+        toast.success("Singin success full!");
+      },
+      onError(e) {
+        console.log(e);
+        toast.error("Authentication failed!");
+      },
+    });
   };
 
   return (
