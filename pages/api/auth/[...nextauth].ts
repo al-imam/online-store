@@ -19,6 +19,7 @@ function remove({
 
 const options: AuthOptions = {
   session: { strategy: "jwt" },
+
   providers: [
     Credentials({
       async authorize(credentials) {
@@ -30,8 +31,8 @@ const options: AuthOptions = {
           throw new Error("user not found");
         }
 
-        if (!compareSync(email, search.password)) {
-          throw new Error("email and password not match!");
+        if (!compareSync(password, search.password)) {
+          throw new Error("/singin");
         }
 
         return remove(search) as any;
