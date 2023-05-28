@@ -42,10 +42,21 @@ POST http://localhost:3000/api/auth/singup
 Content-Type: application/json
 
 {
-  "name": "al-imam",
-  "email": "nirob@mail.dev",
-  "password": "481769"
+  "name": "nirob",
+  "email": "nirob@mail.com",
+  "password": "12345678"
 }
+
+
+### singin
+POST http://localhost:3000/api/auth/singin
+Content-Type: application/json
+
+{
+  "email": "nirob@mail.com",
+  "password": "12345678"
+}
+
 
 
 ### singup
