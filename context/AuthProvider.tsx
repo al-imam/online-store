@@ -29,6 +29,7 @@ type Auth = User & { onError?: (e: any) => void; onSuccess?: () => void };
 interface Value {
   singup: (object: Auth) => void;
   singin: (object: Omit<Auth, "name">) => void;
+  singout: (callback?: () => void) => void;
   currentUser: CurrentUser | null;
 }
 
@@ -60,6 +61,12 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
 
     setWait(false);
   }, []);
+
+  function singout(callback: () => void = () => {}) {
+    setCurrentUser(null);
+    localStorage.removeItem(localName);
+    callback();
+  }
 
   async function singup({
     name,
@@ -95,7 +102,7 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ singup, singin, currentUser }}>
+    <AuthContext.Provider value={{ singout, singup, singin, currentUser }}>
       {wait || children}
     </AuthContext.Provider>
   );
