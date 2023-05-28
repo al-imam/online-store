@@ -5,7 +5,7 @@ import { isValidObjectId } from "mongoose";
 export default wrap(async (req, res, next) => {
   const auth = req.headers.authorization;
   if (auth && auth.startsWith("Bearer ")) {
-    const id = verifyJWTToken(auth.replace("Bearer ", ""));
+    const { id } = verifyJWTToken(auth.replace("Bearer ", ""));
 
     if (id !== null && isValidObjectId(id)) {
       if (
@@ -13,9 +13,9 @@ export default wrap(async (req, res, next) => {
         !Array.isArray(req.body) &&
         req.body !== null
       ) {
-        req.body.ObjectID = id;
+        req.body.ID = id;
       } else {
-        req.body = { ObjectID: id };
+        req.body = { ID: id };
       }
       return next();
     }

@@ -12,7 +12,7 @@ function calculateSkipNumber(num: string, fallback: number = 0) {
 }
 
 const addProduct = wrap(async (req, res) => {
-  const newDocs = await Product.create(req.body._valid_object);
+  const newDocs = await Product.create(req.body.VALID_REQ);
   res.status(201).json(newDocs);
 }, "create-product");
 

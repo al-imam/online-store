@@ -1,8 +1,17 @@
 import { Model, Schema, model, models } from "mongoose";
 import AddressInterface from "@/types/AddressInterface";
 
-const address = new Schema<AddressInterface>(
+interface AI extends AddressInterface {
+  user: Schema.Types.ObjectId;
+}
+
+const address = new Schema<AI>(
   {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: [true, "only user can create address!"],
+    },
     street: {
       type: String,
       required: [true, "street required for address"],
@@ -31,5 +40,5 @@ const address = new Schema<AddressInterface>(
   { timestamps: { createdAt: "created", updatedAt: false } }
 );
 
-export default (models.Address as Model<AddressInterface>) ||
+export default (models.Address as Model<AI>) ||
   model<AddressInterface>("Address", address);

@@ -46,6 +46,7 @@ router.post(
     NHOC("phone"),
     NHOC("zip"),
   ]),
+  AuthGuard,
   addAddress
 );
 

@@ -4,7 +4,7 @@ import { compareSync } from "bcryptjs";
 import { sign } from "jsonwebtoken";
 
 const singup = wrap(async (req, res) => {
-  const user = await User.create(req.body._valid_object);
+  const user = await User.create(req.body.VALID_REQ);
 
   res.status(201).json({
     user: remove(user),
@@ -13,7 +13,7 @@ const singup = wrap(async (req, res) => {
 }, "singup");
 
 const singin = wrap(async (req, res) => {
-  const { email, password } = req.body._valid_object;
+  const { email, password } = req.body.VALID_REQ;
 
   const user = await User.findOne({ email });
 
