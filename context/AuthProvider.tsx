@@ -9,7 +9,6 @@ import {
   useState,
 } from "react";
 import { Post } from "@/utility/request";
-import { AxiosResponse } from "axios";
 
 interface User {
   name: string;
@@ -24,9 +23,11 @@ interface CurrentUser extends Omit<User, "password"> {
   role: string;
 }
 
+type Auth = User & { onError: (e: any) => void; onSuccess: () => void };
+
 interface Value {
-  singup: (object: User) => Promise<AxiosResponse<any, any>>;
-  singin: (object: Omit<User, "name">) => void;
+  singup: (object: Auth) => void;
+  singin: (object: Omit<Auth, "name">) => void;
   currentUser: CurrentUser | null;
 }
 
@@ -40,11 +41,22 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
   const [wait, setWait] = useState(true);
 
-  function singup({ name, email, password }: User) {
-    return Post("auth/singup", { name, email, password });
+  async function singup({
+    name,
+    email,
+    password,
+    onError = () => {},
+    onSuccess = () => {},
+  }: Auth) {
+    try {
+      await Post("auth/singup", { name, email, password });
+      onSuccess();
+    } catch (e) {
+      onError(e);
+    }
   }
 
-  function singin({ email, password }: Omit<User, "name">) {
+  function singin({ email, password }: Omit<Auth, "name">) {
     return () => {};
   }
 
