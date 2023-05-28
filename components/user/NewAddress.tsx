@@ -14,7 +14,7 @@ const init = {
   city: "",
   state: "",
   zip: "",
-  phone: "",
+  phone: countries.BD.phone,
   country: countries.BD.name,
 };
 
@@ -101,7 +101,13 @@ export default function () {
             <select
               className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
               value={address.country}
-              onChange={(e) => updateAddress({ country: e.target.value })}
+              onChange={(e) =>
+                updateAddress({
+                  country: e.target.value,
+                  phone: countriesList.find((c) => e.target.value === c.name)
+                    ?.phone,
+                })
+              }
             >
               {countriesList.map((country) => (
                 <option key={country.name} value={country.name}>
