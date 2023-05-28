@@ -1,13 +1,5 @@
 import { Model, Schema, model, models } from "mongoose";
-
-interface AddressInterface {
-  street: string;
-  city: string;
-  state: string;
-  zip: number;
-  phone: number;
-  country: string;
-}
+import AddressInterface from "@/types/AddressInterface";
 
 const address = new Schema<AddressInterface>(
   {
