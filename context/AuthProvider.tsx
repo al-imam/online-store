@@ -8,6 +8,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import validate from "nested-object-validate";
 import { Post } from "@/utility/request";
 
 interface User {
@@ -37,9 +38,26 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
+const localName = "online-store-user-information" as const;
+
 const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
   const [wait, setWait] = useState(false);
+
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem(localName) as string);
+
+    const v = validate(data, [
+      ["auth", (auth) => typeof auth === "string"],
+      ["user", (user, validate) => validate(user, ["name", "email", "avatar"])],
+    ]);
+
+    if (v.valid) {
+      return setCurrentUser(data.user);
+    }
+
+    setCurrentUser(null);
+  }, []);
 
   async function singup({
     name,
@@ -49,8 +67,10 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
     onSuccess = () => {},
   }: Auth) {
     try {
-      await Post("auth/singup", { name, email, password });
+      const { data } = await Post("auth/singup", { name, email, password });
       onSuccess();
+      setCurrentUser(data.user);
+      localStorage.setItem(localName, JSON.stringify(data));
     } catch (e) {
       onError(e);
     }
@@ -63,8 +83,10 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
     onSuccess = () => {},
   }: Omit<Auth, "name">) {
     try {
-      await Post("auth/singin", { email, password });
+      const { data } = await Post("auth/singin", { email, password });
       onSuccess();
+      setCurrentUser(data.user);
+      localStorage.setItem(localName, JSON.stringify(data));
     } catch (e) {
       onError(e);
     }
