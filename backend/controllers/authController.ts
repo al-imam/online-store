@@ -13,7 +13,9 @@ const singup = wrap(async (req, res) => {
 }, "singup");
 
 const singin = wrap(async (req, res) => {
-  const user = await User.findOne({ email: req.body.email });
+  const { email, password } = req.body._valid_object;
+
+  const user = await User.findOne({ email });
 
   if (user === null) {
     return res.status(400).json({
@@ -22,7 +24,7 @@ const singin = wrap(async (req, res) => {
     });
   }
 
-  if (!compareSync(user.password, req.body.password)) {
+  if (!compareSync(password, user.password)) {
     return res.status(400).json({
       code: "singin-failed",
       message: "email and password not match",

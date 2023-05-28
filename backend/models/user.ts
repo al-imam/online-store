@@ -1,6 +1,6 @@
 import getProfile from "@/utility/getProfile";
 import { Model, Schema, model, models, SchemaTypes } from "mongoose";
-import { hash } from "bcryptjs";
+import { hashSync } from "bcryptjs";
 
 type AvatarType = string | { bg: string; fg: string; char: string };
 
@@ -51,7 +51,7 @@ user.pre("save", async function (next) {
     next();
   }
 
-  this.password = await hash(this.password, 10);
+  this.password = hashSync(this.password);
 });
 
 export default (models.User as Model<UserInterface>) ||
