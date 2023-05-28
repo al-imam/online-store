@@ -4,6 +4,7 @@ import { FormEvent } from "react";
 import { countries } from "countries-list";
 import useObjectStore from "use-object-store";
 import { Post } from "@/utility/request";
+import { toast } from "react-toastify";
 
 const countriesList = Object.values(countries).sort((a, b) =>
   a.name.localeCompare(b.name)
@@ -23,9 +24,12 @@ export default function () {
 
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
-    if (Object.values(address).some((v) => v.trim() === "")) return;
+    if (Object.values(address).some((v) => v.trim() === "")) {
+      return toast.error("fill all required inputs!");
+    }
     await Post("address", address);
     updateAddress(init);
+    toast.success("address added successfully!");
   };
 
   return (
