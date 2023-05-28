@@ -2,7 +2,7 @@
 const nextConfig = {
   env: {
     MONGO_URI: "mongodb://localhost:27017/my-app",
-    NEXTAUTH_SECRET: "unknown",
+    JWT_SECRET: "my-secret",
   },
   images: {
     domains: ["res.cloudinary.com"],

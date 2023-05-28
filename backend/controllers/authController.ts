@@ -1,6 +1,7 @@
 import User from "@/backend/models/user";
 import wrap from "@/utility/wrapHandler";
 import { compareSync } from "bcryptjs";
+import { sign } from "jsonwebtoken";
 
 const singup = wrap(async (req, res) => {
   const user = await User.create(req.body._valid_object);
@@ -24,7 +25,10 @@ const singin = wrap(async (req, res) => {
     });
   }
 
-  res.status(201).json(remove(user));
+  res.status(200).json({
+    user: remove(user),
+    auth: sign({ id: user._id }, process.env.JWT_SECRET as string),
+  });
 }, "singin");
 
 function remove({
@@ -40,4 +44,4 @@ function remove({
   return { name, email, avatar, _id, created, role };
 }
 
-export { singup };
+export { singup, singin };
