@@ -56,8 +56,18 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
     }
   }
 
-  function singin({ email, password }: Omit<Auth, "name">) {
-    return () => {};
+  async function singin({
+    email,
+    password,
+    onError = () => {},
+    onSuccess = () => {},
+  }: Omit<Auth, "name">) {
+    try {
+      await Post("auth/singin", { email, password });
+      onSuccess();
+    } catch (e) {
+      onError(e);
+    }
   }
 
   return (
