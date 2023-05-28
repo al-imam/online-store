@@ -7,4 +7,10 @@ const addAddress = wrap(async (req, res) => {
   res.status(201).json(address);
 }, "add-address");
 
-export { addAddress };
+const getAddresses = wrap(async (req, res) => {
+  const addresses = await Address.find();
+
+  res.status(200).json(addresses);
+}, "get-addresses");
+
+export { addAddress, getAddresses };
