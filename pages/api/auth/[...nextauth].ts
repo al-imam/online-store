@@ -32,7 +32,7 @@ const options: AuthOptions = {
         }
 
         if (!compareSync(password, search.password)) {
-          throw new Error("/singin");
+          throw new Error("user name and password not match!");
         }
 
         return remove(search) as any;

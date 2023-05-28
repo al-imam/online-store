@@ -5,6 +5,8 @@ import Link from "next/link";
 import Input from "@/components/form/Input";
 import useAuth from "@/context/AuthProvider";
 import useObjectStore from "use-object-store";
+import emailRegex from "@/utility/regex";
+import { toast } from "react-toastify";
 
 interface SingupProps {}
 
@@ -16,9 +18,20 @@ const Singup: FunctionComponent<SingupProps> = () => {
 
   async function singupUser(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (Object.values(store).some((v) => v.trim() === "")) return;
-    await singup(store);
-    updateStore(init);
+    if (
+      store.name.trim() === "" ||
+      store.email.match(emailRegex) === null ||
+      store.password.length < 6
+    ) {
+      return toast.error("Enter valid email and password");
+    }
+    try {
+      await singup(store);
+      updateStore(init);
+      toast.success("account created successfully!");
+    } catch (e) {
+      return toast.error("Authentication failed!");
+    }
   }
 
   return (
