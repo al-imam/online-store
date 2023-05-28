@@ -7,6 +7,7 @@ import useAuth from "@/context/AuthProvider";
 import useObjectStore from "use-object-store";
 import emailRegex from "@/utility/regex";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 interface SingupProps {}
 
@@ -15,6 +16,7 @@ const init = { name: "", email: "", password: "" };
 const Singup: FunctionComponent<SingupProps> = () => {
   const { singup } = useAuth();
   const [store, updateStore] = useObjectStore(init);
+  const router = useRouter();
 
   async function singupUser(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -36,6 +38,7 @@ const Singup: FunctionComponent<SingupProps> = () => {
       onSuccess() {
         updateStore(init);
         toast.success("account created successfully!");
+        router.back();
       },
     });
   }

@@ -6,12 +6,14 @@ import Input from "@/components/form/Input";
 import useAuth from "@/context/AuthProvider";
 import { toast } from "react-toastify";
 import emailRegex from "@/utility/regex";
+import { useRouter } from "next/navigation";
 
 const init = { email: "", password: "" };
 
-const Singin = () => {
+export default function () {
   const [store, updateStore] = useObjectStore(init);
   const { singin } = useAuth();
+  const router = useRouter();
 
   const submitHandler = async (e: any) => {
     e.preventDefault();
@@ -24,6 +26,7 @@ const Singin = () => {
       onSuccess() {
         updateStore(init);
         toast.success("Singin success full!");
+        router.back();
       },
       onError(e) {
         console.log(e);
@@ -72,6 +75,4 @@ const Singin = () => {
       </form>
     </div>
   );
-};
-
-export default Singin;
+}
