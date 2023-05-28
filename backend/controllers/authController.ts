@@ -5,7 +5,11 @@ import { sign } from "jsonwebtoken";
 
 const singup = wrap(async (req, res) => {
   const user = await User.create(req.body._valid_object);
-  res.status(201).json(remove(user));
+
+  res.status(201).json({
+    user: remove(user),
+    auth: sign({ id: user._id }, process.env.JWT_SECRET as string),
+  });
 }, "singup");
 
 const singin = wrap(async (req, res) => {
