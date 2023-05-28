@@ -15,11 +15,18 @@ const Singin = () => {
 
   const submitHandler = async (e: any) => {
     e.preventDefault();
-    if (store.email.match(emailRegex) === null || store.password.length >= 6) {
+    if (store.email.match(emailRegex) === null || store.password.length < 6) {
       return toast.error("Enter valid email and password");
     }
-    await singin(store);
-    updateStore(init);
+
+    try {
+      const res = await singin(store);
+      if (!res?.ok) throw new Error("");
+      updateStore(init);
+      return toast.success("Singin success full!");
+    } catch (e) {
+      toast.error("Authentication failed!");
+    }
   };
 
   return (
