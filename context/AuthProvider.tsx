@@ -10,9 +10,6 @@ import {
 } from "react";
 import { Post } from "@/utility/request";
 import { AxiosResponse } from "axios";
-import { SignInResponse, signIn } from "next-auth/react";
-import { useSession } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
 
 interface User {
   name: string;
@@ -29,7 +26,7 @@ interface CurrentUser extends Omit<User, "password"> {
 
 interface Value {
   singup: (object: User) => Promise<AxiosResponse<any, any>>;
-  singin: (object: Omit<User, "name">) => Promise<SignInResponse | undefined>;
+  singin: (object: Omit<User, "name">) => void;
   currentUser: CurrentUser | null;
 }
 
@@ -42,32 +39,13 @@ interface AuthProviderProps {
 const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
   const [wait, setWait] = useState(true);
-  const query = useSearchParams();
-
-  const { data } = useSession();
-
-  useEffect(() => {
-    if (data) {
-      setCurrentUser(data.user as CurrentUser);
-    } else {
-      setCurrentUser(null);
-    }
-    setWait(false);
-  }, [data]);
 
   function singup({ name, email, password }: User) {
     return Post("auth/singup", { name, email, password });
   }
 
-  function singin({
-    email,
-    password,
-  }: Omit<User, "name">): Promise<SignInResponse | undefined> {
-    return signIn("credentials", {
-      email,
-      password,
-      callbackUrl: query?.get("callbackUrl") || "/",
-    });
+  function singin({ email, password }: Omit<User, "name">) {
+    return () => {};
   }
 
   return (

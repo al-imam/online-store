@@ -1,6 +1,5 @@
 "use client";
 
-import { signOut } from "next-auth/react";
 import Link from "next/link";
 
 export default function () {
@@ -81,7 +80,7 @@ export default function () {
         <li>
           <a
             className="block px-3 py-2 text-red-800 hover:bg-red-100 hover:text-white-500 rounded-md cursor-pointer"
-            onClick={() => signOut()}
+            onClick={() => {}}
           >
             Logout
           </a>
