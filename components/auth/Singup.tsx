@@ -18,6 +18,7 @@ const Singup: FunctionComponent<SingupProps> = () => {
 
   async function singupUser(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
     if (
       store.name.trim() === "" ||
       store.email.match(emailRegex) === null ||
@@ -25,13 +26,18 @@ const Singup: FunctionComponent<SingupProps> = () => {
     ) {
       return toast.error("Enter valid email and password");
     }
-    try {
-      await singup(store);
-      updateStore(init);
-      toast.success("account created successfully!");
-    } catch (e) {
-      return toast.error("Authentication failed!");
-    }
+
+    singup({
+      ...store,
+      onError(e) {
+        console.log(e);
+        toast.error("Authentication failed!");
+      },
+      onSuccess() {
+        updateStore(init);
+        toast.success("account created successfully!");
+      },
+    });
   }
 
   return (
