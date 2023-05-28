@@ -4,12 +4,18 @@ import Link from "next/link";
 import useAuth from "@/context/AuthProvider";
 import Avatar from "@/components/utility/Avatar";
 import { Fragment } from "react";
+import AddressInterface from "@/types/AddressInterface";
+import Addresses from "@/components/user/Addresses";
 
 const time = new Intl.DateTimeFormat("en", {
   dateStyle: "long",
 });
 
-export default function () {
+export default function ({
+  addresses,
+}: {
+  addresses: (AddressInterface & { _id: string })[];
+}) {
   const { currentUser } = useAuth();
 
   return currentUser ? (
@@ -28,6 +34,8 @@ export default function () {
       </figure>
 
       <hr className="my-4" />
+
+      <Addresses addresses={addresses} />
 
       <Link href="/me/address/new">
         <button className="px-4 py-2 inline-block text-blue-600 border border-gray-300 rounded-md hover:bg-gray-100">
