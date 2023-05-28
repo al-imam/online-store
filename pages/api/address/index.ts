@@ -1,6 +1,9 @@
 import createRouter from "next-connect";
 import dbConnect from "@/backend/config/dbConnect";
-import { addAddress } from "@/backend/controllers/addressController";
+import {
+  addAddress,
+  getAddresses,
+} from "@/backend/controllers/addressController";
 import validateBody from "@/backend/middleware/validateBody";
 import { countries } from "countries-list";
 
@@ -44,5 +47,7 @@ router.post(
   ]),
   addAddress
 );
+
+router.get(getAddresses);
 
 export default router;

@@ -7,8 +7,8 @@ const addAddress = wrap(async (req, res) => {
   res.status(201).json(address);
 }, "add-address");
 
-const getAddresses = wrap(async (req, res) => {
-  const addresses = await Address.find();
+const getAddresses = wrap(async (_, res) => {
+  const addresses = await Address.find({});
 
   res.status(200).json(addresses);
 }, "get-addresses");
