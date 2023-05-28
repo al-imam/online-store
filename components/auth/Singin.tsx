@@ -4,6 +4,8 @@ import Link from "next/link";
 import useObjectStore from "use-object-store";
 import Input from "@/components/form/Input";
 import useAuth from "@/context/AuthProvider";
+import { toast } from "react-toastify";
+import emailRegex from "@/utility/regex";
 
 const init = { email: "", password: "" };
 
@@ -13,7 +15,9 @@ const Singin = () => {
 
   const submitHandler = async (e: any) => {
     e.preventDefault();
-    if (Object.values(store).some((v) => v.trim() === "")) return;
+    if (store.email.match(emailRegex) === null || store.password.length >= 6) {
+      return toast.error("Enter valid email and password");
+    }
     await singin(store);
     updateStore(init);
   };
