@@ -42,7 +42,7 @@ const localName = "online-store-user-information" as const;
 
 const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
-  const [wait, setWait] = useState(false);
+  const [wait, setWait] = useState(true);
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem(localName) as string);
@@ -53,10 +53,12 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
     ]);
 
     if (v.valid) {
-      return setCurrentUser(data.user);
+      setCurrentUser(data.user);
+    } else {
+      setCurrentUser(null);
     }
 
-    setCurrentUser(null);
+    setWait(false);
   }, []);
 
   async function singup({
