@@ -13,6 +13,7 @@ const init = { email: "", password: "" };
 export default function () {
   const [store, updateStore] = useObjectStore(init);
   const { singin } = useAuth();
+
   const router = useRouter();
 
   const submitHandler = async (e: any) => {
@@ -24,9 +25,9 @@ export default function () {
     singin({
       ...store,
       onSuccess() {
+        router.replace("/me", { forceOptimisticNavigation: true });
         updateStore(init);
         toast.success("Singin success full!");
-        router.back();
       },
       onError(e) {
         console.log(e);

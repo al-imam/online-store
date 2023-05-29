@@ -16,6 +16,7 @@ const init = { name: "", email: "", password: "" };
 const Singup: FunctionComponent<SingupProps> = () => {
   const { singup } = useAuth();
   const [store, updateStore] = useObjectStore(init);
+
   const router = useRouter();
 
   async function singupUser(e: FormEvent<HTMLFormElement>) {
@@ -36,9 +37,9 @@ const Singup: FunctionComponent<SingupProps> = () => {
         toast.error("Authentication failed!");
       },
       onSuccess() {
+        router.replace("/me", { forceOptimisticNavigation: true });
         updateStore(init);
         toast.success("account created successfully!");
-        router.back();
       },
     });
   }
