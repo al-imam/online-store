@@ -1,6 +1,10 @@
+"use client";
+
 import { ReactNode, createContext, useContext } from "react";
 import { Address } from "@/components/user/NewAddress";
 import { Post } from "@/utility/request";
+import { getCookie } from "cookies-next";
+import COOKIES from "@/utility/COOKIES";
 
 interface AddressInterface {
   addNewAddress: (
@@ -23,7 +27,10 @@ export function AddressProvider({ children }: { children: ReactNode }) {
     onSuccess?: () => void;
   }) {
     try {
-      await Post("address", address);
+      console.log(getCookie(COOKIES));
+      await Post("address", address, {
+        headers: { Authorization: `Bearer ${getCookie(COOKIES)}` },
+      });
       onSuccess();
     } catch (e) {
       onError(e);
@@ -36,7 +43,7 @@ export function AddressProvider({ children }: { children: ReactNode }) {
 }
 
 function useAddress() {
-  return useContext(Context);
+  return useContext(Context) as AddressInterface;
 }
 
 export default useAddress;

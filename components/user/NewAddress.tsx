@@ -3,7 +3,7 @@
 import { FormEvent } from "react";
 import { countries } from "countries-list";
 import useObjectStore from "use-object-store";
-import { Post } from "@/utility/request";
+import useAddress from "@/context/AddressProvider";
 import { toast } from "react-toastify";
 
 const countriesList = Object.values(countries).sort((a, b) =>
@@ -23,15 +23,26 @@ export type Address = typeof init;
 
 export default function () {
   const [address, updateAddress] = useObjectStore(init);
+  const { addNewAddress } = useAddress();
 
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
+
     if (Object.values(address).some((v) => v.trim() === "")) {
-      return toast.error("fill all required inputs!");
+      return toast.error("All information is not filled!");
     }
-    await Post("address", address);
-    updateAddress(init);
-    toast.success("address added successfully!");
+
+    addNewAddress({
+      ...address,
+      onError(e) {
+        console.log(e);
+        toast.error("Something went wrong!");
+      },
+      onSuccess() {
+        updateAddress(init);
+        toast.success("address added successfully!");
+      },
+    });
   };
 
   return (
