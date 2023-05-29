@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import Me from "@/components/auth/Me";
 import { Get } from "@/utility/request";
 import AddressInterface from "@/types/AddressInterface";
