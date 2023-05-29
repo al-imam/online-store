@@ -10,6 +10,7 @@ import {
 } from "react";
 import validate from "nested-object-validate";
 import { Post } from "@/utility/request";
+import { removeCookies } from "cookies-next";
 
 interface User {
   name: string;
@@ -65,6 +66,7 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
   function singout(callback: () => void = () => {}) {
     setCurrentUser(null);
     localStorage.removeItem(localName);
+    removeCookies("jsonwebtoken");
     callback();
   }
 
