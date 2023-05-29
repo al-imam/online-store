@@ -19,6 +19,7 @@
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
     "bcryptjs": "^2.4.3",
+    "cookies-next": "^2.1.1",
     "countries-list": "^2.6.1",
     "escape-string-regexp": "^5.0.0",
     "jsonwebtoken": "^9.0.0",
