@@ -19,6 +19,8 @@ const init = {
   country: countries.BD.name,
 };
 
+export type Address = typeof init;
+
 export default function () {
   const [address, updateAddress] = useObjectStore(init);
 

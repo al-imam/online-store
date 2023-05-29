@@ -3,13 +3,14 @@ import wrap from "@/utility/wrapHandler";
 import { compareSync } from "bcryptjs";
 import { sign } from "jsonwebtoken";
 import { setCookie } from "cookies-next";
+import COOKIES from "@/utility/COOKIES";
 
 const singup = wrap(async (req, res) => {
   const user = await User.create(req.body.VALID_REQ);
 
   const jwt = sign({ id: user._id }, process.env.JWT_SECRET as string);
 
-  setCookie("jsonwebtoken", jwt, { req, res });
+  setCookie(COOKIES, jwt, { req, res });
 
   res.status(201).json({
     user: remove(user),
@@ -38,7 +39,7 @@ const singin = wrap(async (req, res) => {
 
   const jwt = sign({ id: user._id }, process.env.JWT_SECRET as string);
 
-  setCookie("jsonwebtoken", jwt, { req, res });
+  setCookie(COOKIES, jwt, { req, res });
 
   res.status(200).json({
     user: remove(user),
