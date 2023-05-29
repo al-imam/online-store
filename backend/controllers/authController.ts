@@ -2,13 +2,18 @@ import User from "@/backend/models/user";
 import wrap from "@/utility/wrapHandler";
 import { compareSync } from "bcryptjs";
 import { sign } from "jsonwebtoken";
+import { setCookie } from "cookies-next";
 
 const singup = wrap(async (req, res) => {
   const user = await User.create(req.body.VALID_REQ);
 
+  const jwt = sign({ id: user._id }, process.env.JWT_SECRET as string);
+
+  setCookie("jsonwebtoken", jwt, { req, res });
+
   res.status(201).json({
     user: remove(user),
-    auth: sign({ id: user._id }, process.env.JWT_SECRET as string),
+    auth: jwt,
   });
 }, "singup");
 
@@ -31,9 +36,13 @@ const singin = wrap(async (req, res) => {
     });
   }
 
+  const jwt = sign({ id: user._id }, process.env.JWT_SECRET as string);
+
+  setCookie("jsonwebtoken", jwt, { req, res });
+
   res.status(200).json({
     user: remove(user),
-    auth: sign({ id: user._id }, process.env.JWT_SECRET as string),
+    auth: jwt,
   });
 }, "singin");
 
