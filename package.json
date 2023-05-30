@@ -23,7 +23,6 @@
     "countries-list": "^2.6.1",
     "escape-string-regexp": "^5.0.0",
     "jose": "^4.14.4",
-    "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.1.0",
     "nested-object-validate": "^1.0.0",
     "next": "13.4.1",

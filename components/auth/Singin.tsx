@@ -25,7 +25,7 @@ export default function () {
     singin({
       ...store,
       onSuccess() {
-        router.replace("/me", { forceOptimisticNavigation: true });
+        router.replace("/me");
         updateStore(init);
         toast.success("Singin success full!");
       },

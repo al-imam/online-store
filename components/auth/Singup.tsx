@@ -37,7 +37,7 @@ const Singup: FunctionComponent<SingupProps> = () => {
         toast.error("Authentication failed!");
       },
       onSuccess() {
-        router.replace("/me", { forceOptimisticNavigation: true });
+        router.replace("/me");
         updateStore(init);
         toast.success("account created successfully!");
       },

@@ -65,10 +65,10 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
   }, []);
 
   function singout(callback: () => void = () => {}) {
+    callback();
     setCurrentUser(null);
     localStorage.removeItem(localName);
     removeCookies(COOKIES);
-    callback();
   }
 
   async function singup({
