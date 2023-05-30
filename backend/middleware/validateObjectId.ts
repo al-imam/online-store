@@ -16,14 +16,19 @@ function validateObjectId(ids: string[], validate: "body" | "query" = "body") {
 
     if (invalidIds.length === 0) {
       if (
+        req.body.VALID_ID !== null &&
         req.body.VALID_ID instanceof Object &&
         !Array.isArray(req.body.VALID_ID)
       ) {
         req.body.VALID_ID = Object.assign(req.body.VALID_ID, valid);
-      }
-
-      if (req.body.VALID_ID === undefined) {
+      } else if (
+        req.body instanceof Object &&
+        !Array.isArray(req.body) &&
+        req.body !== null
+      ) {
         req.body.VALID_ID = valid;
+      } else {
+        req.body = { VALID_ID: valid };
       }
 
       return next();

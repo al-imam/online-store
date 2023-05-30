@@ -18,17 +18,19 @@ function validateBody(
 
     if (result.valid) {
       if (
+        req.body.VALID_REQ !== null &&
         req.body.VALID_REQ instanceof Object &&
         !Array.isArray(req.body.VALID_REQ)
       ) {
-        req.body.VALID_REQ = Object.assign(
-          req.body.VALID_REQ,
-          result.checked
-        );
-      }
-
-      if (req.body.VALID_REQ === undefined) {
+        req.body.VALID_REQ = Object.assign(req.body.VALID_REQ, result.checked);
+      } else if (
+        req.body instanceof Object &&
+        !Array.isArray(req.body) &&
+        req.body !== null
+      ) {
         req.body.VALID_REQ = result.checked;
+      } else {
+        req.body = { VALID_REQ: result.checked };
       }
 
       return next();
