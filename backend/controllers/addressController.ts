@@ -42,4 +42,20 @@ const removeAddress = wrap(async (req, res) => {
   res.status(200).json(address);
 }, "remove-address");
 
-export { addAddress, getAddresses, getAddress, removeAddress };
+const updateAddress = wrap(async (req, res) => {
+  const address = await Address.findByIdAndUpdate(
+    req.body.VALID_ID.addressId,
+    req.body.VALID_REQ
+  );
+
+  if (address === null) {
+    return res.status(400).json({
+      code: "not-found",
+      message: "address not found",
+    });
+  }
+
+  res.status(200).json(address);
+}, "update-address");
+
+export { addAddress, getAddresses, getAddress, removeAddress, updateAddress };
