@@ -1,14 +1,14 @@
 import User from "@/backend/models/user";
 import wrap from "@/utility/wrapHandler";
 import { compareSync } from "bcryptjs";
-import { sign } from "jsonwebtoken";
+import { sign } from "../util/jwt";
 import { setCookie } from "cookies-next";
 import COOKIES from "@/utility/COOKIES";
 
 const singup = wrap(async (req, res) => {
   const user = await User.create(req.body.VALID_REQ);
 
-  const jwt = sign({ id: user._id }, process.env.JWT_SECRET as string);
+  const jwt = await sign({ id: user._id });
 
   setCookie(COOKIES, jwt, { req, res });
 
@@ -37,7 +37,7 @@ const singin = wrap(async (req, res) => {
     });
   }
 
-  const jwt = sign({ id: user._id }, process.env.JWT_SECRET as string);
+  const jwt = await sign({ id: user._id });
 
   setCookie(COOKIES, jwt, { req, res });
 

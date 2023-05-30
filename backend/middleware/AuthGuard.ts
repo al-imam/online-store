@@ -1,11 +1,11 @@
-import verifyJWTToken from "../util/VerifyJWTToken";
+import { verify } from "../util/jwt";
 import wrap from "@/utility/wrapHandler";
 import { isValidObjectId } from "mongoose";
 
 export default wrap(async (req, res, next) => {
   const auth = req.headers.authorization;
   if (auth && auth.startsWith("Bearer ")) {
-    const { id } = verifyJWTToken(auth.replace("Bearer ", ""));
+    const { id } = await verify(auth.replace("Bearer ", ""));
 
     if (id !== null && isValidObjectId(id)) {
       if (
