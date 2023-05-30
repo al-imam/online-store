@@ -29,7 +29,10 @@ export default function ({
   phone = countries.BD.phone,
   country = countries.BD.name,
   callback = "addNewAddress",
-}: Partial<typeof init & { callback: "addNewAddress" }>) {
+  id = "",
+}: Partial<
+  typeof init & { callback: "addNewAddress" | "updateAddress"; id: string }
+>) {
   const [address, updateAddress] = useObjectStore({
     state,
     street,
@@ -50,6 +53,7 @@ export default function ({
 
     ac[callback]({
       ...address,
+      id,
       onError(e: any) {
         console.log(e);
         toast.error("Something went wrong!");
