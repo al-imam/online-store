@@ -12,6 +12,7 @@ import validate from "nested-object-validate";
 import { Post } from "@/utility/request";
 import { removeCookies } from "cookies-next";
 import COOKIES from "@/utility/COOKIES";
+import { setCookie } from "cookies-next";
 
 interface User {
   name: string;
@@ -57,6 +58,7 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
 
     if (v.valid) {
       setCurrentUser(data.user);
+      setCookie(COOKIES, data.auth);
     } else {
       setCurrentUser(null);
     }
