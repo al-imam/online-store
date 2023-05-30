@@ -17,7 +17,10 @@ const getAddresses = wrap(async (req, res) => {
 }, "get-addresses");
 
 const getAddress = wrap(async (req, res) => {
-  const address = await Address.findById(req.body.VALID_ID.addressId);
+  const address = await Address.findOne({
+    _id: req.body.VALID_ID.addressId,
+    user: req.body.ID,
+  });
 
   if (address === null) {
     return res.status(400).json({
@@ -30,7 +33,10 @@ const getAddress = wrap(async (req, res) => {
 }, "get-address");
 
 const removeAddress = wrap(async (req, res) => {
-  const address = await Address.findByIdAndDelete(req.body.VALID_ID.addressId);
+  const address = await Address.findOneAndDelete({
+    _id: req.body.VALID_ID.addressId,
+    user: req.body.ID,
+  });
 
   if (address === null) {
     return res.status(400).json({
@@ -43,8 +49,11 @@ const removeAddress = wrap(async (req, res) => {
 }, "remove-address");
 
 const updateAddress = wrap(async (req, res) => {
-  const address = await Address.findByIdAndUpdate(
-    req.body.VALID_ID.addressId,
+  const address = await Address.findOneAndUpdate(
+    {
+      _id: req.body.VALID_ID.addressId,
+      user: req.body.ID,
+    },
     req.body.VALID_REQ
   );
 
