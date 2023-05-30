@@ -15,15 +15,31 @@ const init = {
   city: "",
   state: "",
   zip: "",
-  phone: countries.BD.phone,
-  country: countries.BD.name,
+  phone: "",
+  country: "",
 };
 
 export type Address = typeof init;
 
-export default function () {
-  const [address, updateAddress] = useObjectStore(init);
-  const { addNewAddress } = useAddress();
+export default function ({
+  street = "",
+  city = "",
+  state = "",
+  zip = "",
+  phone = countries.BD.phone,
+  country = countries.BD.name,
+  callback = "addNewAddress",
+}: Partial<typeof init & { callback: "addNewAddress" }>) {
+  const [address, updateAddress] = useObjectStore({
+    state,
+    street,
+    city,
+    zip,
+    phone,
+    country,
+  });
+
+  const ac = useAddress();
 
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
@@ -32,15 +48,15 @@ export default function () {
       return toast.error("All information is not filled!");
     }
 
-    addNewAddress({
+    ac[callback]({
       ...address,
-      onError(e) {
+      onError(e: any) {
         console.log(e);
         toast.error("Something went wrong!");
       },
       onSuccess() {
         updateAddress(init);
-        toast.success("address added successfully!");
+        toast.success("address update successfully!");
       },
     });
   };
