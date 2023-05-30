@@ -8,7 +8,7 @@ import { ToastContainer } from "react-toastify";
 function GlobalProvider({ children }: { children: React.ReactNode }) {
   return (
     <AuthProvider>
-      <ToastContainer position="top-center" />
+      <ToastContainer position="top-center" limit={1} autoClose={2000} />
       <AddressProvider>{children}</AddressProvider>
     </AuthProvider>
   );
