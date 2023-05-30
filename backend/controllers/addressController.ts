@@ -16,4 +16,10 @@ const getAddresses = wrap(async (req, res) => {
   res.status(200).json(addresses);
 }, "get-addresses");
 
-export { addAddress, getAddresses };
+const getAddress = wrap(async (req, res) => {
+  const address = await Address.findById(req.body.VALID_ID.addressId);
+
+  res.status(200).json(address);
+}, "get-address");
+
+export { addAddress, getAddresses, getAddress };
