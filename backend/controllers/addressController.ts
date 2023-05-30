@@ -19,7 +19,27 @@ const getAddresses = wrap(async (req, res) => {
 const getAddress = wrap(async (req, res) => {
   const address = await Address.findById(req.body.VALID_ID.addressId);
 
+  if (address === null) {
+    return res.status(400).json({
+      code: "not-found",
+      message: "address not found",
+    });
+  }
+
   res.status(200).json(address);
 }, "get-address");
 
-export { addAddress, getAddresses, getAddress };
+const removeAddress = wrap(async (req, res) => {
+  const address = await Address.findOneAndDelete(req.body.VALID_ID.addressId);
+
+  if (address === null) {
+    return res.status(400).json({
+      code: "not-found",
+      message: "address not found",
+    });
+  }
+
+  res.status(200).json(address);
+}, "remove-address");
+
+export { addAddress, getAddresses, getAddress, removeAddress };
