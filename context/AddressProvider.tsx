@@ -2,7 +2,7 @@
 
 import { ReactNode, createContext, useContext } from "react";
 import { Address } from "@/components/user/NewAddress";
-import { Post, Put } from "@/utility/request";
+import { Delete, Post, Put } from "@/utility/request";
 import { getCookie } from "cookies-next";
 import COOKIES from "@/utility/COOKIES";
 
@@ -21,6 +21,11 @@ interface AddressInterface {
       id: string;
     }
   ) => Promise<void>;
+  removeAddress: (object: {
+    onError?: (e: any) => void;
+    onSuccess?: () => void;
+    id: string;
+  }) => Promise<void>;
 }
 
 const Context = createContext<AddressInterface | null>(null);
@@ -66,8 +71,27 @@ export function AddressProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  async function removeAddress({
+    onError = () => {},
+    onSuccess = () => {},
+    id,
+  }: {
+    onError?: (e: any) => void;
+    onSuccess?: () => void;
+    id: string;
+  }) {
+    try {
+      await Delete(`address/${id}`, {
+        headers: { Authorization: `Bearer ${getCookie(COOKIES)}` },
+      });
+      onSuccess();
+    } catch (e: any) {
+      onError(e);
+    }
+  }
+
   return (
-    <Context.Provider value={{ addNewAddress, updateAddress }}>
+    <Context.Provider value={{ addNewAddress, updateAddress, removeAddress }}>
       {children}
     </Context.Provider>
   );

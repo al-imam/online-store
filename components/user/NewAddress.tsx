@@ -5,6 +5,7 @@ import { countries } from "countries-list";
 import useObjectStore from "use-object-store";
 import useAddress from "@/context/AddressProvider";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const countriesList = Object.values(countries).sort((a, b) =>
   a.name.localeCompare(b.name)
@@ -48,6 +49,7 @@ export default function ({
   });
 
   const ac = useAddress();
+  const router = useRouter();
 
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
@@ -64,11 +66,27 @@ export default function ({
         toast.error("Something went wrong!");
       },
       onSuccess() {
+        router.push("/me");
         updateAddress(init);
         toast.success("address update successfully!");
       },
     });
   };
+
+  function remove() {
+    ac.removeAddress({
+      id,
+      onError(e: any) {
+        console.log(e);
+        toast.error("Something went wrong!");
+      },
+      onSuccess() {
+        router.push("/me");
+        updateAddress(init);
+        toast.success("address deleted successfully!");
+      },
+    });
+  }
 
   return (
     <>
@@ -175,7 +193,8 @@ export default function ({
               </button>
 
               <button
-                type="submit"
+                type="button"
+                onClick={remove}
                 className="my-2 px-4 py-2 text-center w-full inline-block text-white bg-red-600 border border-transparent rounded-md hover:bg-red-700"
               >
                 Delete
