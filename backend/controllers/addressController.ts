@@ -30,7 +30,7 @@ const getAddress = wrap(async (req, res) => {
 }, "get-address");
 
 const removeAddress = wrap(async (req, res) => {
-  const address = await Address.findOneAndDelete(req.body.VALID_ID.addressId);
+  const address = await Address.findByIdAndDelete(req.body.VALID_ID.addressId);
 
   if (address === null) {
     return res.status(400).json({

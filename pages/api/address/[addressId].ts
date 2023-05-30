@@ -1,6 +1,10 @@
 import createRouter from "next-connect";
 import dbConnect from "@/backend/config/dbConnect";
-import { updateAddress } from "@/backend/controllers/addressController";
+import {
+  updateAddress,
+  getAddress,
+  removeAddress,
+} from "@/backend/controllers/addressController";
 import validateBody from "@/backend/middleware/validateBody";
 import { countries } from "countries-list";
 import AuthGuard from "@/backend/middleware/AuthGuard";
@@ -47,6 +51,14 @@ router.put(
   validateObjectId(["addressId"], "query"),
   AuthGuard,
   updateAddress
+);
+
+router.get(validateObjectId(["addressId"], "query"), AuthGuard, getAddress);
+
+router.delete(
+  validateObjectId(["addressId"], "query"),
+  AuthGuard,
+  removeAddress
 );
 
 export default router;

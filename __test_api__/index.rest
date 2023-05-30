@@ -59,7 +59,7 @@ Content-Type: application/json
 
 
 
-### singup
+### add new address
 POST http://localhost:3000/api/address
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzM5ODA4NDZkMzU4ZTAyNDVhOTNkZiIsImlhdCI6MTY4NTM4NTA0NX0.JcGbvSMcxK_ljaUg64jlhc9RU8OUmpYpCVKI7gsOcxI
 Content-Type: application/json
@@ -73,12 +73,12 @@ Content-Type: application/json
   "zip": "3800"
 }
 
-### get al addresses fix issue get all address by single user 
+### get all addresses by user id
 GET http://localhost:3000/api/address
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzM5ODA4NDZkMzU4ZTAyNDVhOTNkZiIsImlhdCI6MTY4NTM4NTA0NX0.JcGbvSMcxK_ljaUg64jlhc9RU8OUmpYpCVKI7gsOcxI
 
 
-### get al addresses fix issue get all address by single user 
+### update address by id
 PUT http://localhost:3000/api/address/6473d654a36548318b0c0c01
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzM5ODA4NDZkMzU4ZTAyNDVhOTNkZiIsImlhdCI6MTY4NTM4NTA0NX0.JcGbvSMcxK_ljaUg64jlhc9RU8OUmpYpCVKI7gsOcxI
 Content-Type: application/json
@@ -91,3 +91,13 @@ Content-Type: application/json
   "phone": "01881614926",
   "zip": "4664"
 }
+
+
+### get address
+GET http://localhost:3000/api/address/6473d654a36548318b0c0c01
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzM5ODA4NDZkMzU4ZTAyNDVhOTNkZiIsImlhdCI6MTY4NTM4NTA0NX0.JcGbvSMcxK_ljaUg64jlhc9RU8OUmpYpCVKI7gsOcxI
+
+
+### delete address
+DELETE  http://localhost:3000/api/address/6473d654a36548318b0c0c01
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzM5ODA4NDZkMzU4ZTAyNDVhOTNkZiIsImlhdCI6MTY4NTM4NTA0NX0.JcGbvSMcxK_ljaUg64jlhc9RU8OUmpYpCVKI7gsOcxI
