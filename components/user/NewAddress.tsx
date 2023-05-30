@@ -30,15 +30,20 @@ export default function ({
   country = countries.BD.name,
   callback = "addNewAddress",
   id = "",
+  title = "Add new Address",
 }: Partial<
-  typeof init & { callback: "addNewAddress" | "updateAddress"; id: string }
+  typeof init & {
+    callback: "addNewAddress" | "updateAddress";
+    id: string;
+    title: string;
+  }
 >) {
   const [address, updateAddress] = useObjectStore({
     state,
     street,
     city,
-    zip,
-    phone,
+    zip: zip.toString(),
+    phone: phone.toString(),
     country,
   });
 
@@ -72,7 +77,7 @@ export default function ({
         className="mt-1 mb-20 p-4 md:p-7 mx-auto rounded bg-white shadow-lg"
       >
         <form onSubmit={submitHandler}>
-          <h2 className="mb-5 text-2xl font-semibold">Add new Address</h2>
+          <h2 className="mb-5 text-2xl font-semibold">{title}</h2>
 
           <div className="mb-4 md:col-span-2">
             <label className="block mb-1"> Street* </label>
@@ -153,13 +158,30 @@ export default function ({
               ))}
             </select>
           </div>
+          {title === "Add new Address" ? (
+            <button
+              type="submit"
+              className="my-2 px-4 py-2 text-center w-full inline-block text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700"
+            >
+              Add
+            </button>
+          ) : (
+            <div className="grid md:grid-cols-2 gap-x-3">
+              <button
+                type="submit"
+                className="my-2 px-4 py-2 text-center w-full inline-block text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700"
+              >
+                Update
+              </button>
 
-          <button
-            type="submit"
-            className="my-2 px-4 py-2 text-center w-full inline-block text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700"
-          >
-            Add
-          </button>
+              <button
+                type="submit"
+                className="my-2 px-4 py-2 text-center w-full inline-block text-white bg-red-600 border border-transparent rounded-md hover:bg-red-700"
+              >
+                Delete
+              </button>
+            </div>
+          )}
         </form>
       </div>
     </>
