@@ -10,7 +10,7 @@ export default function ({ addresses }: AddressesProps) {
   return (
     <Fragment>
       {addresses.map((address) => (
-        <Link href={`/address/${address._id}`} key={address._id}>
+        <Link href={`/me/address/${address._id}`} key={address._id}>
           <div className="mb-5 gap-4">
             <figure className="w-full flex align-center bg-gray-100 p-4 rounded-md cursor-pointer">
               <div className="mr-3">
