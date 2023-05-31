@@ -1,7 +1,8 @@
 "use client";
 
 import Input from "@/components/form/Input";
-import { ChangeEvent } from "react";
+import { split } from "postcss/lib/list";
+import { ChangeEvent, useRef } from "react";
 import useObjectStore from "use-object-store";
 
 const init = {
@@ -16,12 +17,16 @@ export default function () {
   const [store, updateStore] =
     useObjectStore<Modify<typeof init, { url: string | null }>>(init);
 
+  const ref = useRef<HTMLInputElement | null>(null);
+
   function onImageChnange(event: ChangeEvent<HTMLInputElement>) {
     if (event.target.files && event.target.files[0]) {
       return updateStore({ url: URL.createObjectURL(event.target.files[0]) });
     }
     updateStore({ url: null });
   }
+
+  const file = ref.current && ref.current.files && ref.current.files[0];
 
   return (
     <div
@@ -61,9 +66,19 @@ export default function () {
             .
             <div className="space-y-2">
               <h4 className="text-base font-semibold text-gray-700">
-                Upload a file
+                {file
+                  ? file.name.length > 25
+                    ? `${file.name.substring(0, 20)}....${file.name
+                        .split(".")
+                        .at(-1)}`
+                        .replaceAll(" ", "-")
+                        .toLowerCase()
+                    : file.name
+                  : "Upload a file"}
               </h4>
-              <span className="text-sm text-gray-500">Max 2 MB</span>
+              <span className="text-sm text-gray-500">
+                {file ? `${(file.size / 1024).toFixed(2)} KB` : "Max 2 MB"}
+              </span>
             </div>
             <input
               type="file"
@@ -71,6 +86,7 @@ export default function () {
               name="avatar"
               accept=".png,.jpg,.jpeg"
               onChange={onImageChnange}
+              ref={ref}
               hidden
             />
           </label>
