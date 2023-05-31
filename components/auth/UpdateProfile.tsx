@@ -1,8 +1,16 @@
 "use client";
 
 import Input from "@/components/form/Input";
+import useObjectStore from "use-object-store";
+
+const init = {
+  name: "",
+  email: "",
+};
 
 export default function () {
+  const [store, updateStore] = useObjectStore(init);
+
   return (
     <div
       style={{ maxWidth: "480px" }}
@@ -15,23 +23,30 @@ export default function () {
           type="text"
           placeholder="Type your name"
           text="Full name"
-          setValue={() => {}}
+          setValue={(name) => updateStore({ name })}
+          value={store.name}
         />
 
         <Input
           type="email"
           placeholder="Type your email"
           text="Email"
-          setValue={() => {}}
+          setValue={(email) => updateStore({ email })}
+          value={store.email}
         />
 
         <div className="mb-4">
           <span className="block mb-1"> Avatar </span>
           <label
-            htmlFor="doc"
+            htmlFor="avatar"
             className="flex items-center p-4 gap-3 rounded-3xl border border-gray-300 border-dashed bg-gray-50 cursor-pointer"
           >
-            <img className="h-16 w-auto" src="/upload-cloud.png" alt="" />.
+            <img
+              className="h-16 w-auto"
+              src="/upload-cloud.png"
+              alt="cloud icon"
+            />
+            .
             <div className="space-y-2">
               <h4 className="text-base font-semibold text-gray-700">
                 Upload a file
