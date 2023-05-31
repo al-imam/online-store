@@ -1,5 +1,7 @@
 "use client";
 
+import Input from "@/components/form/Input";
+
 export default function () {
   return (
     <div
@@ -9,40 +11,41 @@ export default function () {
       <form>
         <h2 className="mb-5 text-2xl font-semibold">Update Profile</h2>
 
-        <div className="mb-4">
-          <label className="block mb-1"> Full Name </label>
-          <input
-            className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
-            type="text"
-            placeholder="Type your name"
-            required
-          />
-        </div>
+        <Input
+          type="text"
+          placeholder="Type your name"
+          text="Full name"
+          setValue={() => {}}
+        />
+
+        <Input
+          type="email"
+          placeholder="Type your email"
+          text="Email"
+          setValue={() => {}}
+        />
 
         <div className="mb-4">
-          <label className="block mb-1"> Email </label>
-          <input
-            className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
-            type="text"
-            placeholder="Type your email"
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block mb-1"> Avatar </label>
-          <div className="mb-4 flex flex-col md:flex-row">
-            <div className="flex items-center mb-4 space-x-3 mt-4 cursor-pointer md:w-1/5 lg:w-1/4">
-              <img className="w-14 h-14 rounded-full" />
+          <span className="block mb-1"> Avatar </span>
+          <label
+            htmlFor="doc"
+            className="flex items-center p-4 gap-3 rounded-3xl border border-gray-300 border-dashed bg-gray-50 cursor-pointer"
+          >
+            <img className="h-16 w-auto" src="/upload-cloud.png" alt="" />.
+            <div className="space-y-2">
+              <h4 className="text-base font-semibold text-gray-700">
+                Upload a file
+              </h4>
+              <span className="text-sm text-gray-500">Max 2 MB</span>
             </div>
-            <div className="md:w-2/3 lg:w-80">
-              <input
-                className="form-control block w-full px-2 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none mt-6"
-                type="file"
-                id="form-file"
-              />
-            </div>
-          </div>
+            <input
+              type="file"
+              id="avatar"
+              name="avatar"
+              accept=".png,.jpg,.jpeg"
+              hidden
+            />
+          </label>
         </div>
 
         <button
