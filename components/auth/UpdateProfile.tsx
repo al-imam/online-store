@@ -1,15 +1,27 @@
 "use client";
 
 import Input from "@/components/form/Input";
+import { ChangeEvent } from "react";
 import useObjectStore from "use-object-store";
 
 const init = {
   name: "",
   email: "",
+  url: null,
 };
 
+type Modify<T, R> = Omit<T, keyof R> & R;
+
 export default function () {
-  const [store, updateStore] = useObjectStore(init);
+  const [store, updateStore] =
+    useObjectStore<Modify<typeof init, { url: string | null }>>(init);
+
+  function onImageChnange(event: ChangeEvent<HTMLInputElement>) {
+    if (event.target.files && event.target.files[0]) {
+      return updateStore({ url: URL.createObjectURL(event.target.files[0]) });
+    }
+    updateStore({ url: null });
+  }
 
   return (
     <div
@@ -43,7 +55,7 @@ export default function () {
           >
             <img
               className="h-16 w-auto"
-              src="/upload-cloud.png"
+              src={store.url === null ? "/upload-cloud.png" : store.url}
               alt="cloud icon"
             />
             .
@@ -58,6 +70,7 @@ export default function () {
               id="avatar"
               name="avatar"
               accept=".png,.jpg,.jpeg"
+              onChange={onImageChnange}
               hidden
             />
           </label>
