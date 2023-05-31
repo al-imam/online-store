@@ -21,7 +21,7 @@ function save(
 
       (err, result) => {
         if (result !== undefined) {
-          return resolve({
+          resolve({
             id: result.public_id,
             url: result.url,
           });
