@@ -6,6 +6,9 @@ import COOKIES from "@/utility/COOKIES";
 import { verify } from "@/backend/util/jwt";
 import { Types } from "mongoose";
 import User from "@/backend/models/user";
+import { UserInterfaceWithId } from "@/types/UserInterface";
+import validate from "nested-object-validate";
+import emailRegex from "@/utility/regex";
 
 dbConnect();
 
@@ -16,6 +19,19 @@ export const config: PageConfig = {
 };
 
 const router = createRouter();
+
+function SHOC(
+  name: string,
+  callback: (value: any) => boolean | string
+): [string, (value: any) => string | boolean] {
+  return [
+    name,
+    (value: any) => {
+      if (typeof value === "undefined") return true;
+      return callback(value);
+    },
+  ];
+}
 
 router.post(
   async (req, res, next) => {
@@ -37,9 +53,32 @@ router.post(
     });
   },
   multer.single("avatar"),
-  (req, res) => {
-    /* @ts-ignore */
-    console.log(req.$USER);
+  async (req, res) => {
+    const { $USER } = req as typeof req & { $USER: UserInterfaceWithId };
+
+    const v = validate(
+      Object.assign({}, req.body),
+      [
+        SHOC("name", (name) => typeof name === "string"),
+        SHOC(
+          "email",
+          (email) =>
+            typeof email === "string" && email.match(emailRegex) !== null
+        ),
+      ],
+      {
+        strict: false,
+      }
+    );
+
+    if (!v.valid) {
+      return res.status(400).json({
+        message: "some properties are missing or invalid",
+        missing: v.missing,
+        invalid: v.invalid,
+      });
+    }
+
     res.json(req.file);
   }
 );

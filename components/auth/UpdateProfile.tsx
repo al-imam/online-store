@@ -83,7 +83,7 @@ export default function () {
         type="text"
         placeholder="Type your name"
         text="Full name"
-        name="password"
+        name="name"
         setValue={(name) => updateUserInfo({ name })}
         value={userInfo.name}
       />

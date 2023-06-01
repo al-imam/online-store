@@ -1,16 +1,7 @@
 import getProfile from "@/utility/getProfile";
 import { Model, Schema, model, models, SchemaTypes } from "mongoose";
 import { hashSync } from "bcryptjs";
-
-type AvatarType = string | { bg: string; fg: string; char: string };
-
-interface UserInterface {
-  name: string;
-  email: string;
-  password: string;
-  avatar: AvatarType;
-  role: string;
-}
+import { UserInterface } from "@/types/UserInterface";
 
 const user = new Schema<UserInterface>(
   {
