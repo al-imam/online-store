@@ -1,4 +1,11 @@
 import multer, { diskStorage } from "multer";
+import crypto from "crypto";
+
+const generateUuid = () => {
+  return [4, 2, 2, 2, 6]
+    .map((group) => crypto.randomBytes(group).toString("hex"))
+    .join("-");
+};
 
 const time = new Intl.DateTimeFormat("en", {
   day: "2-digit",
@@ -15,7 +22,7 @@ function getTime() {
     .slice(0, -3)
     .replaceAll("/", "-")
     .replaceAll(":", "-")
-    .replaceAll(", ", "-");
+    .replaceAll(", ", "_");
 }
 
 export default multer({
