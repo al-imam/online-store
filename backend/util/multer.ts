@@ -30,19 +30,16 @@ export default multer({
     destination: function (req, file, callback) {
       callback(null, "public/saves");
     },
+
     filename: function (req, { originalname }, callback) {
       callback(
         null,
-        `${originalname
-          .trim()
-          .toLowerCase()
-          .replaceAll(" ", "")
-          .replaceAll("\n", "")}-${getTime()}`
+        `${getTime()}_${generateUuid()}.${originalname.split(".").at(-1)}`
       );
     },
   }),
 
-  fileFilter(req, file, callback) {
-    callback(null, ["jpeg", "png", "jpg"].includes(file.mimetype));
+  fileFilter(_, file, callback) {
+    callback(undefined as any, file.mimetype.includes("image/"));
   },
 });
