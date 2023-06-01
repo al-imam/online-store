@@ -6,7 +6,7 @@ v2.config({
   api_secret: process.env.SETUP_PLEASE,
 });
 
-function save(
+export default function (
   file: string,
   folder: string
 ): Promise<{ id: string; url: string }> {
@@ -32,5 +32,3 @@ function save(
     );
   });
 }
-
-export { save };

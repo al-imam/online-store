@@ -79,7 +79,16 @@ router.post(
       });
     }
 
-    res.json(req.file);
+    const updateUser = await User.findByIdAndUpdate($USER._id, v.checked);
+
+    if (updateUser === null) {
+      return res.status(400).json({
+        code: "update-profile",
+        message: "Internal Server Error!",
+      });
+    }
+
+    res.status(200).json(updateUser);
   }
 );
 
