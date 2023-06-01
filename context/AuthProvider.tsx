@@ -13,6 +13,7 @@ import { Post } from "@/utility/request";
 import { removeCookies } from "cookies-next";
 import COOKIES from "@/utility/COOKIES";
 import { setCookie, getCookie } from "cookies-next";
+import { dispatchManualChange, listen } from "@/utility/event";
 
 interface User {
   name: string;
@@ -92,15 +93,13 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    window.addEventListener("local-changed", function (e) {
-      console.log(localStorage);
-    });
+    const destroyListen = listen(() => console.log("changed"));
+    const destroyDispatch = dispatchManualChange();
 
-    window.addEventListener("storage", function (event) {
-      if (event.storageArea === localStorage) {
-        window.dispatchEvent(new CustomEvent("local-changed"));
-      }
-    });
+    return () => {
+      destroyListen();
+      destroyDispatch();
+    };
   }, []);
 
   function singout(callback: () => void = () => {}) {
