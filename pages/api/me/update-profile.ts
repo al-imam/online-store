@@ -14,8 +14,7 @@ export const config: PageConfig = {
 const router = createRouter();
 
 router.post(multer.single("avatar"), (req, res) => {
-  console.log(req.file);
-  res.send("noting");
+  console.log(req.file, req.body);
 });
 
 export default router;
