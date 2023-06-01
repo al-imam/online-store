@@ -58,14 +58,7 @@ router.post(
 
     const v = validate(
       Object.assign({}, req.body),
-      [
-        SHOC("name", (name) => typeof name === "string"),
-        SHOC(
-          "email",
-          (email) =>
-            typeof email === "string" && email.match(emailRegex) !== null
-        ),
-      ],
+      [SHOC("name", (name) => typeof name === "string")],
       {
         strict: false,
       }
@@ -79,7 +72,9 @@ router.post(
       });
     }
 
-    const updateUser = await User.findByIdAndUpdate($USER._id, v.checked);
+    const updateUser = await User.findByIdAndUpdate($USER._id, v.checked, {
+      new: true,
+    }).select("-password");
 
     if (updateUser === null) {
       return res.status(400).json({

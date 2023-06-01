@@ -9,7 +9,6 @@ import { toast } from "react-toastify";
 
 interface Store {
   name: string;
-  email: string;
   url: null | string;
 }
 
@@ -26,7 +25,6 @@ export default function () {
 
   const [userInfo, updateUserInfo] = useObjectStore<Store>({
     name: currentUser.name,
-    email: currentUser.email,
     url: null,
   });
 
@@ -44,29 +42,21 @@ export default function () {
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const data = new FormData(event.target as any);
-    if (
-      userInfo.email.trim() !== "" ||
-      userInfo.name.trim() !== "" ||
-      userInfo.url !== null
-    ) {
-      if (
-        userInfo.email.trim() !== "" &&
-        userInfo.email.match(emailRegex) === null
-      ) {
-        return toast.error("Enter valid email");
-      }
 
-      updateProfile({
-        formData: data,
-        onSuccess(v) {
-          console.log(v);
-        },
-        onError(e) {
-          console.log(e);
-        },
-      });
+    const data = new FormData(event.target as any);
+    if (userInfo.name.trim() === "" && userInfo.url === null) {
+      return toast.error("Add name or avatar");
     }
+
+    updateProfile({
+      formData: data,
+      onSuccess(v) {
+        console.log(v);
+      },
+      onError(e) {
+        console.log(e);
+      },
+    });
   }
 
   const file = ref.current && ref.current.files && ref.current.files[0];
@@ -86,15 +76,6 @@ export default function () {
         name="name"
         setValue={(name) => updateUserInfo({ name })}
         value={userInfo.name}
-      />
-
-      <Input
-        type="email"
-        placeholder="Type your email"
-        text="Email"
-        name="email"
-        setValue={(email) => updateUserInfo({ email })}
-        value={userInfo.email}
       />
 
       <div className="mb-4">
