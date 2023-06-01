@@ -12,13 +12,15 @@ import validate from "nested-object-validate";
 import { Post } from "@/utility/request";
 import { removeCookies } from "cookies-next";
 import COOKIES from "@/utility/COOKIES";
-import { setCookie } from "cookies-next";
+import { setCookie, getCookie } from "cookies-next";
 
 interface User {
   name: string;
   email: string;
   password: string;
 }
+
+type Modify<T, R> = Omit<T, keyof R> & R;
 
 interface CurrentUser extends Omit<User, "password"> {
   avatar: string | { char: string; bg: string; fg: string };
@@ -34,6 +36,29 @@ interface Value {
   singin: (object: Omit<Auth, "name">) => void;
   singout: (callback?: () => void) => void;
   currentUser: CurrentUser | null;
+  updateProfile: ({
+    onError,
+    onSuccess,
+    formData,
+  }: Modify<
+    Pick<Auth, "onError" | "onSuccess">,
+    {
+      onSuccess: (v: CurrentUser) => void;
+      formData: FormData;
+    }
+  >) => Promise<void>;
+}
+
+function merge(user: CurrentUser) {
+  const oldUserData = JSON.parse(localStorage.getItem(localName)!);
+  if (oldUserData !== null) {
+    return localStorage.setItem(
+      localName,
+      JSON.stringify({ auth: oldUserData.auth, user })
+    );
+  }
+
+  throw new Error("unauthenticated");
 }
 
 const AuthContext = createContext<Value | null>(null);
@@ -106,8 +131,30 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
     }
   }
 
+  async function updateProfile({
+    onError = () => {},
+    onSuccess = () => {},
+    formData,
+  }: Modify<
+    Pick<Auth, "onError" | "onSuccess">,
+    { onSuccess: (v: CurrentUser) => void; formData: FormData }
+  >) {
+    try {
+      const { data } = await Post<CurrentUser>("me/update-profile", formData, {
+        headers: { Authorization: `Bearer ${getCookie(COOKIES)}` },
+      });
+      onSuccess(data);
+      setCurrentUser(data);
+      merge(data);
+    } catch (e) {
+      onError(e);
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ singout, singup, singin, currentUser }}>
+    <AuthContext.Provider
+      value={{ singout, singup, singin, currentUser, updateProfile }}
+    >
       {wait || children}
     </AuthContext.Provider>
   );
