@@ -2,9 +2,10 @@
 
 import Input from "@/components/form/Input";
 import useAuth from "@/context/AuthProvider";
-import { Post } from "@/utility/request";
 import { ChangeEvent, FormEvent, useRef } from "react";
 import useObjectStore from "use-object-store";
+import emailRegex from "@/utility/regex";
+import { toast } from "react-toastify";
 
 interface Store {
   name: string;
@@ -17,13 +18,13 @@ type NoUndefinedField<T> = {
 };
 
 type CurrentUser = NoUndefinedField<
-  Pick<ReturnType<typeof useAuth>, "currentUser">
+  Pick<ReturnType<typeof useAuth>, "currentUser" | "updateProfile">
 >;
 
 export default function () {
-  const { currentUser } = useAuth() as CurrentUser;
+  const { currentUser, updateProfile } = useAuth() as CurrentUser;
 
-  const [store, updateStore] = useObjectStore<Store>({
+  const [userInfo, updateUserInfo] = useObjectStore<Store>({
     name: currentUser.name,
     email: currentUser.email,
     url: null,
@@ -33,23 +34,46 @@ export default function () {
 
   function onImageChnange(event: ChangeEvent<HTMLInputElement>) {
     if (event.target.files && event.target.files[0]) {
-      return updateStore({ url: URL.createObjectURL(event.target.files[0]) });
+      return updateUserInfo({
+        url: URL.createObjectURL(event.target.files[0]),
+      });
     }
-    updateStore({ url: null });
+    updateUserInfo({ url: null });
     ref.current && (ref.current.value = "");
   }
 
-  async function updateProfile(event: FormEvent<HTMLFormElement>) {
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.target as any);
-    await Post("me/update-profile", data);
+    if (
+      userInfo.email.trim() !== "" ||
+      userInfo.name.trim() !== "" ||
+      userInfo.url !== null
+    ) {
+      if (
+        userInfo.email.trim() !== "" &&
+        userInfo.email.match(emailRegex) === null
+      ) {
+        return toast.error("Enter valid email");
+      }
+
+      updateProfile({
+        formData: data,
+        onSuccess(v) {
+          console.log(v);
+        },
+        onError(e) {
+          console.log(e);
+        },
+      });
+    }
   }
 
   const file = ref.current && ref.current.files && ref.current.files[0];
 
   return (
     <form
-      onSubmit={updateProfile}
+      onSubmit={onSubmit}
       style={{ maxWidth: "480px" }}
       className="mt-1 mb-20 p-4 md:p-7 mx-auto rounded bg-white"
     >
@@ -60,8 +84,8 @@ export default function () {
         placeholder="Type your name"
         text="Full name"
         name="password"
-        setValue={(name) => updateStore({ name })}
-        value={store.name}
+        setValue={(name) => updateUserInfo({ name })}
+        value={userInfo.name}
       />
 
       <Input
@@ -69,8 +93,8 @@ export default function () {
         placeholder="Type your email"
         text="Email"
         name="email"
-        setValue={(email) => updateStore({ email })}
-        value={store.email}
+        setValue={(email) => updateUserInfo({ email })}
+        value={userInfo.email}
       />
 
       <div className="mb-4">
@@ -81,7 +105,7 @@ export default function () {
         >
           <img
             className="h-16 w-auto"
-            src={store.url === null ? "/upload-cloud.png" : store.url}
+            src={userInfo.url === null ? "/upload-cloud.png" : userInfo.url}
             alt="cloud icon"
           />
           .
