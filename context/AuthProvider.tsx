@@ -144,8 +144,8 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
         headers: { Authorization: `Bearer ${getCookie(COOKIES)}` },
       });
       onSuccess(data);
-      setCurrentUser(data);
-      merge(data);
+      // setCurrentUser(data);
+      // merge(data);
     } catch (e) {
       onError(e);
     }

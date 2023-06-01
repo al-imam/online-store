@@ -7,7 +7,8 @@ export async function sign(value: any) {
     .sign(new TextEncoder().encode(process.env.JWT_SECRET));
 }
 
-export async function verify(token: string) {
+export async function verify(token: string | undefined) {
+  if (token === undefined) return { id: null };
   try {
     const verified = await jwtVerify(
       token,
