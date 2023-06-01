@@ -2,7 +2,7 @@ export function dispatch() {
   window.dispatchEvent(new CustomEvent("local-changed"));
 }
 
-export function listen(callback: (event: Event) => void) {
+export function onLocalStorageChange(callback: (event: Event) => void) {
   window.addEventListener("local-changed", callback);
   return () => window.removeEventListener("local-changed", callback);
 }

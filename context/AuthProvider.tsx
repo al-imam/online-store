@@ -12,8 +12,8 @@ import validate from "nested-object-validate";
 import { Post } from "@/utility/request";
 import { removeCookies } from "cookies-next";
 import COOKIES from "@/utility/COOKIES";
-import { setCookie, getCookie } from "cookies-next";
-import { dispatchManualChange, listen } from "@/utility/event";
+import { setCookie, getCookie, hasCookie } from "cookies-next";
+import { dispatchManualChange, onLocalStorageChange } from "@/utility/event";
 import { parseLocal, removeLocal, setLocal } from "@/utility/store";
 
 interface User {
@@ -91,7 +91,7 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    const destroyListen = listen(() => {
+    const destroyListen = onLocalStorageChange(() => {
       const data = parseLocal(localName);
 
       const v = validate(data, [
@@ -102,13 +102,18 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
         ],
       ]);
 
-      if (v.valid) return;
+      if (v.valid) {
+        if (hasCookie(COOKIES)) return;
+        return setCookie(COOKIES, v.checked.auth);
+      }
 
       if (data !== null) {
         removeLocal(localName);
         removeCookies(COOKIES);
+        setCurrentUser(null);
       } else {
         removeCookies(COOKIES);
+        setCurrentUser(null);
       }
     });
 
