@@ -14,6 +14,7 @@ import { removeCookies } from "cookies-next";
 import COOKIES from "@/utility/COOKIES";
 import { setCookie, getCookie } from "cookies-next";
 import { dispatchManualChange, listen } from "@/utility/event";
+import { parseLocal, removeLocal, setLocal } from "@/utility/store";
 
 interface User {
   name: string;
@@ -51,12 +52,9 @@ interface Value {
 }
 
 function merge(user: CurrentUser) {
-  const oldUserData = JSON.parse(localStorage.getItem(localName)!);
+  const oldUserData = parseLocal(localName);
   if (oldUserData !== null) {
-    return localStorage.setItem(
-      localName,
-      JSON.stringify({ auth: oldUserData.auth, user })
-    );
+    return setLocal(localName, { auth: oldUserData.auth, user });
   }
 
   throw new Error("unauthenticated");
@@ -75,7 +73,7 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
   const [wait, setWait] = useState(true);
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem(localName) as string);
+    const data = parseLocal(localName);
 
     const v = validate(data, [
       ["auth", (auth) => typeof auth === "string"],
@@ -83,8 +81,8 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
     ]);
 
     if (v.valid) {
-      setCurrentUser(data.user);
-      setCookie(COOKIES, data.auth);
+      setCurrentUser(v.checked.user);
+      setCookie(COOKIES, v.checked.auth);
     } else {
       setCurrentUser(null);
     }
@@ -105,7 +103,7 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
   function singout(callback: () => void = () => {}) {
     callback();
     setCurrentUser(null);
-    localStorage.removeItem(localName);
+    removeLocal(localName);
     removeCookies(COOKIES);
   }
 
@@ -120,7 +118,7 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
       const { data } = await Post("auth/singup", { name, email, password });
       onSuccess();
       setCurrentUser(data.user);
-      localStorage.setItem(localName, JSON.stringify(data));
+      setLocal(localName, data);
     } catch (e) {
       onError(e);
     }
@@ -136,7 +134,7 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
       const { data } = await Post("auth/singin", { email, password });
       onSuccess();
       setCurrentUser(data.user);
-      localStorage.setItem(localName, JSON.stringify(data));
+      setLocal(localName, data);
     } catch (e) {
       onError(e);
     }
