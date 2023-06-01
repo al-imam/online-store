@@ -91,6 +91,18 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
     setWait(false);
   }, []);
 
+  useEffect(() => {
+    window.addEventListener("local-changed", function (e) {
+      console.log(localStorage);
+    });
+
+    window.addEventListener("storage", function (event) {
+      if (event.storageArea === localStorage) {
+        window.dispatchEvent(new CustomEvent("local-changed"));
+      }
+    });
+  }, []);
+
   function singout(callback: () => void = () => {}) {
     callback();
     setCurrentUser(null);
