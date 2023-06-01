@@ -91,7 +91,27 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    const destroyListen = listen(() => console.log("changed"));
+    const destroyListen = listen(() => {
+      const data = parseLocal(localName);
+
+      const v = validate(data, [
+        ["auth", (auth) => typeof auth === "string"],
+        [
+          "user",
+          (user, validate) => validate(user, ["name", "email", "avatar"]),
+        ],
+      ]);
+
+      if (v.valid) return;
+
+      if (data !== null) {
+        removeLocal(localName);
+        removeCookies(COOKIES);
+      } else {
+        removeCookies(COOKIES);
+      }
+    });
+
     const destroyDispatch = dispatchManualChange();
 
     return () => {
@@ -104,7 +124,6 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
     callback();
     setCurrentUser(null);
     removeLocal(localName);
-    removeCookies(COOKIES);
   }
 
   async function singup({
