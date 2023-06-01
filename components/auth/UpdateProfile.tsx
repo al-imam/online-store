@@ -1,21 +1,33 @@
 "use client";
 
 import Input from "@/components/form/Input";
+import useAuth from "@/context/AuthProvider";
 import { Post } from "@/utility/request";
 import { ChangeEvent, FormEvent, useRef } from "react";
 import useObjectStore from "use-object-store";
 
-const init = {
-  name: "",
-  email: "",
-  url: null,
+interface Store {
+  name: string;
+  email: string;
+  url: null | string;
+}
+
+type NoUndefinedField<T> = {
+  [P in keyof T]: Exclude<T[P], null | undefined>;
 };
 
-type Modify<T, R> = Omit<T, keyof R> & R;
+type CurrentUser = NoUndefinedField<
+  Pick<ReturnType<typeof useAuth>, "currentUser">
+>;
 
 export default function () {
-  const [store, updateStore] =
-    useObjectStore<Modify<typeof init, { url: string | null }>>(init);
+  const { currentUser } = useAuth() as CurrentUser;
+
+  const [store, updateStore] = useObjectStore<Store>({
+    name: currentUser.name,
+    email: currentUser.email,
+    url: null,
+  });
 
   const ref = useRef<HTMLInputElement | null>(null);
 
