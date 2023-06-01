@@ -47,6 +47,26 @@ const singin = wrap(async (req, res) => {
   });
 }, "singin");
 
+const updatePassword = wrap(async (req, res) => {
+  const user = await User.findById(req.body.ID);
+
+  if (user !== null) {
+    if (!compareSync(req.body.VALID_REQ.currentPassword, user.password)) {
+      user.password = req.body.VALID_REQ.password;
+      await user.save();
+      return res.status(200).json({
+        code: "success",
+        message: "password updated successfully!",
+      });
+    }
+  }
+
+  return res.status(401).json({
+    code: "password-not-match",
+    message: "current password not match!",
+  });
+}, "update-password");
+
 function remove({
   name,
   email,
@@ -60,4 +80,4 @@ function remove({
   return { name, email, avatar, _id, created, role };
 }
 
-export { singup, singin };
+export { singup, singin, updatePassword };
