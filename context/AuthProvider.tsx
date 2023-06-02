@@ -1,62 +1,45 @@
 "use client";
 
-import {
-  FunctionComponent,
-  ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
-import validate from "nested-object-validate";
-import { Post, Put } from "@/utility/request";
-import { removeCookies } from "cookies-next";
+import { UserWithOutPassword } from "@/types/UserInterface";
 import COOKIES from "@/utility/COOKIES";
-import { setCookie, getCookie, hasCookie } from "cookies-next";
 import { dispatchManualChange, onLocalStorageChange } from "@/utility/event";
+import { Post, Put } from "@/utility/request";
 import { parseLocal, removeLocal, setLocal } from "@/utility/store";
+import { getCookie, hasCookie, removeCookies, setCookie } from "cookies-next";
+import validate from "nested-object-validate";
+import type { FunctionComponent, ReactNode } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
-interface User {
+interface NEP {
   name: string;
   email: string;
   password: string;
 }
 
-type Modify<T, R> = Omit<T, keyof R> & R;
+type AuthFun<TObject, S = any> = (
+  values: TObject & Partial<CallBackFun<S>>
+) => void;
 
-interface CurrentUser extends Omit<User, "password"> {
-  avatar: string | { char: string; bg: string; fg: string };
-  _id: string;
-  created: string;
-  role: string;
+interface CurrentUser extends UserWithOutPassword {}
+
+type SingupFun = AuthFun<NEP>;
+type SinginFun = AuthFun<Omit<NEP, "name">>;
+type SingoutFun = (callback: () => void) => void;
+type UpdateProfileFun = AuthFun<{ formData: FormData }, CurrentUser>;
+type UpdatePasswordFun = AuthFun<{ current: string; password: string }>;
+
+interface CallBackFun<Res = any> {
+  onError: (e: any) => void;
+  onSuccess: (r?: Res) => void;
 }
 
-type Auth = User & { onError?: (e: any) => void; onSuccess?: () => void };
-
 interface Value {
-  singup: (object: Auth) => void;
-  singin: (object: Omit<Auth, "name">) => void;
-  singout: (callback?: () => void) => void;
+  singup: SingupFun;
+  singin: SinginFun;
+  singout: SingoutFun;
   currentUser: CurrentUser | null;
-  updateProfile: ({
-    onError,
-    onSuccess,
-    formData,
-  }: Modify<
-    Pick<Auth, "onError" | "onSuccess">,
-    {
-      onSuccess: (v: CurrentUser) => void;
-      formData: FormData;
-    }
-  >) => Promise<void>;
-  updatePassword: ({
-    password,
-    current,
-    onError,
-    onSuccess,
-  }: Omit<Auth, "name" | "email"> & {
-    current: string;
-  }) => Promise<void>;
+  updateProfile: UpdateProfileFun;
+  updatePassword: UpdatePasswordFun;
 }
 
 function merge(user: CurrentUser) {
@@ -133,19 +116,19 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
     };
   }, []);
 
-  function singout(callback: () => void = () => {}) {
+  const singout: SingoutFun = (callback) => {
     callback();
     setCurrentUser(null);
     removeLocal(localName);
-  }
+  };
 
-  async function singup({
+  const singup: SingupFun = async ({
     name,
     email,
     password,
     onError = () => {},
     onSuccess = () => {},
-  }: Auth) {
+  }) => {
     try {
       const { data } = await Post("auth/singup", { name, email, password });
       onSuccess();
@@ -154,14 +137,14 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
     } catch (e) {
       onError(e);
     }
-  }
+  };
 
-  async function singin({
+  const singin: SinginFun = async ({
     email,
     password,
     onError = () => {},
     onSuccess = () => {},
-  }: Omit<Auth, "name">) {
+  }) => {
     try {
       const { data } = await Post("auth/singin", { email, password });
       onSuccess();
@@ -170,14 +153,14 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
     } catch (e) {
       onError(e);
     }
-  }
+  };
 
-  async function updatePassword({
+  const updatePassword: UpdatePasswordFun = async ({
     password,
     current,
     onError = () => {},
     onSuccess = () => {},
-  }: Omit<Auth, "name" | "email"> & { current: string }) {
+  }) => {
     try {
       const { data } = await Put(
         "me/update-password",
@@ -190,16 +173,13 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
     } catch (e) {
       onError(e);
     }
-  }
+  };
 
-  async function updateProfile({
+  const updateProfile: UpdateProfileFun = async ({
     onError = () => {},
     onSuccess = () => {},
     formData,
-  }: Modify<
-    Pick<Auth, "onError" | "onSuccess">,
-    { onSuccess: (v: CurrentUser) => void; formData: FormData }
-  >) {
+  }) => {
     try {
       const { data } = await Post<CurrentUser>("me/update-profile", formData, {
         headers: { Authorization: `Bearer ${getCookie(COOKIES)}` },
@@ -210,7 +190,7 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
     } catch (e) {
       onError(e);
     }
-  }
+  };
 
   return (
     <AuthContext.Provider

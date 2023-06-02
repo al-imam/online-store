@@ -6,7 +6,7 @@ import COOKIES from "@/utility/COOKIES";
 import { verify } from "@/backend/util/jwt";
 import { Types } from "mongoose";
 import User from "@/backend/models/user";
-import { UserInterfaceWithId } from "@/types/UserInterface";
+import { UserWithId } from "@/types/UserInterface";
 import validate from "nested-object-validate";
 import emailRegex from "@/utility/regex";
 
@@ -54,7 +54,7 @@ router.post(
   },
   multer.single("avatar"),
   async (req, res) => {
-    const { $USER } = req as typeof req & { $USER: UserInterfaceWithId };
+    const { $USER } = req as typeof req & { $USER: UserWithId };
 
     const v = validate(
       Object.assign({}, req.body),

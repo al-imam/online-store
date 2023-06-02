@@ -10,6 +10,8 @@ export interface UserInterface {
   role: string;
 }
 
-export interface UserInterfaceWithId extends UserInterface {
+export interface UserWithId extends UserInterface {
   _id: ObjectId;
 }
+
+export type UserWithOutPassword = Omit<UserWithId, "password">;
