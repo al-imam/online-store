@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 import validate from "nested-object-validate";
-import { Post } from "@/utility/request";
+import { Post, Put } from "@/utility/request";
 import { removeCookies } from "cookies-next";
 import COOKIES from "@/utility/COOKIES";
 import { setCookie, getCookie, hasCookie } from "cookies-next";
@@ -159,6 +159,26 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
       onSuccess();
       setCurrentUser(data.user);
       setLocal(localName, data);
+    } catch (e) {
+      onError(e);
+    }
+  }
+
+  async function updatePassword({
+    password,
+    current,
+    onError = () => {},
+    onSuccess = () => {},
+  }: Omit<Auth, "name" | "email"> & { current: string }) {
+    try {
+      const { data } = await Put(
+        "me/update-password",
+        { password, current },
+        {
+          headers: { Authorization: `Bearer ${getCookie(COOKIES)}` },
+        }
+      );
+      onSuccess();
     } catch (e) {
       onError(e);
     }
