@@ -2,7 +2,7 @@ import { verify } from "../util/jwt";
 import wrap from "@/utility/wrapHandler";
 import { isValidObjectId } from "mongoose";
 
-export default wrap(async (req, res, next) => {
+const AuthGuard = wrap(async (req, res, next) => {
   const auth = req.headers.authorization;
   if (auth && auth.startsWith("Bearer ")) {
     const { id } = await verify(auth.replace("Bearer ", ""));
@@ -26,3 +26,5 @@ export default wrap(async (req, res, next) => {
     message: "authorization headers is not valid or not sent",
   });
 }, "authorization");
+
+export default AuthGuard;
