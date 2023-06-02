@@ -1,8 +1,15 @@
 "use client";
 
 import Input from "@/components/form/Input";
+import useAuth from "@/context/AuthProvider";
+import useObjectStore from "use-object-store";
+
+const init = { current: "", password: "" };
 
 export default function () {
+  const [store, updateStore] = useObjectStore(init);
+  const { updatePassword } = useAuth();
+
   const onSubmit = () => {};
 
   return (
@@ -17,16 +24,18 @@ export default function () {
           type="password"
           placeholder="Type your current password"
           text="Current password"
-          name="name"
-          setValue={(current) => {}}
+          name="current"
+          setValue={(current) => updateStore({ current })}
+          value={store.current}
         />
 
         <Input
           type="password"
           placeholder="Type your password"
           text="New password"
-          name="name"
-          setValue={(password) => {}}
+          name="password"
+          setValue={(password) => updateStore({ password })}
+          value={store.password}
         />
 
         <button

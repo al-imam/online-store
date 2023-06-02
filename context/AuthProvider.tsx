@@ -49,6 +49,14 @@ interface Value {
       formData: FormData;
     }
   >) => Promise<void>;
+  updatePassword: ({
+    password,
+    current,
+    onError,
+    onSuccess,
+  }: Omit<Auth, "name" | "email"> & {
+    current: string;
+  }) => Promise<void>;
 }
 
 function merge(user: CurrentUser) {
@@ -206,7 +214,14 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ singout, singup, singin, currentUser, updateProfile }}
+      value={{
+        singout,
+        singup,
+        singin,
+        currentUser,
+        updateProfile,
+        updatePassword,
+      }}
     >
       {wait || children}
     </AuthContext.Provider>
