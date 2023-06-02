@@ -1,11 +1,10 @@
-import getEnv from "@/utility/getEnv";
 import { jwtVerify, SignJWT } from "jose";
 
 export async function sign(value: any) {
   return await new SignJWT(value)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .sign(new TextEncoder().encode(getEnv("jose_secret_key")));
+    .sign(new TextEncoder().encode(process.env.JOSE_SECRET_KEY));
 }
 
 export async function verify(token: string | undefined) {
@@ -13,7 +12,7 @@ export async function verify(token: string | undefined) {
   try {
     const verified = await jwtVerify(
       token,
-      new TextEncoder().encode(getEnv("jose_secret_key"))
+      new TextEncoder().encode(process.env.JOSE_SECRET_KEY)
     );
     return verified.payload as { id: string };
   } catch (err) {

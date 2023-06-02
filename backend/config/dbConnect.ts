@@ -1,4 +1,3 @@
-import getEnv from "@/utility/getEnv";
 import mongoose from "mongoose";
 
 function dbConnect(): void {
@@ -7,7 +6,7 @@ function dbConnect(): void {
   }
 
   mongoose
-    .connect(getEnv("mongodb_uri"), { family: 4 })
+    .connect(process.env.MONGO_DB_URI as string, { family: 4 })
     .then(() => console.log("mongodb connected!"))
     .catch((e) => console.log(e));
 }
