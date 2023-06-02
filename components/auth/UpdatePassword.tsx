@@ -2,15 +2,38 @@
 
 import Input from "@/components/form/Input";
 import useAuth from "@/context/AuthProvider";
+import { FormEvent } from "react";
+import { toast } from "react-toastify";
 import useObjectStore from "use-object-store";
+import { useRouter } from "next/navigation";
 
 const init = { current: "", password: "" };
 
 export default function () {
   const [store, updateStore] = useObjectStore(init);
   const { updatePassword } = useAuth();
+  const router = useRouter();
 
-  const onSubmit = () => {};
+  const onSubmit = (e: FormEvent) => {
+    e.preventDefault();
+
+    if (!Object.values(store).every((v) => v.length > 5)) {
+      return toast.error("Enter valid current password and password ");
+    }
+
+    updatePassword({
+      ...store,
+      onSuccess() {
+        router.push("/me");
+        toast.success("Password updated successfully!");
+        updateStore(init);
+      },
+      onError(e) {
+        console.log(e);
+        toast.error("Something went wrong!");
+      },
+    });
+  };
 
   return (
     <div

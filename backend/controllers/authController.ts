@@ -51,8 +51,9 @@ const updatePassword = wrap(async (req, res) => {
   const user = await User.findById(req.body.ID);
 
   if (user !== null) {
-    if (!compareSync(req.body.VALID_REQ.currentPassword, user.password)) {
+    if (compareSync(req.body.VALID_REQ.current, user.password)) {
       user.password = req.body.VALID_REQ.password;
+
       await user.save();
       return res.status(200).json({
         code: "success",

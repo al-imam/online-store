@@ -8,12 +8,12 @@ dbConnect();
 
 const router = createRouter();
 
-router.post(
+router.put(
   validateBody([
     [
-      "currentPassword",
-      (cp) =>
-        (typeof cp === "string" && cp.length > 5) ||
+      "current",
+      (current) =>
+        (typeof current === "string" && current.length > 5) ||
         "you dump no password is shorter then 6 character",
     ],
     [
