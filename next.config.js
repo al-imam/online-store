@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
+
+const env = require("./env");
+
 const nextConfig = {
-  env: {
-    MONGO_URI: "mongodb://localhost:27017/my-app",
-    JWT_SECRET: "my-secret",
-  },
+  env: env,
   images: {
     domains: ["res.cloudinary.com"],
   },
