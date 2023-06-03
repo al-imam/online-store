@@ -5,15 +5,8 @@ import useCart from "@/store/useCart";
 import round from "@/utility/round";
 
 const TotalPriceInfo = () => {
-  const cartItems = useCart((store) => store.items);
-
-  const { unit, total } = cartItems.reduce(
-    (a, v) => ({
-      unit: a.unit + v.quantity,
-      total: a.total + v.price * v.quantity,
-    }),
-    { unit: 0, total: 0 }
-  );
+  const unit = useCart((store) => store.unit);
+  const total = useCart((store) => store.total);
 
   const tax = (total / 100) * 5;
 
