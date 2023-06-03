@@ -167,4 +167,23 @@ export const useCounter = create(
   )
 );
 
+useCounter.subscribe(
+  (store) => store.items,
+  (items) => {
+    useCounter.setState((store) => {
+      const { total, unit } = items.reduce(
+        (a, v) => ({
+          unit: a.unit + v.quantity,
+          total: a.total + v.price * v.quantity,
+        }),
+        { unit: 0, total: 0 }
+      );
+
+      store.total = total;
+      store.unit = unit;
+    });
+  },
+  { fireImmediately: true }
+);
+
 export default useCounter;
