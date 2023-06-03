@@ -153,6 +153,12 @@ export const useCounter = create(
                 });
               }
             },
+
+            deleteItem(id: string) {
+              set((store) => {
+                store.items = store.items.filter((item) => item.id !== id);
+              });
+            },
           })
         )
       )
