@@ -4,11 +4,11 @@ import Link from "next/link";
 import useCart from "@/store/useCart";
 import round from "@/utility/round";
 
-const TotalPriceInfo = () => {
+export default function () {
   const unit = useCart((store) => store.unit);
   const total = useCart((store) => store.total);
-
-  const tax = (total / 100) * 5;
+  const tax = useCart((store) => store.tax);
+  const totalWithTax = useCart((store) => store.totalWithTax);
 
   return (
     <aside className="md:w-1/4">
@@ -28,7 +28,7 @@ const TotalPriceInfo = () => {
           </li>
           <li className="text-lg font-bold border-t flex justify-between mt-3 pt-3">
             <span>Total price:</span>
-            <span>${round(total + tax)}</span>
+            <span>${round(totalWithTax)}</span>
           </li>
         </ul>
 
@@ -45,6 +45,4 @@ const TotalPriceInfo = () => {
       </article>
     </aside>
   );
-};
-
-export default TotalPriceInfo;
+}
