@@ -3,18 +3,6 @@ import { persist, subscribeWithSelector, combine } from "zustand/middleware";
 import CartItemInterface from "@/types/cartItemInterface";
 import { immer } from "zustand/middleware/immer";
 
-interface StoreInterface {
-  items: CartItemInterface[];
-  unit: number;
-  total: number;
-  tax: number;
-  totalWithTax: number;
-  addItem(item: CartItemInterface): void;
-  addQuantity(item: CartItemInterface): void;
-  removeQuantity(item: CartItemInterface): void;
-  deleteItem(id: string): void;
-}
-
 export const useCart = create(
   persist(
     subscribeWithSelector(
@@ -29,7 +17,9 @@ export const useCart = create(
           },
           (set, get) => ({
             addItem(item: CartItemInterface) {
-              const { addQuantity, items } = get() as StoreInterface;
+              const { addQuantity, items } = get() as ReturnType<typeof get> & {
+                addQuantity: (item: CartItemInterface) => void;
+              };
 
               const update = items.find((e) => e.id === item.id);
               if (update) return addQuantity(update);
