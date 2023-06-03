@@ -24,6 +24,7 @@
     "cookies-next": "^2.1.1",
     "countries-list": "^2.6.1",
     "escape-string-regexp": "^5.0.0",
+    "immer": "^10.0.2",
     "jose": "^4.14.4",
     "mongoose": "^7.1.0",
     "multer": "1.4.5-lts.1",
