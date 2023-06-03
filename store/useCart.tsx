@@ -124,9 +124,10 @@ export const useCounter = create(
           },
           (set, get) => ({
             addItem(item: CartItemInterface) {
-              const update = get().items.find((e) => e.id === item.id);
+              const { addQuantity, items } = get() as StoreInterface;
 
-              if (update) return this.addQuantity(update);
+              const update = items.find((e) => e.id === item.id);
+              if (update) return addQuantity(update);
 
               set((store) => {
                 store.items.push(item);
