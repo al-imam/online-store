@@ -6,6 +6,8 @@ interface StoreInterface {
   items: CartItemInterface[];
   unit: number;
   total: number;
+  tax: number;
+  totalWithTax: number;
   addItem(item: CartItemInterface): void;
   addQuantity(item: CartItemInterface): void;
   removeQuantity(item: CartItemInterface): void;
@@ -24,6 +26,8 @@ const useCart = create<
       items: [],
       unit: 0,
       total: 0,
+      tax: 0,
+      totalWithTax: 0,
 
       addItem(item) {
         const { items, addQuantity } = get();
@@ -87,6 +91,19 @@ useCart.subscribe(
         }),
         { unit: 0, total: 0 }
       ),
+    }));
+  },
+  { fireImmediately: true }
+);
+
+useCart.subscribe(
+  (store) => store.total,
+  (total) => {
+    const tax = (total / 100) * 5;
+    useCart.setState((store) => ({
+      ...store,
+      tax,
+      totalWithTax: total + tax,
     }));
   },
   { fireImmediately: true }
