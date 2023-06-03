@@ -143,6 +143,16 @@ export const useCounter = create(
                 });
               }
             },
+
+            removeQuantity(item: CartItemInterface) {
+              const index = get().items.findIndex((e) => e.id === item.id);
+
+              if (item.stock > 1 && index !== -1) {
+                set((store) => {
+                  store.items[index].quantity--;
+                });
+              }
+            },
           })
         )
       )
