@@ -123,6 +123,16 @@ export const useCounter = create(
             totalWithTax: 0,
           },
           (set, get) => ({
+            addItem(item: CartItemInterface) {
+              const update = get().items.find((e) => e.id === item.id);
+
+              if (update) return this.addQuantity(update);
+
+              set((store) => {
+                store.items.push(item);
+              });
+            },
+
             addQuantity(item: CartItemInterface) {
               const index = get().items.findIndex((e) => e.id === item.id);
 
