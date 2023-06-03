@@ -23,7 +23,7 @@ const CartDetails = () => {
               <main className="md:w-3/4">
                 <article className="border border-gray-200 bg-white shadow-sm rounded mb-5 p-3 lg:p-5">
                   {cartItems.map((item) => (
-                    <CartItem item={item} />
+                    <CartItem item={item} key={item.id} />
                   ))}
                 </article>
               </main>

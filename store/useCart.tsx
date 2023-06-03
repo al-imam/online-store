@@ -1,6 +1,7 @@
 import { create } from "zustand";
-import { persist, subscribeWithSelector } from "zustand/middleware";
+import { persist, subscribeWithSelector, combine } from "zustand/middleware";
 import CartItemInterface from "@/types/cartItemInterface";
+import { immer } from "zustand/middleware/immer";
 
 interface StoreInterface {
   items: CartItemInterface[];
@@ -107,6 +108,23 @@ useCart.subscribe(
     }));
   },
   { fireImmediately: true }
+);
+
+export const useCounter = create(
+  immer(
+    combine({ count: 0, counts: [] as string[] }, (set) => ({
+      add() {
+        set((store) => {
+          store.count++;
+        });
+      },
+      sub() {
+        set((store) => {
+          store.count--;
+        });
+      },
+    }))
+  )
 );
 
 export default useCart;
