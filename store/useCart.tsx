@@ -111,20 +111,34 @@ useCart.subscribe(
 );
 
 export const useCounter = create(
-  immer(
-    combine({ count: 0, counts: [] as string[] }, (set) => ({
-      add() {
-        set((store) => {
-          store.count++;
-        });
-      },
-      sub() {
-        set((store) => {
-          store.count--;
-        });
-      },
-    }))
+  persist(
+    subscribeWithSelector(
+      immer(
+        combine({ count: 0, counts: [] as number[] }, (set) => ({
+          add() {
+            set((store) => {
+              store.count++;
+            });
+          },
+          sub() {
+            set((store) => {
+              store.count--;
+            });
+          },
+        }))
+      )
+    ),
+    { name: "count" }
   )
+);
+
+useCounter.subscribe(
+  (store) => store.count,
+  (count) => {
+    useCounter.setState((store) => {
+      store.counts.push(count);
+    });
+  }
 );
 
 export default useCart;
