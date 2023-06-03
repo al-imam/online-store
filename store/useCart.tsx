@@ -30,11 +30,8 @@ const useCart = create<
 
         const update = items.find((e) => e.id === item.id);
 
-        if (update) {
-          addQuantity(update);
-        } else {
-          set((store) => ({ ...store, items: [...items, item] }));
-        }
+        if (update) return addQuantity(update);
+        set((store) => ({ ...store, items: [...items, item] }));
       },
 
       deleteItem(id) {
@@ -76,6 +73,23 @@ const useCart = create<
     })),
     { name: "cart-items", skipHydration: true }
   )
+);
+
+useCart.subscribe(
+  (store) => store.items,
+  (items) => {
+    useCart.setState((store) => ({
+      ...store,
+      ...items.reduce(
+        (a, v) => ({
+          unit: a.unit + v.quantity,
+          total: a.total + v.price * v.quantity,
+        }),
+        { unit: 0, total: 0 }
+      ),
+    }));
+  },
+  { fireImmediately: true }
 );
 
 export default useCart;
