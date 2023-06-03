@@ -114,31 +114,20 @@ export const useCounter = create(
   persist(
     subscribeWithSelector(
       immer(
-        combine({ count: 0, counts: [] as number[] }, (set) => ({
-          add() {
-            set((store) => {
-              store.count++;
-            });
+        combine(
+          {
+            items: [] as CartItemInterface[],
+            unit: 0,
+            total: 0,
+            tax: 0,
+            totalWithTax: 0,
           },
-          sub() {
-            set((store) => {
-              store.count--;
-            });
-          },
-        }))
+          (set, get) => ({})
+        )
       )
     ),
-    { name: "count" }
+    { name: "cart" }
   )
-);
-
-useCounter.subscribe(
-  (store) => store.count,
-  (count) => {
-    useCounter.setState((store) => {
-      store.counts.push(count);
-    });
-  }
 );
 
 export default useCart;
