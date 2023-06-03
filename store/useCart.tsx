@@ -181,6 +181,8 @@ useCounter.subscribe(
 
       store.total = total;
       store.unit = unit;
+      store.tax = (total / 100) * 5;
+      store.totalWithTax = total + store.tax;
     });
   },
   { fireImmediately: true }
