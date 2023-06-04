@@ -48,7 +48,7 @@ const singin = wrap(async (req, res) => {
 }, "singin");
 
 const updatePassword = wrap(async (req, res) => {
-  const user = await User.findById(req.body.ID);
+  const user = await User.findById(req.body.$USER._id);
 
   if (user !== null) {
     if (compareSync(req.body.VALID_REQ.current, user.password)) {

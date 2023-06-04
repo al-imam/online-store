@@ -1,6 +1,7 @@
 import { verify } from "../util/jwt";
 import wrap from "@/utility/wrapHandler";
 import { isValidObjectId } from "mongoose";
+import User from "../models/user";
 
 const AuthGuard = wrap(async (req, res, next) => {
   const auth = req.headers.authorization;
@@ -8,16 +9,20 @@ const AuthGuard = wrap(async (req, res, next) => {
     const { id } = await verify(auth.replace("Bearer ", ""));
 
     if (id !== null && isValidObjectId(id)) {
-      if (
-        req.body instanceof Object &&
-        !Array.isArray(req.body) &&
-        req.body !== null
-      ) {
-        req.body.ID = id;
-      } else {
-        req.body = { ID: id };
+      const $USER = await User.findById(id).select("-password");
+
+      if ($USER !== null) {
+        if (
+          req.body instanceof Object &&
+          !Array.isArray(req.body) &&
+          req.body !== null
+        ) {
+          req.body.$USER = $USER;
+        } else {
+          req.body = { $USER };
+        }
+        return next();
       }
-      return next();
     }
   }
 
