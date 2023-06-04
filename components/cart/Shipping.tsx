@@ -1,10 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import AddressCheckBox from "./AddressCheckBox";
-import ShippingItem from "./ShippingItem";
+import AddressCheckBox from "@/components/cart/AddressCheckBox";
+import ShippingItem from "@/components/cart/ShippingItem";
+import useCart from "@/store/useCart";
+import round from "@/utility/round";
 
 export default function () {
+  const { tax, totalWithTax, items, total } = useCart((store) => store);
+
   return (
     <div>
       <section className="py-10 bg-gray-50">
@@ -25,7 +29,7 @@ export default function () {
                 </div>
 
                 <Link
-                  href="/address/new"
+                  href="/me/address/new"
                   className="px-4 py-2 inline-block text-blue-600 border border-gray-300 rounded-md hover:bg-gray-100"
                 >
                   <i className="mr-1 fa fa-plus"></i> Add new address
@@ -50,15 +54,17 @@ export default function () {
                 <ul>
                   <li className="flex justify-between mb-1">
                     <span>Amount:</span>
-                    <span>$556</span>
+                    <span>${round(total)}</span>
                   </li>
                   <li className="flex justify-between mb-1">
                     <span>Est TAX:</span>
-                    <span>$5</span>
+                    <span>${round(tax)}</span>
                   </li>
                   <li className="border-t flex justify-between mt-3 pt-3">
                     <span>Total Amount:</span>
-                    <span className="text-gray-900 font-bold">$456</span>
+                    <span className="text-gray-900 font-bold">
+                      ${round(totalWithTax)}
+                    </span>
                   </li>
                 </ul>
 
