@@ -11,10 +11,6 @@ export default function () {
 
   const count = useCart((store) => store.items).length;
 
-  useEffect(() => {
-    (async () => await useCart.persist.rehydrate())();
-  }, []);
-
   return (
     <div className="flex items-center space-x-2 ml-auto">
       <Link

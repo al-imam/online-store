@@ -9,6 +9,7 @@ import { getCookie, hasCookie, removeCookies, setCookie } from "cookies-next";
 import validate from "nested-object-validate";
 import type { FunctionComponent, ReactNode } from "react";
 import { createContext, useContext, useEffect, useState } from "react";
+import Prettify from "@/types/Prettify";
 
 interface NEP {
   name: string;
@@ -211,7 +212,7 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
 export { AuthProvider };
 
 function useAuth() {
-  return useContext(AuthContext) as Value;
+  return useContext(AuthContext) as Prettify<Value>;
 }
 
 export default useAuth;
