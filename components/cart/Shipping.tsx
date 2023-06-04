@@ -72,11 +72,9 @@ export default function () {
 
                 <h2 className="text-lg font-semibold mb-3">Items in cart</h2>
 
-                {Array(5)
-                  .fill(null)
-                  .map(() => (
-                    <ShippingItem />
-                  ))}
+                {items.map((item) => (
+                  <ShippingItem item={item} />
+                ))}
               </article>
             </aside>
           </div>
