@@ -5,8 +5,14 @@ import AddressCheckBox from "@/components/cart/AddressCheckBox";
 import ShippingItem from "@/components/cart/ShippingItem";
 import useCart from "@/store/useCart";
 import round from "@/utility/round";
+import AddressInterface from "@/types/AddressInterface";
+import Prettify from "@/types/Prettify";
 
-export default function () {
+export default function ({
+  addresses,
+}: {
+  addresses: Prettify<AddressInterface & { _id: string }>[];
+}) {
   const { tax, totalWithTax, items, total } = useCart((store) => store);
 
   return (
@@ -21,11 +27,9 @@ export default function () {
                 </h2>
 
                 <div className="grid sm:grid-cols-2 gap-4 mb-6">
-                  {Array(5)
-                    .fill(null)
-                    .map(() => (
-                      <AddressCheckBox />
-                    ))}
+                  {addresses.map((address) => (
+                    <AddressCheckBox address={address} key={address._id} />
+                  ))}
                 </div>
 
                 <Link

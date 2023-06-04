@@ -17,6 +17,5 @@ export default async function () {
     }
   );
 
-export default function () {
-  return <Shipping />;
+  return <Shipping addresses={data} />;
 }
