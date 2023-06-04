@@ -1,1 +1,13 @@
 POST http://localhost:3000/api/order/checkout
+Content-Type: application/json
+
+{
+  "items": [
+    {
+      "name": "handcuff's",
+      "price": 4,
+      "quantity":4,
+      "picture": "googl.com"
+    }
+  ]
+}
