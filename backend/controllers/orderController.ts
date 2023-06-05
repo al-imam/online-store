@@ -8,10 +8,10 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 const base = "http://localhost:3000";
 
 const checkout = wrap(async (req, res) => {
-  const items = req.body.VALID_REQ as {
+  const items = req.body.VALID_REQ.items as {
     price: number;
     quantity: number;
-    picture: string;
+    imageURL: string;
     name: string;
   }[];
 
@@ -30,7 +30,7 @@ const checkout = wrap(async (req, res) => {
         unit_amount: item.price * 100,
         product_data: {
           name: item.name,
-          images: [item.picture],
+          images: [item.imageURL],
         },
       },
     })),

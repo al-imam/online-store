@@ -7,13 +7,30 @@ import useCart from "@/store/useCart";
 import round from "@/utility/round";
 import AddressInterface from "@/types/AddressInterface";
 import Prettify from "@/types/Prettify";
+import { Post } from "@/utility/request";
+import COOKIES from "@/utility/COOKIES";
+import { getCookie } from "cookies-next";
 
-export default function ({
-  addresses,
-}: {
+interface ShippingProps {
   addresses: Prettify<AddressInterface & { _id: string }>[];
-}) {
+}
+
+export default function ({ addresses }: ShippingProps) {
   const { tax, totalWithTax, items, total } = useCart((store) => store);
+
+  async function onCheckout() {
+    if (items.length === 0) return;
+
+    const { data: url } = await Post<string>(
+      "order/checkout",
+      { items },
+      {
+        headers: { Authorization: `Bearer ${getCookie(COOKIES)}` },
+      }
+    );
+
+    window.location.href = url;
+  }
 
   return (
     <div>
@@ -46,9 +63,12 @@ export default function ({
                   >
                     Back
                   </Link>
-                  <a className="px-5 py-2 inline-block text-white bg-green-600 border border-transparent rounded-md hover:bg-green-700 cursor-pointer">
+                  <button
+                    onClick={onCheckout}
+                    className="px-5 py-2 inline-block text-white bg-green-600 border border-transparent rounded-md hover:bg-green-700 cursor-pointer"
+                  >
                     Checkout
-                  </a>
+                  </button>
                 </div>
               </article>
             </main>

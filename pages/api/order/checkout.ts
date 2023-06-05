@@ -30,10 +30,10 @@ router.post(
               ["price", (price) => typeof price === "number" && price > 0],
               ["name", (name) => typeof name === "string"],
               [
-                "picture",
-                (picture) =>
-                  (typeof picture === "string" && urlRegex.test(picture)) ||
-                  picture === null,
+                "imageURL",
+                (imageURL) =>
+                  (typeof imageURL === "string" && urlRegex.test(imageURL)) ||
+                  imageURL === null,
               ],
             ])
           )
