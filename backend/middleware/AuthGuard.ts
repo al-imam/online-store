@@ -1,7 +1,7 @@
 import { verify } from "../util/jwt";
 import wrap from "@/utility/wrapHandler";
 import { isValidObjectId } from "mongoose";
-import User from "../models/user";
+import User from "@/backend/models/user";
 
 const AuthGuard = wrap(async (req, res, next) => {
   const auth = req.headers.authorization;
