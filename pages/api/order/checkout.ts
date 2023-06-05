@@ -1,9 +1,11 @@
 import dbConnect from "@/backend/config/dbConnect";
 import { checkout } from "@/backend/controllers/orderController";
+import AuthGuard from "@/backend/middleware/AuthGuard";
 import validateBody from "@/backend/middleware/validateBody";
 import Prettify from "@/types/Prettify";
 import CartItemInterface from "@/types/cartItemInterface";
 import { urlRegex } from "@/utility/regex";
+import { isValidObjectId } from "mongoose";
 
 import createRouter from "next-connect";
 
@@ -29,6 +31,7 @@ router.post(
               ],
               ["price", (price) => typeof price === "number" && price > 0],
               ["name", (name) => typeof name === "string"],
+              ["id", (id) => typeof id === "string"],
               [
                 "imageURL",
                 (imageURL) =>
@@ -44,7 +47,14 @@ router.post(
         return "items array doesn't contain valid item";
       },
     },
+    {
+      property: "addressId",
+      validate: (id) =>
+        (typeof id === "string" && isValidObjectId(id)) ||
+        "addressId is not valid object id",
+    },
   ]),
+  AuthGuard,
   checkout
 );
 
