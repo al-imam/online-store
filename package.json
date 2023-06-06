@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "stripe:webhook": "stripe listen --forward-to localhost:3000/api/order/stripe-webhook"
   },
   "dependencies": {
     "@types/bcryptjs": "^2.4.2",
@@ -32,6 +33,7 @@
     "next": "13.4.1",
     "next-connect": "^0.13.0",
     "postcss": "8.4.23",
+    "raw-body": "^2.5.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-js-pagination": "^3.0.3",

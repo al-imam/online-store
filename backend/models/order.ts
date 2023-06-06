@@ -1,31 +1,27 @@
 import { Model, Schema, Types, model, models } from "mongoose";
-import { PM } from "@/types/Prettify";
-
-interface Payment {
-  id: string;
-  status: string;
-  tax: number;
-  amount: number;
-}
-
-interface Order {
-  product: Schema.Types.ObjectId;
-  name: string;
-  quantity: number;
-  imageURL: string;
-  price: number;
-}
+import Prettify from "@/types/Prettify";
 
 interface OrderSchema {
   address: Schema.Types.ObjectId;
   user: Schema.Types.ObjectId;
-  order: Order[];
-  payment: Payment;
+  order: {
+    product: Schema.Types.ObjectId;
+    name: string;
+    quantity: number;
+    imageURL: string;
+    price: number;
+  }[];
+  payment: {
+    id: string;
+    status: string;
+    tax: number;
+    amount: number;
+  };
   status: "processing" | "pending" | "completed";
   created: Date;
 }
 
-const order = new Schema<PM<OrderSchema>>(
+const order = new Schema<Prettify<OrderSchema>>(
   {
     address: {
       type: Types.ObjectId,
@@ -85,5 +81,5 @@ const order = new Schema<PM<OrderSchema>>(
   { timestamps: { updatedAt: false, createdAt: "created" } }
 );
 
-export default (models.Order as Model<PM<OrderSchema>>) ||
+export default (models.Order as Model<Prettify<OrderSchema>>) ||
   model("Order", order);

@@ -27,12 +27,12 @@ const checkout = wrap(async (req, res) => {
     customer_email: $user.email,
     client_reference_id: $user._id as unknown as string,
 
-    shipping_options: [{ shipping_rate: "shr_1NJJYYDAmKh5IENMFzzgyPWc" }],
+    shipping_options: [{ shipping_rate: "shr_1NJbJkDAmKh5IENM1luB3jJS" }],
     metadata: { addressId: req.body.VALID_REQ.addressId },
 
     line_items: items.map((item) => ({
       quantity: item.quantity,
-      tax_rates: ["txr_1NJJtuDAmKh5IENME9j2RrNr"],
+      tax_rates: ["txr_1NJbKiDAmKh5IENMxMW32K5n"],
       price_data: {
         currency: "USD",
         unit_amount: item.price * 100,

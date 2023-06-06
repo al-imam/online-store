@@ -1,8 +1,8 @@
 import { Schema } from "mongoose";
 
 type Prettify<T extends object> = {
-  [Key in keyof T]: T[Key] & {};
-};
+  [Key in keyof T]: T[Key];
+} & {};
 
 export type PM<T extends object> = {
   [Key in keyof T]: T[Key] extends Schema.Types.ObjectId | Date
