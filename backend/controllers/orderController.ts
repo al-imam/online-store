@@ -4,8 +4,8 @@ import { UserWithId } from "@/types/UserInterface";
 import wrap from "@/utility/wrapHandler";
 import getRawBody from "raw-body";
 import Stripe from "stripe";
-import colorLog from "@/utility/colorLog";
 import Prettify from "@/types/Prettify";
+import Order from "@/backend/models/order";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2022-11-15",
@@ -65,11 +65,23 @@ const webhook = wrap(async (req, res) => {
   ) as Stripe.DiscriminatedEvent;
 
   if (event.type === "checkout.session.completed" && event.data.object) {
+    const session = event.data.object as Remove<Stripe.Checkout.Session>;
+
     const lineItems = await stripe.checkout.sessions.listLineItems(
       event.data.object.id
     );
 
-    const items = await parseItems(lineItems.data as any);
+    await Order.create({
+      user: session.client_reference_id,
+      order: await parseItems(lineItems.data as any),
+      payment: {
+        id: session.payment_intent,
+        status: session.payment_status,
+        amount: session.amount_total / 100,
+        tax: session.total_details.amount_tax / 100,
+      },
+      address: session.metadata.addressId,
+    });
 
     res.status(201).json({ success: true });
   }
@@ -103,7 +115,7 @@ async function parseItems(
     name: string;
     price: number;
     quantity: number;
-    image: string;
+    imageURL: string;
   }[]
 > {
   return new Promise(async (resolve) => {
@@ -117,7 +129,7 @@ async function parseItems(
           name: product.name,
           price: item.price.unit_amount / 100,
           quantity: item.quantity,
-          image: product.images[0],
+          imageURL: product.images[0],
         };
       })
     );
