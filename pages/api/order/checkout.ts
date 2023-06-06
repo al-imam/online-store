@@ -35,8 +35,7 @@ router.post(
               [
                 "imageURL",
                 (imageURL) =>
-                  (typeof imageURL === "string" && urlRegex.test(imageURL)) ||
-                  imageURL === null,
+                  typeof imageURL === "string" && urlRegex.test(imageURL),
               ],
             ])
           )

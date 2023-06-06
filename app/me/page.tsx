@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
 import Me from "@/components/auth/Me";
 import { Get } from "@/utility/request";

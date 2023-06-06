@@ -66,7 +66,7 @@ export default function ({
         toast.error("Something went wrong!");
       },
       onSuccess() {
-        router.replace("/me");
+        router.push("/me");
         updateAddress(init);
         toast.success("address update successfully!");
       },
@@ -81,7 +81,7 @@ export default function ({
         toast.error("Something went wrong!");
       },
       onSuccess() {
-        router.replace("/me");
+        router.push("/me");
         updateAddress(init);
         toast.success("address deleted successfully!");
       },
