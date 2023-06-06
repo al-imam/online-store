@@ -5,9 +5,9 @@ Content-Type: application/json
 {
   "items": [
     {
-      "name": "handcuff's",
-      "price": 4,
-      "quantity":4,
+      "name": "unknown",
+      "price": 40,
+      "quantity":2,
       "imageURL": "googl.com",
       "id": "646d10913fd553b04ed72571"
     }

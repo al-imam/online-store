@@ -1,6 +1,11 @@
+/// <reference types="stripe-event-types" />
+
 import { UserWithId } from "@/types/UserInterface";
 import wrap from "@/utility/wrapHandler";
+import getRawBody from "raw-body";
 import Stripe from "stripe";
+import colorLog from "@/utility/colorLog";
+import Prettify from "@/types/Prettify";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2022-11-15",
@@ -25,7 +30,7 @@ const checkout = wrap(async (req, res) => {
     mode: "payment",
     payment_method_types: ["card"],
     customer_email: $user.email,
-    client_reference_id: $user._id as unknown as string,
+    client_reference_id: $user._id.toString(),
 
     shipping_options: [{ shipping_rate: "shr_1NJbJkDAmKh5IENM1luB3jJS" }],
     metadata: { addressId: req.body.VALID_REQ.addressId },
@@ -48,4 +53,77 @@ const checkout = wrap(async (req, res) => {
   res.json(session.url);
 }, "checkout");
 
-export { checkout };
+const webhook = wrap(async (req, res) => {
+  const raw = await getRawBody(req);
+  const sig = req.headers["stripe-signature"] as string;
+  const endpointSecret = process.env.STRIPE_WEB_HOOK_SECRET as string;
+
+  const event = stripe.webhooks.constructEvent(
+    raw,
+    sig,
+    endpointSecret
+  ) as Stripe.DiscriminatedEvent;
+
+  if (event.type === "checkout.session.completed" && event.data.object) {
+    const lineItems = await stripe.checkout.sessions.listLineItems(
+      event.data.object.id
+    );
+
+    const items = await parseItems(lineItems.data as any);
+
+    res.status(201).json({ success: true });
+  }
+}, "stripe-webhook");
+
+type Modify<T extends object, U extends Partial<T>> = Prettify<
+  Omit<T, keyof U> & U
+>;
+
+type Remove<T extends object> = {
+  [key in keyof T]: Exclude<T[key], null | undefined>;
+};
+
+async function parseItems(
+  lineItems: Modify<
+    Stripe.LineItem,
+    {
+      price: Modify<
+        Stripe.Price,
+        {
+          product: string;
+          unit_amount: number;
+        }
+      >;
+      quantity: number;
+    }
+  >[]
+): Promise<
+  {
+    product: string;
+    name: string;
+    price: number;
+    quantity: number;
+    image: string;
+  }[]
+> {
+  return new Promise(async (resolve) => {
+    const items = await Promise.all(
+      lineItems.map(async (item) => {
+        const product = (await stripe.products.retrieve(
+          item.price.product
+        )) as Remove<Stripe.Response<Stripe.Product>>;
+        return {
+          product: product.metadata.id,
+          name: product.name,
+          price: item.price.unit_amount / 100,
+          quantity: item.quantity,
+          image: product.images[0],
+        };
+      })
+    );
+
+    resolve(items);
+  });
+}
+
+export { checkout, webhook };
