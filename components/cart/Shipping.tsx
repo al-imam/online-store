@@ -10,6 +10,7 @@ import Prettify from "@/types/Prettify";
 import { Post } from "@/utility/request";
 import COOKIES from "@/utility/COOKIES";
 import { getCookie } from "cookies-next";
+import { useState } from "react";
 
 interface ShippingProps {
   addresses: Prettify<AddressInterface & { _id: string }>[];
@@ -17,13 +18,15 @@ interface ShippingProps {
 
 export default function ({ addresses }: ShippingProps) {
   const { tax, totalWithTax, items, total } = useCart((store) => store);
+  const [addressId, setAddressId] = useState<string>(addresses[0]?._id);
 
   async function onCheckout() {
     if (items.length === 0) return;
+    if (typeof addressId !== "string") return;
 
     const { data: url } = await Post<string>(
       "order/checkout",
-      { items },
+      { items, addressId },
       {
         headers: { Authorization: `Bearer ${getCookie(COOKIES)}` },
       }
@@ -45,7 +48,12 @@ export default function ({ addresses }: ShippingProps) {
 
                 <div className="grid sm:grid-cols-2 gap-4 mb-6">
                   {addresses.map((address) => (
-                    <AddressCheckBox address={address} key={address._id} />
+                    <AddressCheckBox
+                      setId={(id) => setAddressId(id)}
+                      id={addressId}
+                      address={address}
+                      key={address._id}
+                    />
                   ))}
                 </div>
 

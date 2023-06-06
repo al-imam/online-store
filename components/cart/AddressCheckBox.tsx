@@ -1,10 +1,25 @@
 import AddressInterface from "@/types/AddressInterface";
+import Prettify from "@/types/Prettify";
 
-export default function ({ address }: { address: AddressInterface }) {
+interface AddressCheckBoxProps {
+  address: Prettify<AddressInterface & { _id: string }>;
+  setId: (id: string) => void;
+  id: string;
+}
+
+export default function ({ address, setId, id }: AddressCheckBoxProps) {
   return (
-    <label className="flex p-3 border border-gray-200 rounded-md bg-gray-50 hover:border-blue-400 hover:bg-blue-50 cursor-pointer">
+    <label
+      onChange={() => setId(address._id)}
+      className="flex p-3 border border-gray-200 rounded-md bg-gray-50 hover:border-blue-400 hover:bg-blue-50 cursor-pointer"
+    >
       <span>
-        <input name="shipping" type="radio" className="h-4 w-4 mt-1" />
+        <input
+          checked={id === address._id}
+          name="shipping"
+          type="radio"
+          className="h-4 w-4 mt-1"
+        />
       </span>
       <p className="ml-2">
         <span>{address.street}</span>
