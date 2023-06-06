@@ -1,5 +1,5 @@
 import { Model, Schema, Types, model, models } from "mongoose";
-import Prettify from "@/types/Prettify";
+import { PM } from "@/types/Prettify";
 
 interface Payment {
   id: string;
@@ -25,7 +25,7 @@ interface OrderSchema {
   created: Date;
 }
 
-const order = new Schema<Prettify<OrderSchema>>(
+const order = new Schema<PM<OrderSchema>>(
   {
     address: {
       type: Types.ObjectId,
@@ -85,5 +85,5 @@ const order = new Schema<Prettify<OrderSchema>>(
   { timestamps: { updatedAt: false, createdAt: "created" } }
 );
 
-export default (models.Order as Model<Prettify<OrderSchema>>) ||
+export default (models.Order as Model<PM<OrderSchema>>) ||
   model("Order", order);
