@@ -14,3 +14,10 @@ Content-Type: application/json
   ],
   "addressId": "646d10913fd553b04ed72571"
 }
+
+
+
+### 
+GET http://localhost:3000/api/order/get-orders
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzM5ODA4NDZkMzU4ZTAyNDVhOTNkZiIsImlhdCI6MTY4NTM4NTA0NX0.JcGbvSMcxK_ljaUg64jlhc9RU8OUmpYpCVKI7gsOcxI
+Content-Type: application/json

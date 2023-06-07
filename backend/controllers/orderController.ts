@@ -8,6 +8,9 @@ import Order from "@/backend/models/order";
 import { isValidObjectId } from "mongoose";
 import { RequiredAndNotNull } from "@/types/RequiredAndNotNull";
 import { NextApiRequest, NextApiResponse } from "next";
+import Address from "../models/address";
+import User from "../models/user";
+import Product from "../models/product";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2022-11-15",
@@ -31,7 +34,18 @@ export async function get(req: NextApiRequest, res: NextApiResponse) {
   const orders = await Order.find(query, undefined, {
     limit: single,
     skip: calculateSkipNumber(req.query.page as string),
-  });
+  }).populate([
+    {
+      model: Address,
+      path: "address",
+      select: "-__v -_id -user",
+    },
+    {
+      path: "order.product",
+      model: Product,
+      select: "rating seller category created -_id",
+    },
+  ]);
 
   const count = await Order.find(query).countDocuments();
 
