@@ -4,10 +4,10 @@ import { UserWithId } from "@/types/UserInterface";
 import wrap from "@/utility/wrapHandler";
 import getRawBody from "raw-body";
 import Stripe from "stripe";
-import Prettify from "@/types/Prettify";
+import { Modify } from "@/types/Modify";
 import Order from "@/backend/models/order";
 import { isValidObjectId } from "mongoose";
-import colorLog from "@/utility/colorLog";
+import { RequiredAndNotNull } from "@/types/RequiredAndNotNull";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2022-11-15",
@@ -74,7 +74,8 @@ const webhook = wrap(async (req, res) => {
     return res.send(`Unhandled event type ${event.type}`);
   }
 
-  const session = event.data.object as Remove<Stripe.Checkout.Session>;
+  const session = event.data
+    .object as RequiredAndNotNull<Stripe.Checkout.Session>;
 
   const lineItems = await stripe.checkout.sessions.listLineItems(
     event.data.object.id
@@ -94,14 +95,6 @@ const webhook = wrap(async (req, res) => {
 
   res.json({ success: true });
 }, "webhook");
-
-type Modify<T extends object, U extends Partial<T>> = Prettify<
-  Omit<T, keyof U> & U
->;
-
-type Remove<T extends object> = {
-  [key in keyof T]: Exclude<T[key], null | undefined>;
-};
 
 async function parseItems(
   lineItems: Modify<
@@ -131,7 +124,7 @@ async function parseItems(
       lineItems.map(async (item) => {
         const product = (await stripe.products.retrieve(
           item.price.product
-        )) as Remove<Stripe.Response<Stripe.Product>>;
+        )) as RequiredAndNotNull<Stripe.Response<Stripe.Product>>;
         return {
           product: product.metadata.id,
           name: product.name,
