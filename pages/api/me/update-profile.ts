@@ -8,7 +8,6 @@ import { Types } from "mongoose";
 import User from "@/backend/models/user";
 import { UserWithId } from "@/types/UserInterface";
 import validate from "nested-object-validate";
-import emailRegex from "@/utility/regex";
 
 dbConnect();
 

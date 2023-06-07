@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "stripe:webhook": "stripe listen --forward-to localhost:3000/api/order/stripe-webhook"
+    "stripe:webhook": "stripe listen --events checkout.session.completed --forward-to localhost:3000/api/order/stripe-webhook"
   },
   "dependencies": {
     "@types/bcryptjs": "^2.4.2",

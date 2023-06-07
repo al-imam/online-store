@@ -1,13 +1,13 @@
 /// <reference types="stripe-event-types" />
 
 import { UserWithId } from "@/types/UserInterface";
-import wrap from "@/utility/wrapHandler";
 import getRawBody from "raw-body";
 import Stripe from "stripe";
 import { Modify } from "@/types/Modify";
 import Order from "@/backend/models/order";
 import { isValidObjectId } from "mongoose";
 import { RequiredAndNotNull } from "@/types/RequiredAndNotNull";
+import { NextApiRequest, NextApiResponse } from "next";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2022-11-15",
@@ -16,7 +16,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 const base = "http://localhost:3000";
 
-const checkout = wrap(async (req, res) => {
+export async function checkout(req: NextApiRequest, res: NextApiResponse) {
   const $user = req.body.$USER as UserWithId;
   const items = req.body.VALID_REQ.items as {
     price: number;
@@ -53,9 +53,9 @@ const checkout = wrap(async (req, res) => {
   });
 
   res.json(session.url);
-}, "checkout");
+}
 
-const webhook = wrap(async (req, res) => {
+export async function webhook(req: NextApiRequest, res: NextApiResponse) {
   const raw = await getRawBody(req);
   const sig = req.headers["stripe-signature"] as string;
   const endpointSecret = process.env.STRIPE_WEB_HOOK_SECRET as string;
@@ -94,7 +94,7 @@ const webhook = wrap(async (req, res) => {
   });
 
   res.json({ success: true });
-}, "webhook");
+}
 
 async function parseItems(
   lineItems: Modify<
@@ -138,5 +138,3 @@ async function parseItems(
     resolve(items);
   });
 }
-
-export { checkout, webhook };

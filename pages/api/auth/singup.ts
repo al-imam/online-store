@@ -3,6 +3,7 @@ import { singup } from "@/backend/controllers/authController";
 import validateBody from "@/backend/middleware/validateBody";
 import emailRegex, { urlRegex } from "@/utility/regex";
 import createRouter from "next-connect";
+import wrap from "@/utility/wrapHandler";
 
 dbConnect();
 
@@ -48,7 +49,7 @@ router.post(
     ],
     { strict: false }
   ),
-  singup
+  wrap(singup, "singup")
 );
 
 export default router;

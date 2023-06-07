@@ -1,11 +1,11 @@
 import User from "@/backend/models/user";
-import wrap from "@/utility/wrapHandler";
 import { compareSync } from "bcryptjs";
 import { sign } from "../util/jwt";
 import { setCookie } from "cookies-next";
 import COOKIES from "@/utility/COOKIES";
+import { NextApiRequest, NextApiResponse } from "next";
 
-const singup = wrap(async (req, res) => {
+export async function singup(req: NextApiRequest, res: NextApiResponse) {
   const user = await User.create(req.body.VALID_REQ);
 
   const jwt = await sign({ id: user._id });
@@ -16,9 +16,9 @@ const singup = wrap(async (req, res) => {
     user: remove(user),
     auth: jwt,
   });
-}, "singup");
+}
 
-const singin = wrap(async (req, res) => {
+export async function singin(req: NextApiRequest, res: NextApiResponse) {
   const { email, password } = req.body.VALID_REQ;
 
   const user = await User.findOne({ email });
@@ -45,9 +45,9 @@ const singin = wrap(async (req, res) => {
     user: remove(user),
     auth: jwt,
   });
-}, "singin");
+}
 
-const updatePassword = wrap(async (req, res) => {
+export async function update(req: NextApiRequest, res: NextApiResponse) {
   const user = await User.findById(req.body.$USER._id);
 
   if (user !== null) {
@@ -66,7 +66,7 @@ const updatePassword = wrap(async (req, res) => {
     code: "password-not-match",
     message: "current password not match!",
   });
-}, "update-password");
+}
 
 function remove({
   name,
@@ -80,5 +80,3 @@ function remove({
 }) {
   return { name, email, avatar, _id, created, role };
 }
-
-export { singup, singin, updatePassword };

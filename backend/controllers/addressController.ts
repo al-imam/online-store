@@ -1,23 +1,22 @@
 import Address from "@/backend/models/address";
 import wrap from "@/utility/wrapHandler";
+import { NextApiRequest, NextApiResponse } from "next";
 
-const addAddress = wrap(async (req, res) => {
-  console.log(req.body);
+export async function add(req: NextApiRequest, res: NextApiResponse) {
   const address = await Address.create({
     ...req.body.VALID_REQ,
     user: req.body.$USER._id,
   });
 
   res.status(201).json(address);
-}, "add-address");
+}
 
-const getAddresses = wrap(async (req, res) => {
+export async function query(req: NextApiRequest, res: NextApiResponse) {
   const addresses = await Address.find({ user: req.body.$USER._id });
-
   res.status(200).json(addresses);
-}, "get-addresses");
+}
 
-const getAddress = wrap(async (req, res) => {
+export async function get(req: NextApiRequest, res: NextApiResponse) {
   const address = await Address.findOne({
     _id: req.body.VALID_ID.addressId,
     user: req.body.$USER._id,
@@ -31,9 +30,9 @@ const getAddress = wrap(async (req, res) => {
   }
 
   res.status(200).json(address);
-}, "get-address");
+}
 
-const removeAddress = wrap(async (req, res) => {
+export async function remove(req: NextApiRequest, res: NextApiResponse) {
   const address = await Address.findOneAndDelete({
     _id: req.body.VALID_ID.addressId,
     user: req.body.$USER._id,
@@ -47,9 +46,9 @@ const removeAddress = wrap(async (req, res) => {
   }
 
   res.status(200).json(address);
-}, "remove-address");
+}
 
-const updateAddress = wrap(async (req, res) => {
+export async function update(req: NextApiRequest, res: NextApiResponse) {
   const address = await Address.findOneAndUpdate(
     {
       _id: req.body.VALID_ID.addressId,
@@ -66,6 +65,4 @@ const updateAddress = wrap(async (req, res) => {
   }
 
   res.status(200).json(address);
-}, "update-address");
-
-export { addAddress, getAddresses, getAddress, removeAddress, updateAddress };
+}

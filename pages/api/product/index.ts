@@ -1,10 +1,8 @@
 import dbConnect from "@/backend/config/dbConnect";
-import {
-  addProduct,
-  getProducts,
-} from "@/backend/controllers/productController";
+import { add, query } from "@/backend/controllers/productController";
 import validateBody from "@/backend/middleware/validateBody";
 import categories from "@/utility/categories";
+import wrap from "@/utility/wrapHandler";
 import createRouter from "next-connect";
 
 dbConnect();
@@ -85,9 +83,9 @@ router.post(
     ],
     { strict: false }
   ),
-  addProduct
+  wrap(add, "add-product")
 );
 
-router.get(getProducts);
+router.get(wrap(query, "query-products"));
 
 export default router;

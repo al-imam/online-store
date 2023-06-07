@@ -1,8 +1,9 @@
 import dbConnect from "@/backend/config/dbConnect";
 import { singin } from "@/backend/controllers/authController";
-import createRouter from "next-connect";
 import validateBody from "@/backend/middleware/validateBody";
 import emailRegex from "@/utility/regex";
+import wrap from "@/utility/wrapHandler";
+import createRouter from "next-connect";
 
 dbConnect();
 
@@ -23,7 +24,7 @@ router.post(
         "password must've string and 6 character or upper",
     ],
   ]),
-  singin
+  wrap(singin, "singin")
 );
 
 export default router;

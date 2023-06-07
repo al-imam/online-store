@@ -1,8 +1,9 @@
 import dbConnect from "@/backend/config/dbConnect";
 import createRouter from "next-connect";
-import { updatePassword } from "@/backend/controllers/authController";
+import { update } from "@/backend/controllers/authController";
 import AuthGuard from "@/backend/middleware/AuthGuard";
 import validateBody from "@/backend/middleware/validateBody";
+import wrap from "@/utility/wrapHandler";
 
 dbConnect();
 
@@ -24,7 +25,7 @@ router.put(
     ],
   ]),
   AuthGuard,
-  updatePassword
+  wrap(update, "update-password")
 );
 
 export default router;

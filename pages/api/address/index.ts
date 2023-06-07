@@ -1,12 +1,10 @@
 import createRouter from "next-connect";
 import dbConnect from "@/backend/config/dbConnect";
-import {
-  addAddress,
-  getAddresses,
-} from "@/backend/controllers/addressController";
+import { add, query } from "@/backend/controllers/addressController";
 import validateBody from "@/backend/middleware/validateBody";
 import { countries } from "countries-list";
 import AuthGuard from "@/backend/middleware/AuthGuard";
+import wrap from "@/utility/wrapHandler";
 
 const router = createRouter();
 
@@ -47,9 +45,9 @@ router.post(
     NHOC("zip"),
   ]),
   AuthGuard,
-  addAddress
+  wrap(add, "add-address")
 );
 
-router.get(AuthGuard, getAddresses);
+router.get(AuthGuard, wrap(query, "query-addresses"));
 
 export default router;

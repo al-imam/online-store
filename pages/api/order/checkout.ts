@@ -2,14 +2,11 @@ import dbConnect from "@/backend/config/dbConnect";
 import { checkout } from "@/backend/controllers/orderController";
 import AuthGuard from "@/backend/middleware/AuthGuard";
 import validateBody from "@/backend/middleware/validateBody";
-import Prettify from "@/types/Prettify";
-import CartItemInterface from "@/types/cartItemInterface";
 import { urlRegex } from "@/utility/regex";
 import { isValidObjectId } from "mongoose";
+import wrap from "@/utility/wrapHandler";
 
 import createRouter from "next-connect";
-
-type C = Prettify<CartItemInterface>;
 
 dbConnect();
 
@@ -54,7 +51,7 @@ router.post(
     },
   ]),
   AuthGuard,
-  checkout
+  wrap(checkout, "checkout")
 );
 
 export default router;

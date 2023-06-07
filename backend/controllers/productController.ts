@@ -1,6 +1,6 @@
 import Product from "@/backend/models/product";
 import filter from "@/backend/util/filter";
-import wrap from "@/utility/wrapHandler";
+import { NextApiRequest, NextApiResponse } from "next";
 
 const single = 2;
 
@@ -11,12 +11,12 @@ function calculateSkipNumber(num: string, fallback: number = 0) {
   return n === 0 ? 0 : n * single - single;
 }
 
-const addProduct = wrap(async (req, res) => {
+export async function add(req: NextApiRequest, res: NextApiResponse) {
   const newDocs = await Product.create(req.body.VALID_REQ);
   res.status(201).json(newDocs);
-}, "create-product");
+}
 
-const getProducts = wrap(async (req, res) => {
+export async function query(req: NextApiRequest, res: NextApiResponse) {
   const docs = await Product.find(filter(req.query), undefined, {
     skip: calculateSkipNumber(req.query.page as string),
     limit: single,
@@ -25,9 +25,9 @@ const getProducts = wrap(async (req, res) => {
   const total = await Product.find(filter(req.query)).countDocuments();
 
   res.status(200).json({ products: docs, total, single });
-}, "query-product");
+}
 
-const getProduct = wrap(async (req, res) => {
+export async function get(req: NextApiRequest, res: NextApiResponse) {
   const doc = await Product.findById(req.query.id);
 
   if (doc === null) {
@@ -38,6 +38,4 @@ const getProduct = wrap(async (req, res) => {
   }
 
   res.status(200).json(doc);
-}, "get-product-by-id");
-
-export { addProduct, getProduct, getProducts };
+}
