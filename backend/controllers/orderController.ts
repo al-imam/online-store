@@ -16,6 +16,28 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 const base = "http://localhost:3000";
 
+const single = 2;
+
+function calculateSkipNumber(num: string, fallback: number = 0) {
+  const n = parseInt(num as string);
+  if (isNaN(n)) return fallback;
+
+  return n === 0 ? 0 : n * single - single;
+}
+
+export async function get(req: NextApiRequest, res: NextApiResponse) {
+  const query = { user: req.body.$USER._id };
+
+  const orders = await Order.find(query, undefined, {
+    limit: single,
+    skip: calculateSkipNumber(req.query.page as string),
+  });
+
+  const count = await Order.find(query).countDocuments();
+
+  res.status(200).json({ orders, single, count });
+}
+
 export async function checkout(req: NextApiRequest, res: NextApiResponse) {
   const $user = req.body.$USER as UserWithId;
   const items = req.body.VALID_REQ.items as {
