@@ -13,12 +13,11 @@ interface OrderSchema {
   }[];
   payment: {
     id: string;
-    status: string;
+    status: "no_payment_required" | "paid" | "unpaid";
     tax: number;
     amount: number;
   };
   status: "processing" | "pending" | "completed";
-  created: Date;
 }
 
 const order = new Schema<Prettify<OrderSchema>>(
@@ -37,6 +36,8 @@ const order = new Schema<Prettify<OrderSchema>>(
 
     order: [
       {
+        _id: false,
+
         product: {
           type: Types.ObjectId,
           required: true,
@@ -49,7 +50,7 @@ const order = new Schema<Prettify<OrderSchema>>(
         },
 
         quantity: {
-          type: String,
+          type: Number,
           required: true,
         },
 
@@ -67,7 +68,11 @@ const order = new Schema<Prettify<OrderSchema>>(
 
     payment: {
       id: { type: String, required: true },
-      status: { type: String, required: true },
+      status: {
+        type: String,
+        enum: ["no_payment_required", "paid", "unpaid"] as const,
+        required: true,
+      },
       tax: { type: Number, required: true },
       amount: { type: Number, required: true },
     },

@@ -6,6 +6,8 @@ import getRawBody from "raw-body";
 import Stripe from "stripe";
 import Prettify from "@/types/Prettify";
 import Order from "@/backend/models/order";
+import { isValidObjectId } from "mongoose";
+import colorLog from "@/utility/colorLog";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2022-11-15",
@@ -64,28 +66,34 @@ const webhook = wrap(async (req, res) => {
     endpointSecret
   ) as Stripe.DiscriminatedEvent;
 
-  if (event.type === "checkout.session.completed" && event.data.object) {
-    const session = event.data.object as Remove<Stripe.Checkout.Session>;
-
-    const lineItems = await stripe.checkout.sessions.listLineItems(
-      event.data.object.id
-    );
-
-    await Order.create({
-      user: session.client_reference_id,
-      order: await parseItems(lineItems.data as any),
-      payment: {
-        id: session.payment_intent,
-        status: session.payment_status,
-        amount: session.amount_total / 100,
-        tax: session.total_details.amount_tax / 100,
-      },
-      address: session.metadata.addressId,
-    });
-
-    res.status(201).json({ success: true });
+  if (
+    event.type !== "checkout.session.completed" ||
+    event.data.object.metadata === null ||
+    !isValidObjectId(event.data.object.metadata.addressId)
+  ) {
+    return res.send(`Unhandled event type ${event.type}`);
   }
-}, "stripe-webhook");
+
+  const session = event.data.object as Remove<Stripe.Checkout.Session>;
+
+  const lineItems = await stripe.checkout.sessions.listLineItems(
+    event.data.object.id
+  );
+
+  await Order.create({
+    user: session.client_reference_id,
+    order: await parseItems(lineItems.data as any),
+    payment: {
+      id: session.payment_intent,
+      status: session.payment_status,
+      amount: session.amount_total / 100,
+      tax: session.total_details.amount_tax / 100,
+    },
+    address: session.metadata.addressId,
+  });
+
+  res.json({ success: true });
+}, "webhook");
 
 type Modify<T extends object, U extends Partial<T>> = Prettify<
   Omit<T, keyof U> & U
