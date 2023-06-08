@@ -8,11 +8,16 @@ export interface Order {
   payment: Payment;
   _id: string;
   address: Address;
-  user: string;
+  user: User;
   order: OrderDetails[];
   status: string;
   created: string;
   __v: number;
+}
+
+interface User {
+  name: string;
+  email: string;
 }
 
 export interface OrderDetails {

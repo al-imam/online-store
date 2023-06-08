@@ -8,9 +8,9 @@ import Order from "@/backend/models/order";
 import { isValidObjectId } from "mongoose";
 import { RequiredAndNotNull } from "@/types/RequiredAndNotNull";
 import { NextApiRequest, NextApiResponse } from "next";
-import Address from "../models/address";
-import User from "../models/user";
-import Product from "../models/product";
+import Address from "@/backend/models/address";
+import User from "@/backend/models/user";
+import Product from "@/backend/models/product";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2022-11-15",
@@ -31,8 +31,6 @@ function calculateSkipNumber(num: string, fallback: number = 0) {
 export async function get(req: NextApiRequest, res: NextApiResponse) {
   const query = { user: req.body.$USER._id };
 
-  console.log(calculateSkipNumber(req.query.page as string), req.query);
-
   const orders = await Order.find(query, undefined, {
     limit: single,
     skip: calculateSkipNumber(req.query.page as string),
@@ -41,6 +39,11 @@ export async function get(req: NextApiRequest, res: NextApiResponse) {
       model: Address,
       path: "address",
       select: "-__v -_id -user",
+    },
+    {
+      model: User,
+      path: "user",
+      select: "name email -_id",
     },
     {
       path: "order.product",
@@ -65,14 +68,14 @@ export async function checkout(req: NextApiRequest, res: NextApiResponse) {
   }[];
 
   const session = await stripe.checkout.sessions.create({
-    success_url: base,
+    success_url: `${base}/me/orders/?success=true&id=${$user._id.toString()}`,
     cancel_url: `${base}/shipping`,
     mode: "payment",
     payment_method_types: ["card"],
     customer_email: $user.email,
     client_reference_id: $user._id.toString(),
 
-    shipping_options: [{ shipping_rate: "shr_1NJbJkDAmKh5IENM1luB3jJS" }],
+    shipping_options: [{ shipping_rate: "shr_1NKOayDAmKh5IENMXOovXHLW" }],
     metadata: { addressId: req.body.VALID_REQ.addressId },
 
     line_items: items.map((item) => ({

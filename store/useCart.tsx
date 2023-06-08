@@ -16,6 +16,12 @@ export const useCart = create(
             totalWithTax: 0,
           },
           (set, get) => ({
+            clearItems() {
+              set((store) => {
+                store.items = [];
+              });
+            },
+
             addItem(item: CartItemInterface) {
               const { addQuantity, items } = get() as ReturnType<typeof get> & {
                 addQuantity: (item: CartItemInterface) => void;

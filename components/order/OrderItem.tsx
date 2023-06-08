@@ -14,10 +14,10 @@ export default function ({ order }: OrderItemProps) {
             <span>Order ID: {order._id} </span>
             <span
               className={` ${
-                order.status == "Processing" ? "text-red-500" : "text-green-500"
+                order.status == "processing" ? "text-red-500" : "text-green-500"
               }`}
             >
-              • {order.status.toUpperCase()}
+              • {order.status}
             </span>
           </p>
           <p className="text-gray-500">{order.created.substring(0, 10)} </p>
@@ -27,9 +27,9 @@ export default function ({ order }: OrderItemProps) {
         <div>
           <p className="text-gray-400 mb-1">Person</p>
           <ul className="text-gray-600">
-            <li>user name</li>
-            <li>Phone: 02384236</li>
-            <li>Email: alimam@gmail.com</li>
+            <li>{order.user.name}</li>
+            <li>Phone: {order.address.phone}</li>
+            <li>Email: {order.user.email}</li>
           </ul>
         </div>
         <div>
