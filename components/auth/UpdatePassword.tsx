@@ -6,6 +6,7 @@ import { FormEvent } from "react";
 import { toast } from "react-toastify";
 import useObjectStore from "use-object-store";
 import { useRouter } from "next/navigation";
+import uuid from "@/utility/uuid";
 
 const init = { current: "", password: "" };
 
@@ -24,7 +25,7 @@ export default function () {
     updatePassword({
       ...store,
       onSuccess() {
-        router.push("/me");
+        router.push(`/me?id=${uuid()}`);
         toast.success("Password updated successfully!");
         updateStore(init);
       },

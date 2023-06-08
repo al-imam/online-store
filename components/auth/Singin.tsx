@@ -7,6 +7,7 @@ import useAuth from "@/context/AuthProvider";
 import { toast } from "react-toastify";
 import emailRegex from "@/utility/regex";
 import { useRouter } from "next/navigation";
+import uuid from "@/utility/uuid";
 
 const init = { email: "", password: "" };
 
@@ -25,7 +26,7 @@ export default function () {
     singin({
       ...store,
       onSuccess() {
-        router.replace("/me");
+        router.replace(`/me?id=${uuid()}`);
         updateStore(init);
         toast.success("Singin success full!");
       },

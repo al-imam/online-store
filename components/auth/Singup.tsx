@@ -8,6 +8,7 @@ import useObjectStore from "use-object-store";
 import emailRegex from "@/utility/regex";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import uuid from "@/utility/uuid";
 
 interface SingupProps {}
 
@@ -37,7 +38,7 @@ const Singup: FunctionComponent<SingupProps> = () => {
         toast.error("Authentication failed!");
       },
       onSuccess() {
-        router.replace("/me");
+        router.replace(`/me?id=${uuid()}`);
         updateStore(init);
         toast.success("account created successfully!");
       },

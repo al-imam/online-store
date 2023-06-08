@@ -51,7 +51,7 @@ export default function () {
     updateProfile({
       formData: data,
       onSuccess(v) {
-        console.log(v);
+        toast.success("Profile updated successfully!");
       },
       onError(e) {
         console.log(e);

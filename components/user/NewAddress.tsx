@@ -6,6 +6,7 @@ import useObjectStore from "use-object-store";
 import useAddress from "@/context/AddressProvider";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import uuid from "@/utility/uuid";
 
 const countriesList = Object.values(countries).sort((a, b) =>
   a.name.localeCompare(b.name)
@@ -66,7 +67,7 @@ export default function ({
         toast.error("Something went wrong!");
       },
       onSuccess() {
-        router.push("/me");
+        router.push(`/me?id=${uuid()}`);
         updateAddress(init);
         toast.success("address update successfully!");
       },
@@ -81,7 +82,7 @@ export default function ({
         toast.error("Something went wrong!");
       },
       onSuccess() {
-        router.push("/me");
+        router.push(`/me?id=${uuid()}`);
         updateAddress(init);
         toast.success("address deleted successfully!");
       },

@@ -1,11 +1,5 @@
 import multer, { diskStorage } from "multer";
-import crypto from "crypto";
-
-const generateUuid = () => {
-  return [4, 2, 2, 2, 6]
-    .map((group) => crypto.randomBytes(group).toString("hex"))
-    .join("-");
-};
+import uuid from "@/utility/uuid";
 
 const time = new Intl.DateTimeFormat("en", {
   day: "2-digit",
@@ -34,7 +28,7 @@ export default multer({
     filename: function (req, { originalname }, callback) {
       callback(
         null,
-        `${getTime()}_${generateUuid()}.${originalname.split(".").at(-1)}`
+        `${getTime()}_${uuid()}.${originalname.split(".").at(-1)}`
       );
     },
   }),
