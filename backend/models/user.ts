@@ -1,5 +1,5 @@
 import getProfile from "@/utility/getProfile";
-import { Model, Schema, model, models, SchemaTypes } from "mongoose";
+import { Model, Schema, model, models } from "mongoose";
 import { hashSync } from "bcryptjs";
 import { UserInterface } from "@/types/UserInterface";
 
@@ -22,9 +22,9 @@ const user = new Schema<UserInterface>(
     },
 
     avatar: {
-      type: SchemaTypes.Mixed,
+      type: Schema.Types.Mixed,
       default: function () {
-        return getProfile(typeof this.email === "string" ? this.email[0] : "u");
+        return getProfile(this.name[0]);
       },
     },
 

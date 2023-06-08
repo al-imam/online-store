@@ -7,7 +7,7 @@ export interface UserInterface {
   email: string;
   password: string;
   avatar: AvatarType;
-  role: string;
+  role: "user" | "admin";
 }
 
 export interface UserWithId extends UserInterface {

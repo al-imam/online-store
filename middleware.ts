@@ -5,15 +5,17 @@ import { verify } from "@/backend/util/jwt";
 import { Types } from "mongoose";
 
 export async function middleware(req: NextRequest) {
-  const { id } = await verify(req.cookies.get(COOKIES)?.value as string);
+  const { id, role } = await verify(req.cookies.get(COOKIES)?.value as string);
 
   if (id && Types.ObjectId.isValid(id)) {
-    return NextResponse.next();
+    const admin = req.nextUrl.pathname.includes("/admin/");
+    if (!admin) return NextResponse.next();
+    if (role === "admin") return NextResponse.next();
   }
 
-  return NextResponse.redirect(new URL("/singup", req.url));
+  return NextResponse.redirect(new URL("/singin", req.url));
 }
 
 export const config = {
-  matcher: "/me/:name*",
+  matcher: ["/me/:name*", "/shipping"],
 };

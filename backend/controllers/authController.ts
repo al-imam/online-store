@@ -8,7 +8,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 export async function singup(req: NextApiRequest, res: NextApiResponse) {
   const user = await User.create(req.body.VALID_REQ);
 
-  const jwt = await sign({ id: user._id });
+  const jwt = await sign({ id: user._id, role: user.role });
 
   setCookie(COOKIES, jwt, { req, res });
 
@@ -37,7 +37,7 @@ export async function singin(req: NextApiRequest, res: NextApiResponse) {
     });
   }
 
-  const jwt = await sign({ id: user._id });
+  const jwt = await sign({ id: user._id, role: user.role });
 
   setCookie(COOKIES, jwt, { req, res });
 
