@@ -31,6 +31,8 @@ function calculateSkipNumber(num: string, fallback: number = 0) {
 export async function get(req: NextApiRequest, res: NextApiResponse) {
   const query = { user: req.body.$USER._id };
 
+  console.log(calculateSkipNumber(req.query.page as string), req.query);
+
   const orders = await Order.find(query, undefined, {
     limit: single,
     skip: calculateSkipNumber(req.query.page as string),

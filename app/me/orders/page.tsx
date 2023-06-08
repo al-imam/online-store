@@ -4,14 +4,21 @@ import { Get } from "@/utility/request";
 import { cookies } from "next/headers";
 import { OrderResponse } from "@/types/OrderInterface";
 
-export default async function () {
+export default async function ({
+  searchParams,
+}: {
+  searchParams: Record<string, any>;
+}) {
   const jwt = cookies().get(COOKIES)?.value;
 
-  const { data } = await Get<OrderResponse>("order/get-orders", {
-    headers: {
-      Authorization: `Bearer ${jwt}`,
-    },
-  });
+  const { data } = await Get<OrderResponse>(
+    `order/get-orders?page=${searchParams.page}`,
+    {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    }
+  );
 
   return <Order data={data} />;
 }

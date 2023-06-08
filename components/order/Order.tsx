@@ -14,7 +14,7 @@ export default function ({ data }: OderProps) {
         <OrderItem key={order._id} order={order} />
       ))}
 
-      <Pagination single={data.single} total={data.count} />
+      <Pagination single={data.single} total={data.count} path="me/orders" />
     </>
   );
 }

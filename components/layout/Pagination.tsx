@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 interface PaginationProps {
   total: number;
   single: number;
+  path?: string;
 }
 
 function parseInteger(str: string, fallback = 1) {
@@ -14,7 +15,7 @@ function parseInteger(str: string, fallback = 1) {
   return fallback;
 }
 
-function Pagination({ total, single }: PaginationProps) {
+function Pagination({ total, single, path = "" }: PaginationProps) {
   const sp = useSearchParams();
   const router = useRouter();
 
@@ -23,7 +24,7 @@ function Pagination({ total, single }: PaginationProps) {
   function changePage(nextPage: number) {
     const queryParams = new URLSearchParams(window.location.search);
     queryParams.set("page", nextPage.toString());
-    router.push(`/?${queryParams.toString()}`);
+    router.push(`/${path}?${queryParams.toString()}`);
   }
 
   return (
