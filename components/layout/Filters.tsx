@@ -18,19 +18,19 @@ type SN = string | null;
 interface Store {
   category: SN;
   rating: SN;
-  min: number | undefined;
-  max: number | undefined;
+  min: number | "";
+  max: number | "";
 }
 
 type FixQueryProblem = { rating: SN } | { category: SN };
 
-const Filters = () => {
+export default function () {
   const router = useRouter();
   const [store, updateStore] = useObjectStore<Store>({
     category: null,
     rating: null,
-    max: undefined,
-    min: undefined,
+    max: "",
+    min: "",
   });
 
   useEffect(() => {
@@ -67,35 +67,46 @@ const Filters = () => {
       qp.set(query, select.toLowerCase());
     }
 
+    qp.delete("page");
+    qp.set("page", "1");
+
     router.push(`/?${qp.toString()}`);
   }
 
   const minmax = {
     min(number: number) {
-      if (isNaN(number)) return updateStore({ min: undefined });
+      if (isNaN(number)) return updateStore({ min: "" });
       updateStore({ min: number });
     },
 
     max(number: number) {
-      if (isNaN(number)) return updateStore({ max: undefined });
+      if (isNaN(number)) return updateStore({ max: "" });
       updateStore({ max: number });
     },
   };
 
   function changePriceQuery(e: FormEvent) {
     e.preventDefault();
-
     const qp = new URLSearchParams(window.location.search);
+
+    const p = (name: string) => parseInt(qp.get("min")!) || "";
+    const changePage = store.min !== p("min") || store.max !== p("max");
 
     if (store.min) {
       qp.set("min", store.min.toString());
     } else {
       qp.delete("min");
     }
+
     if (store.max) {
       qp.set("max", store.max.toString());
     } else {
       qp.delete("max");
+    }
+
+    if (changePage) {
+      qp.delete("page");
+      qp.set("page", "1");
     }
 
     router.push(`/?${qp.toString()}`);
@@ -190,6 +201,4 @@ const Filters = () => {
       </div>
     </aside>
   );
-};
-
-export default Filters;
+}
