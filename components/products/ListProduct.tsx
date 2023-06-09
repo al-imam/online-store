@@ -1,12 +1,12 @@
 import React from "react";
 import type { FunctionComponent } from "react";
-import ServerResponse from "@/types/productInterface";
+import ProductInterface from "@/types/productInterface";
 import Filters from "@/components/layout/Filters";
 import ProductItem from "@/components/products/productItem";
 import Pagination from "@/components/layout/Pagination";
 
 interface ListProductProps {
-  data: { products: ServerResponse[]; total: number; single: number };
+  data: { products: ProductInterface[]; count: number; single: number };
 }
 
 const ListProduct: FunctionComponent<ListProductProps> = ({ data }) => (
@@ -19,7 +19,7 @@ const ListProduct: FunctionComponent<ListProductProps> = ({ data }) => (
             <ProductItem key={product._id} product={product} />
           ))}
 
-          <Pagination total={data.total} single={data.single} />
+          <Pagination total={data.count} single={data.single} />
         </main>
       </div>
     </div>

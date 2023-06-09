@@ -1,10 +1,9 @@
 import Product from "@/backend/models/product";
 import filter from "@/backend/util/filter";
 import { NextApiRequest, NextApiResponse } from "next";
+import parseNumber from "../util/parseNumber";
 
-const single = 2;
-
-function calculateSkipNumber(num: string, fallback: number = 0) {
+function calculateSkipNumber(num: string, fallback: number = 0, single = 2) {
   const n = parseInt(num as string);
   if (isNaN(n)) return fallback;
 
@@ -17,14 +16,16 @@ export async function add(req: NextApiRequest, res: NextApiResponse) {
 }
 
 export async function query(req: NextApiRequest, res: NextApiResponse) {
+  const single = parseNumber(req.query["docs-per-page"] as string, 2);
+
   const docs = await Product.find(filter(req.query), undefined, {
     skip: calculateSkipNumber(req.query.page as string),
     limit: single,
   });
 
-  const total = await Product.find(filter(req.query)).countDocuments();
+  const count = await Product.find(filter(req.query)).countDocuments();
 
-  res.status(200).json({ products: docs, total, single });
+  res.status(200).json({ products: docs, count, single });
 }
 
 export async function get(req: NextApiRequest, res: NextApiResponse) {

@@ -1,5 +1,5 @@
 import { Get } from "@/utility/request";
-import ServerResponse from "@/types/productInterface";
+import ProductInterface from "@/types/productInterface";
 import ListProduct from "@/components/products/ListProduct";
 import QueryInterface from "@/types/queryInterface";
 import stringifyQuery from "@/utility/stringifyQuery";
@@ -9,12 +9,12 @@ interface HomeProps {
 }
 
 interface DATA {
-  total: number;
+  count: number;
   single: number;
-  products: ServerResponse[];
+  products: ProductInterface[];
 }
 
-export default async function Home({ searchParams }: HomeProps) {
+export default async function ({ searchParams }: HomeProps) {
   const { data } = await Get<DATA>(`product/?${stringifyQuery(searchParams)}`);
 
   return <ListProduct data={data} />;

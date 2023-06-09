@@ -1,4 +1,4 @@
-import ServerResponse from "@/types/productInterface";
+import ProductInterface from "@/types/productInterface";
 import type { FunctionComponent } from "react";
 import Link from "next/link";
 import StarRating from "@/components/utility/StarRating";
@@ -6,7 +6,7 @@ import Image from "next/image";
 import AddToCartButton from "@/components/utility/AddToCartButton";
 
 interface ProductItemProps {
-  product: ServerResponse;
+  product: ProductInterface;
 }
 
 const ProductItem: FunctionComponent<ProductItemProps> = ({ product }) => (

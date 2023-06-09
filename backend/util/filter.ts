@@ -2,15 +2,10 @@ import QueryInterface from "@/types/queryInterface";
 import categories from "@/utility/categories";
 import capitalize from "@/utility/capitalize";
 import escapeStringRegexp from "escape-string-regexp";
+import parseNumber from "./parseNumber";
 
 function isEmpty(o: object): boolean {
   return Object.keys(o).length === 0;
-}
-
-function parseNumber(num: string, fallback: number) {
-  const n = parseFloat(num);
-  if (!isNaN(n)) return n;
-  return fallback;
 }
 
 interface QUERY {

@@ -9,7 +9,7 @@ interface Review {
   created: Date;
 }
 
-export default interface ServerResponse {
+export default interface ProductInterface {
   _id: string;
   name: string;
   description: string;

@@ -1,8 +1,8 @@
 import Link from "next/link";
-import ServerResponse from "@/types/productInterface";
+import ProductInterface from "@/types/productInterface";
 
 interface ProductRowProps {
-  product: Pick<ServerResponse, "name" | "price" | "stock">;
+  product: Pick<ProductInterface, "name" | "price" | "stock">;
 }
 
 export default function ({ product }: ProductRowProps) {

@@ -1,15 +1,15 @@
 import React from "react";
 import StarRating from "@/components/utility/StarRating";
-import ServerResponse from "@/types/productInterface";
+import ProductInterface from "@/types/productInterface";
 import ImageGallery from "@/components/utility/ImageGallery";
 import BreadCrumbs from "@/components/layout/BreadCrumbs";
 import AddToCartButton from "../utility/AddToCartButton";
 
 interface ProductDetailsProps {
-  product: ServerResponse;
+  product: ProductInterface;
 }
 
-const ProductDetails = ({ product }: ProductDetailsProps) => (
+export default ({ product }: ProductDetailsProps) => (
   <>
     <BreadCrumbs
       list={[
@@ -95,5 +95,3 @@ const ProductDetails = ({ product }: ProductDetailsProps) => (
     </section>
   </>
 );
-
-export default ProductDetails;

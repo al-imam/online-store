@@ -1,10 +1,10 @@
 "use client";
 
 import useCart from "@/store/useCart";
-import ServerResponse from "@/types/productInterface";
+import ProductInterface from "@/types/productInterface";
 
 interface AddToCartButtonProps {
-  product: ServerResponse;
+  product: ProductInterface;
 }
 
 function AddToCartButton({
