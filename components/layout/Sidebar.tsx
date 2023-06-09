@@ -13,7 +13,7 @@ export default function () {
       <ul className="sidebar">
         <li>
           <Link
-            href="/admin/products/new"
+            href="me/admin/products/new"
             className="block px-3 py-2 text-gray-800 hover:bg-blue-100 hover:text-blue-500 rounded-md"
           >
             New Product <span className="text-red-500">(Admin)</span>
@@ -22,7 +22,7 @@ export default function () {
 
         <li>
           <Link
-            href="/admin/products"
+            href="me/admin/products"
             className="block px-3 py-2 text-gray-800 hover:bg-blue-100 hover:text-blue-500 rounded-md"
           >
             All Products <span className="text-red-500">(Admin)</span>
@@ -31,7 +31,7 @@ export default function () {
 
         <li>
           <Link
-            href="/admin/orders"
+            href="me/admin/orders"
             className="block px-3 py-2 text-gray-800 hover:bg-blue-100 hover:text-blue-500 rounded-md"
           >
             All Orders <span className="text-red-500">(Admin)</span>
@@ -40,7 +40,7 @@ export default function () {
 
         <li>
           <Link
-            href="/admin/users"
+            href="me/admin/users"
             className="block px-3 py-2 text-gray-800 hover:bg-blue-100 hover:text-blue-500 rounded-md"
           >
             All Users <span className="text-red-500">(Admin)</span>
@@ -86,7 +86,7 @@ export default function () {
         <li>
           <a
             className="block px-3 py-2 text-red-800 hover:bg-red-100 hover:text-white-500 rounded-md cursor-pointer"
-            onClick={() => singout(() => router.push("/"))}
+            onClick={() => singout(() => router.push("/?page=1"))}
           >
             Logout
           </a>

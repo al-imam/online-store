@@ -1,5 +1,6 @@
 import Pagination from "@/components/layout/Pagination";
 import ProductInterface from "@/types/productInterface";
+import ProductRow from "@/components/admin/ProductRow";
 
 interface ProductTableProps {
   data: { products: ProductInterface[]; count: number; single: number };
@@ -26,10 +27,18 @@ export default function ({ data }: ProductTableProps) {
             </th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+          {data.products.map((product) => (
+            <ProductRow product={product} key={product._id} />
+          ))}
+        </tbody>
       </table>
       <div className="mb-6">
-        <Pagination single={data.single} total={data.count} />
+        <Pagination
+          single={data.single}
+          total={data.count}
+          path="me/admin/products"
+        />
       </div>
     </div>
   );
