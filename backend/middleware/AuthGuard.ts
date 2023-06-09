@@ -2,10 +2,13 @@ import { verify } from "../util/jwt";
 import wrap from "@/utility/wrapHandler";
 import { isValidObjectId } from "mongoose";
 import User from "@/backend/models/user";
-import { NextHandler } from "next-connect";
-import { NextApiRequest, NextApiResponse } from "next";
 
-function AuthGuard(role: string = "user") {
+function authRole(role: "user" | "admin", userRole: "user" | "admin") {
+  if (role === "user") return true;
+  return role === userRole;
+}
+
+function AuthGuard(role: "user" | "admin" = "user") {
   return wrap(async (req, res, next) => {
     const auth = req.headers.authorization;
     if (auth && auth.startsWith("Bearer ")) {
@@ -14,7 +17,7 @@ function AuthGuard(role: string = "user") {
       if (id !== null && isValidObjectId(id)) {
         const $USER = await User.findById(id).select("-password");
 
-        if ($USER && $USER.role === role) {
+        if ($USER && authRole(role, $USER.role)) {
           if (
             req.body instanceof Object &&
             !Array.isArray(req.body) &&
