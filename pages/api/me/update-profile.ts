@@ -7,7 +7,6 @@ import { verify } from "@/backend/util/jwt";
 import { Types } from "mongoose";
 import User from "@/backend/models/user";
 import { UserWithId } from "@/types/UserInterface";
-import validate from "nested-object-validate";
 
 dbConnect();
 
@@ -19,29 +18,16 @@ export const config: PageConfig = {
 
 const router = createRouter();
 
-function SHOC(
-  name: string,
-  callback: (value: any) => boolean | string
-): [string, (value: any) => string | boolean] {
-  return [
-    name,
-    (value: any) => {
-      if (typeof value === "undefined") return true;
-      return callback(value);
-    },
-  ];
-}
-
 router.post(
   async (req, res, next) => {
     const cookies = req.cookies[COOKIES];
     const { id } = await verify(cookies);
 
-    if (id !== null && Types.ObjectId.isValid(id)) {
-      const u = await User.findById(id);
-      if (u !== null) {
+    if (id && Types.ObjectId.isValid(id)) {
+      const user = await User.findById(id);
+      if (user) {
         /* @ts-ignore */
-        req.$USER = u;
+        req.$USER = user;
         return next();
       }
     }
@@ -54,35 +40,27 @@ router.post(
   multer.single("avatar"),
   async (req, res) => {
     const { $USER } = req as typeof req & { $USER: UserWithId };
+    const name = Object.assign({}, req.body).name;
 
-    const v = validate(
-      Object.assign({}, req.body),
-      [SHOC("name", (name) => typeof name === "string")],
-      {
-        strict: false,
-      }
-    );
-
-    if (!v.valid) {
-      return res.status(400).json({
-        message: "some properties are missing or invalid",
-        missing: v.missing,
-        invalid: v.invalid,
-      });
-    }
-
-    const updateUser = await User.findByIdAndUpdate($USER._id, v.checked, {
-      new: true,
-    }).select("-password");
-
-    if (updateUser === null) {
+    if (!["string", "undefined"].includes(typeof name)) {
       return res.status(400).json({
         code: "update-profile",
-        message: "Internal Server Error!",
+        message: "name is not valid",
       });
     }
 
-    res.status(200).json(updateUser);
+    const user = await User.findById($USER._id).select("-password");
+
+    if (user) {
+      user.name = name ?? user.name;
+      await user.save();
+      return res.status(200).json(user);
+    }
+
+    return res.status(404).json({
+      code: "update-profile",
+      message: "User not found!",
+    });
   }
 );
 
