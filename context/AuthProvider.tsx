@@ -1,15 +1,15 @@
 "use client";
 
+import Prettify from "@/types/Prettify";
 import { UserWithOutPassword } from "@/types/UserInterface";
 import COOKIES from "@/utility/COOKIES";
 import { dispatchManualChange, onLocalStorageChange } from "@/utility/event";
 import { Post, Put } from "@/utility/request";
 import { parseLocal, removeLocal, setLocal } from "@/utility/store";
 import { getCookie, hasCookie, removeCookies, setCookie } from "cookies-next";
-import validate from "nested-object-validate";
+import { validate } from "nested-object-validate";
 import type { FunctionComponent, ReactNode } from "react";
 import { createContext, useContext, useEffect, useState } from "react";
-import Prettify from "@/types/Prettify";
 
 interface NEP {
   name: string;

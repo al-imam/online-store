@@ -1,6 +1,5 @@
 import wrap from "@/utility/wrapHandler";
-import validate from "nested-object-validate";
-import { ValidatorType } from "nested-object-validate/dist/types";
+import { validate, ValidatorType } from "nested-object-validate";
 
 function validateBody(
   validators: ValidatorType[],
