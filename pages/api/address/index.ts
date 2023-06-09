@@ -44,10 +44,10 @@ router.post(
     NHOC("phone"),
     NHOC("zip"),
   ]),
-  AuthGuard,
+  AuthGuard(),
   wrap(add, "add-address")
 );
 
-router.get(AuthGuard, wrap(query, "query-addresses"));
+router.get(AuthGuard(), wrap(query, "query-addresses"));
 
 export default router;

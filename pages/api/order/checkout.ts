@@ -50,7 +50,7 @@ router.post(
         "addressId is not valid object id",
     },
   ]),
-  AuthGuard,
+  AuthGuard(),
   wrap(checkout, "checkout")
 );
 

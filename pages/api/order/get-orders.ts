@@ -8,6 +8,6 @@ dbConnect();
 
 const router = createRouter();
 
-router.get(AuthGuard, wrap(get, "get-orders"));
+router.get(AuthGuard(), wrap(get, "get-orders"));
 
 export default router;

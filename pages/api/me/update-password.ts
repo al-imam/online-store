@@ -24,7 +24,7 @@ router.put(
         "password must've 6 character long!",
     ],
   ]),
-  AuthGuard,
+  AuthGuard(),
   wrap(update, "update-password")
 );
 

@@ -46,19 +46,19 @@ router.put(
     NHOC("zip"),
   ]),
   validateObjectId(["addressId"], "query"),
-  AuthGuard,
+  AuthGuard(),
   wrap(update, "update-address")
 );
 
 router.get(
   validateObjectId(["addressId"], "query"),
-  AuthGuard,
+  AuthGuard(),
   wrap(get, "get-addresses")
 );
 
 router.delete(
   validateObjectId(["addressId"], "query"),
-  AuthGuard,
+  AuthGuard(),
   wrap(remove, "remove-address")
 );
 
