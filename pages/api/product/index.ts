@@ -3,25 +3,18 @@ import { add, query } from "@/backend/controllers/productController";
 import validateBody from "@/backend/middleware/validateBody";
 import categories from "@/utility/categories";
 import wrap from "@/utility/wrapHandler";
+import { ignoreUndefined, isString } from "nested-object-validate";
 import createRouter from "next-connect";
 
 dbConnect();
 
 const router = createRouter();
 
-function validUndefined(value: any, callback: () => boolean | string) {
-  if (value === undefined) return true;
-  return callback();
-}
-
 router.post(
   validateBody([
-    ["name", (name) => typeof name === "string" || "name must've string!"],
-    [
-      "description",
-      (description) =>
-        typeof description === "string" || "name must've string!",
-    ],
+    isString("name"),
+    isString("description"),
+    isString("seller"),
     [
       "price",
       (price) =>
@@ -35,10 +28,6 @@ router.post(
         "stock must've number and not've minus number!",
     ],
     [
-      "seller",
-      (seller) => typeof seller === "string" || "seller must've string!",
-    ],
-    [
       "category",
       (category) =>
         (typeof category === "string" &&
@@ -50,36 +39,23 @@ router.post(
   ]),
   validateBody(
     [
-      [
+      ignoreUndefined(
         "rating",
         (rating) =>
-          validUndefined(
-            rating,
-            () =>
-              (typeof rating === "number" && rating >= 0 && rating <= 5) ||
-              "rating must've number and between 0 to 5!"
-          ),
-      ],
-      [
+          (typeof rating === "number" && rating >= 0 && rating <= 5) ||
+          "rating must've number and between 0 to 5!"
+      ),
+      ignoreUndefined(
         "images",
         (images) =>
-          validUndefined(
-            images,
-            () =>
-              Array.isArray(images) ||
-              "images must've array of image url and id!"
-          ),
-      ],
-      [
+          Array.isArray(images) || "images must've array of image url and id!"
+      ),
+      ignoreUndefined(
         "reviews",
         (reviews) =>
-          validUndefined(
-            reviews,
-            () =>
-              Array.isArray(reviews) ||
-              "reviews must've array of comment and rating!"
-          ),
-      ],
+          Array.isArray(reviews) ||
+          "reviews must've array of comment and rating!"
+      ),
     ],
     { strict: false }
   ),

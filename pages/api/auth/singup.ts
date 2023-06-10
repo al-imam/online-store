@@ -4,6 +4,7 @@ import validateBody from "@/backend/middleware/validateBody";
 import emailRegex, { urlRegex } from "@/utility/regex";
 import createRouter from "next-connect";
 import wrap from "@/utility/wrapHandler";
+import { ignoreUndefined } from "nested-object-validate";
 
 dbConnect();
 
@@ -32,20 +33,14 @@ router.post(
   ]),
   validateBody(
     [
-      [
+      ignoreUndefined(
         "role",
-        (role) =>
-          Undefined(role, () => ["user", "admin"].includes(role)) ||
-          `${role} is not valid role`,
-      ],
-      [
+        (role) => ["user", "admin"].includes(role) || `${role} is not valid`
+      ),
+      ignoreUndefined(
         "avatar",
-        (avatar) =>
-          Undefined(
-            avatar,
-            () => avatar.match(urlRegex) !== null || "url is not valid"
-          ),
-      ],
+        (avatar) => avatar.match(urlRegex) !== null || "url is not valid"
+      ),
     ],
     { strict: false }
   ),

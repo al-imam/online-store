@@ -7,7 +7,7 @@ import { dispatchManualChange, onLocalStorageChange } from "@/utility/event";
 import { Post, Put } from "@/utility/request";
 import { parseLocal, removeLocal, setLocal } from "@/utility/store";
 import { getCookie, hasCookie, removeCookies, setCookie } from "cookies-next";
-import { validate } from "nested-object-validate";
+import { isString, validate } from "nested-object-validate";
 import type { FunctionComponent, ReactNode } from "react";
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -67,14 +67,17 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     const data = parseLocal(localName);
 
-    const v = validate(data, [
-      ["auth", (auth) => typeof auth === "string"],
-      ["user", (user, validate) => validate(user, ["name", "email", "avatar"])],
+    const result = validate(data, [
+      isString("auth"),
+      [
+        "user",
+        (user, v) => v(user, [isString("name"), isString("email"), "avatar"]),
+      ],
     ]);
 
-    if (v.valid) {
-      setCurrentUser(v.checked.user);
-      setCookie(COOKIES, v.checked.auth);
+    if (result.valid) {
+      setCurrentUser(result.checked.user);
+      setCookie(COOKIES, result.checked.auth);
     } else {
       setCurrentUser(null);
     }
