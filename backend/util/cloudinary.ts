@@ -1,9 +1,9 @@
 import { v2 } from "cloudinary";
 
 v2.config({
-  cloud_name: process.env.SETUP_PLEASE,
-  api_key: process.env.SETUP_PLEASE,
-  api_secret: process.env.SETUP_PLEASE,
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 export default function (
@@ -21,7 +21,7 @@ export default function (
 
       (err, result) => {
         if (result !== undefined) {
-          resolve({
+          return resolve({
             id: result.public_id,
             url: result.url,
           });

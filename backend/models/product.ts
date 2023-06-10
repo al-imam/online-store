@@ -19,8 +19,9 @@ const Product = new Schema(
 
     images: [
       {
-        id: String,
-        url: String,
+        _id: false,
+        id: { type: String, required: true },
+        url: { type: String, required: true },
       },
     ],
 
@@ -62,7 +63,13 @@ const Product = new Schema(
       type: String,
       required: [true, "product required category"],
       enum: {
-        values: ["electronics", "cameras", "laptops", "headphones", "sports"],
+        values: [
+          "electronics",
+          "cameras",
+          "laptops",
+          "headphones",
+          "sports",
+        ] as const,
         message: "select valid product category",
       },
     },
