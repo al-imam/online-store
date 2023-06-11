@@ -19,21 +19,23 @@ function getTime() {
     .replaceAll(", ", "_");
 }
 
-export default multer({
-  storage: diskStorage({
-    destination: function (req, file, callback) {
-      callback(null, "public/saves");
-    },
+export default function (name: string) {
+  return multer({
+    storage: diskStorage({
+      destination: function (req, file, callback) {
+        callback(null, `public/${name}`);
+      },
 
-    filename: function (req, { originalname }, callback) {
-      callback(
-        null,
-        `${getTime()}_${uuid()}.${originalname.split(".").at(-1)}`
-      );
-    },
-  }),
+      filename: function (req, { originalname }, callback) {
+        callback(
+          null,
+          `${getTime()}_${uuid()}.${originalname.split(".").at(-1)}`
+        );
+      },
+    }),
 
-  fileFilter(_, file, callback) {
-    callback(undefined as any, file.mimetype.includes("image/"));
-  },
-});
+    fileFilter(_, file, callback) {
+      callback(undefined as any, file.mimetype.includes("image/"));
+    },
+  });
+}

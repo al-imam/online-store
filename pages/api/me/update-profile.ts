@@ -37,7 +37,7 @@ router.post(
       message: "authorization headers is not valid or not sent",
     });
   },
-  multer.single("avatar"),
+  multer("avatar").single("avatar"),
   async (req, res) => {
     const { $USER } = req as typeof req & { $USER: UserWithId };
     const name = Object.assign({}, req.body).name;
@@ -51,16 +51,17 @@ router.post(
 
     const user = await User.findById($USER._id).select("-password");
 
-    if (user) {
-      user.name = name ?? user.name;
-      await user.save();
-      return res.status(200).json(user);
+    if (!user) {
+      return res.status(404).json({
+        code: "update-profile",
+        message: "User not found!",
+      });
     }
 
-    return res.status(404).json({
-      code: "update-profile",
-      message: "User not found!",
-    });
+    req.file && (user.avatar = req.file.path.replace("public", ""));
+    name && (user.name = name);
+    await user.save();
+    return res.status(200).json(user);
   }
 );
 
