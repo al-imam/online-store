@@ -5,6 +5,8 @@ import type { ReactNode } from "react";
 import { createContext, useContext } from "react";
 import ProductInterface from "@/types/productInterface";
 import { Post } from "@/utility/request";
+import COOKIES from "@/utility/COOKIES";
+import { getCookie } from "cookies-next";
 
 interface CallBackFun<Res = undefined> {
   onError: (error: any) => void;
@@ -34,10 +36,21 @@ export function ProductProvider({ children }: ProductProviderProps) {
   const create: ModifyFun<Product> = async ({
     onError = () => {},
     onSuccess = () => {},
-    ...product
+    ...rest
   }) => {
+    const product = Object.fromEntries(
+      Object.entries(rest).map(([key, value]) =>
+        ["price", "stock"].includes(key)
+          ? [key, parseFloat(value)]
+          : [key, value]
+      )
+    );
+
     try {
-      const { data } = await Post("product", product);
+      const { data } = await Post("product", product, {
+        headers: { Authorization: `Bearer ${getCookie(COOKIES)}` },
+      });
+
       onSuccess(data);
     } catch (e) {
       onError(e);

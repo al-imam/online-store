@@ -1,5 +1,6 @@
 import dbConnect from "@/backend/config/dbConnect";
 import { add, query } from "@/backend/controllers/productController";
+import AuthGuard from "@/backend/middleware/AuthGuard";
 import validateBody from "@/backend/middleware/validateBody";
 import categories from "@/utility/categories";
 import wrap from "@/utility/wrapHandler";
@@ -37,6 +38,7 @@ router.post(
         `${category} is not a valid category!`,
     ],
   ]),
+  AuthGuard("admin"),
   wrap(add, "add-product")
 );
 
