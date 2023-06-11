@@ -6,29 +6,15 @@ v2.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export default function (
-  file: string,
-  folder: string
-): Promise<{ id: string; url: string }> {
-  return new Promise((resolve, reject) => {
-    v2.uploader.upload(
-      file,
-
-      {
-        resource_type: "auto",
-        folder: folder,
-      },
-
-      (err, result) => {
-        if (result !== undefined) {
-          return resolve({
-            id: result.public_id,
-            url: result.url,
-          });
-        }
-
-        reject(err);
-      }
-    );
+export function cloudUpload(file: string, folder: string) {
+  return v2.uploader.upload(file, {
+    resource_type: "auto",
+    folder: folder,
   });
 }
+
+export async function uploadAvatar(file: string) {
+  return cloudUpload(file, "online-store/avatar");
+}
+
+export const cloudinary = v2;
