@@ -11,7 +11,9 @@ function calculateSkipNumber(num: string, fallback: number = 0, single = 2) {
 }
 
 export async function add(req: NextApiRequest, res: NextApiResponse) {
-  const newDocs = await Product.create(req.body.VALID_REQ);
+  const newDocs = await Product.create(
+    Object.assign(req.body.VALID_REQ, { user: req.body.$USER._id })
+  );
   res.status(201).json(newDocs);
 }
 

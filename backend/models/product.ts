@@ -2,6 +2,12 @@ import { Model, Schema, model, models } from "mongoose";
 
 const Product = new Schema(
   {
+    user: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
+
     name: {
       type: String,
       required: [true, "product required name"],
@@ -35,10 +41,7 @@ const Product = new Schema(
       required: [true, "product required stock"],
     },
 
-    rating: {
-      type: Number,
-      default: 0,
-    },
+    rating: { type: Number, default: 0 },
 
     reviews: [
       {
