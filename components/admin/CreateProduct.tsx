@@ -1,15 +1,63 @@
 "use client";
 
+import useProduct from "@/context/ProductProvider";
 import categories from "@/utility/categories";
+import { ChangeEvent, ChangeEventHandler, FormEvent } from "react";
+import { toast } from "react-toastify";
+import useObjectStore from "use-object-store";
+
+const init = {
+  name: "",
+  description: "",
+  price: "",
+  category: categories[0].toLowerCase(),
+  seller: "",
+  stock: "",
+};
 
 export default function () {
+  const [store, updateStore] = useObjectStore(init);
+  const { create } = useProduct();
+
+  function onChange(
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) {
+    updateStore({
+      [e.target.name as keyof typeof init]: e.target.value,
+    } as Record<keyof typeof init, string>);
+  }
+
+  function onSubmit(e: FormEvent) {
+    e.preventDefault();
+
+    if (
+      Object.entries(store).some(([key, value]) =>
+        ["price", "stock"].includes(key)
+          ? isNaN(parseFloat(value))
+          : value.trim() === ""
+      )
+    ) {
+      toast.error("Enter valid data!");
+    }
+
+    create({
+      ...store,
+      onSuccess(response) {
+        updateStore(init);
+      },
+      onError(error) {
+        console.log(error);
+      },
+    });
+  }
+
   return (
     <section className="container max-w-3xl p-6 mx-auto">
       <h1 className="mb-3 text-xl md:text-3xl font-semibold text-black">
         Create New Product
       </h1>
 
-      <form>
+      <form onSubmit={onSubmit} noValidate>
         <div className="mb-4">
           <label className="block mb-1"> Name </label>
           <input
@@ -17,6 +65,8 @@ export default function () {
             className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
             placeholder="Product name"
             name="name"
+            value={store.name}
+            onChange={onChange}
             required
           />
         </div>
@@ -28,6 +78,8 @@ export default function () {
             className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
             placeholder="Product description"
             name="description"
+            value={store.description}
+            onChange={onChange}
             required
           ></textarea>
         </div>
@@ -42,6 +94,8 @@ export default function () {
                   className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
                   placeholder="0.00"
                   name="price"
+                  value={store.price}
+                  onChange={onChange}
                   required
                 />
               </div>
@@ -53,10 +107,12 @@ export default function () {
               <select
                 className="block appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
                 name="category"
+                value={store.category}
+                onChange={onChange}
                 required
               >
                 {categories.map((category) => (
-                  <option key={category} value={category}>
+                  <option key={category} value={category.toLowerCase()}>
                     {category}
                   </option>
                 ))}
@@ -83,6 +139,8 @@ export default function () {
               className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
               placeholder="Seller or brand"
               name="seller"
+              value={store.seller}
+              onChange={(e) => updateStore({ seller: e.target.value })}
               required
             />
           </div>
@@ -96,6 +154,8 @@ export default function () {
                   className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
                   placeholder="0"
                   name="stock"
+                  value={store.stock}
+                  onChange={(e) => updateStore({ stock: e.target.value })}
                   required
                 />
               </div>

@@ -4,7 +4,7 @@ import { ChangeEvent, FormEvent } from "react";
 import useObjectStore from "use-object-store";
 import { useRouter } from "next/navigation";
 
-const Search = () => {
+export default function () {
   const [{ search }, updateStore] = useObjectStore({ search: "" });
   const router = useRouter();
 
@@ -53,6 +53,4 @@ const Search = () => {
       </button>
     </form>
   );
-};
-
-export default Search;
+}
