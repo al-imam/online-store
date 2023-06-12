@@ -1,1 +1,9 @@
-export default ["Electronics", "Laptops", "Toys", "Office", "Beauty"];
+export default [
+  "Electronics",
+  "Cameras",
+  "Laptops",
+  "Headphones",
+  "Sports",
+  "Toys",
+  "Beauty",
+];

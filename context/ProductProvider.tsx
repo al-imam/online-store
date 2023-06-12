@@ -3,12 +3,11 @@
 import Prettify from "@/types/Prettify";
 import type { ReactNode } from "react";
 import { createContext, useContext } from "react";
-import ProductInterface from "@/types/productInterface";
 import { Post } from "@/utility/request";
 import COOKIES from "@/utility/COOKIES";
 import { getCookie } from "cookies-next";
 
-interface CallBackFun<Res = undefined> {
+interface CallBackFun<Res = any> {
   onError: (error: any) => void;
   onSuccess: (response: Res) => void;
 }
@@ -18,9 +17,7 @@ type Product = Record<
   string
 >;
 
-type ModifyFun<T, S = undefined> = (
-  values: T & Partial<CallBackFun<S>>
-) => void;
+type ModifyFun<T, S = any> = (values: T & Partial<CallBackFun<S>>) => void;
 
 interface ProductValue {
   create: ModifyFun<Product>;

@@ -2,9 +2,10 @@
 
 import useProduct from "@/context/ProductProvider";
 import categories from "@/utility/categories";
-import { ChangeEvent, ChangeEventHandler, FormEvent } from "react";
+import { ChangeEvent, FormEvent } from "react";
 import { toast } from "react-toastify";
 import useObjectStore from "use-object-store";
+import { useRouter } from "next/navigation";
 
 const init = {
   name: "",
@@ -18,12 +19,13 @@ const init = {
 export default function () {
   const [store, updateStore] = useObjectStore(init);
   const { create } = useProduct();
+  const router = useRouter();
 
   function onChange(
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) {
     updateStore({
-      [e.target.name as keyof typeof init]: e.target.value,
+      [e.target.name]: e.target.value,
     } as Record<keyof typeof init, string>);
   }
 
@@ -44,9 +46,10 @@ export default function () {
       ...store,
       onSuccess(response) {
         updateStore(init);
+        router.replace(`/me/admin/products`);
       },
       onError(error) {
-        console.log(error);
+        console.warn(error);
       },
     });
   }

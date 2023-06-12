@@ -73,6 +73,7 @@ const Product = new Schema(
           "headphones",
           "sports",
           "toys",
+          "beauty",
         ] as const,
         message: "select valid product category",
       },
