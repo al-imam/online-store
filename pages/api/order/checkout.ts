@@ -8,6 +8,7 @@ import wrap from "@/utility/wrapHandler";
 
 import createRouter from "next-connect";
 import { isString } from "nested-object-validate";
+import { UserWithId } from "@/types/UserInterface";
 
 dbConnect();
 
@@ -52,7 +53,19 @@ router.post(
     ],
   ]),
   AuthGuard(),
-  wrap(checkout, "checkout")
+  wrap<{
+    $user: UserWithId;
+    $data: {
+      items: {
+        price: number;
+        quantity: number;
+        imageURL: string;
+        name: string;
+        id: string;
+      }[];
+      addressId: string;
+    };
+  }>(checkout, "checkout")
 );
 
 export default router;

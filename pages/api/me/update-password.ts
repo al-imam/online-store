@@ -4,6 +4,7 @@ import { update } from "@/backend/controllers/authController";
 import AuthGuard from "@/backend/middleware/AuthGuard";
 import validateBody from "@/backend/middleware/validateBody";
 import wrap from "@/utility/wrapHandler";
+import { UserWithId } from "@/types/UserInterface";
 
 dbConnect();
 
@@ -25,7 +26,10 @@ router.put(
     ],
   ]),
   AuthGuard(),
-  wrap(update, "update-password")
+  wrap<{ $data: { current: string; password: string }; $user: UserWithId }>(
+    update,
+    "update-password"
+  )
 );
 
 export default router;

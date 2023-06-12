@@ -2,14 +2,20 @@ import dbConnect from "@/backend/config/dbConnect";
 import { add, query } from "@/backend/controllers/productController";
 import AuthGuard from "@/backend/middleware/AuthGuard";
 import validateBody from "@/backend/middleware/validateBody";
+import { MyRequest } from "@/types/NextApiResponse";
+import { UserWithId } from "@/types/UserInterface";
 import categories from "@/utility/categories";
 import wrap from "@/utility/wrapHandler";
 import { isString } from "nested-object-validate";
+import { NextApiResponse } from "next";
 import createRouter from "next-connect";
 
 dbConnect();
 
-const router = createRouter();
+const router = createRouter<
+  MyRequest<{ $user: UserWithId; $data: Record<string, any> }>,
+  NextApiResponse
+>();
 
 router.post(
   validateBody([

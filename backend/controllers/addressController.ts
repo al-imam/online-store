@@ -2,13 +2,20 @@ import Address from "@/backend/models/address";
 import { NextApiResponse } from "next";
 import { MyRequest } from "@/types/NextApiResponse";
 import { UserWithId } from "@/types/UserInterface";
+import colorLog from "@/utility/colorLog";
+
+type AddressRequest<T extends object = {}> = MyRequest<{
+  $user: UserWithId;
+  $data: { addressId: string } & T;
+}>;
 
 export async function add(
-  req: MyRequest<{ $user: UserWithId }>,
+  req: MyRequest<{ $user: UserWithId; $data: Record<string, any> }>,
   res: NextApiResponse
 ) {
+  colorLog(req);
   const address = await Address.create({
-    ...req.body.VALID_REQ,
+    ...req.$data,
     user: req.$user._id,
   });
 
@@ -23,62 +30,57 @@ export async function query(
   res.status(200).json(addresses);
 }
 
-export async function get(
-  req: MyRequest<{ $user: UserWithId }>,
-  res: NextApiResponse
-) {
-  const address = await Address.findOne({
-    _id: req.body.VALID_ID.addressId,
+export async function get(req: AddressRequest, res: NextApiResponse) {
+  const doc = await Address.findOne({
+    _id: req.$data.addressId,
     user: req.$user._id,
   });
 
-  if (address === null) {
-    return res.status(400).json({
+  if (doc === null) {
+    return res.status(404).json({
       code: "not-found",
       message: "address not found",
     });
   }
 
-  res.status(200).json(address);
+  res.status(200).json(doc);
 }
 
-export async function remove(
-  req: MyRequest<{ $user: UserWithId }>,
-  res: NextApiResponse
-) {
-  const address = await Address.findOneAndDelete({
-    _id: req.body.VALID_ID.addressId,
+export async function remove(req: AddressRequest, res: NextApiResponse) {
+  const doc = await Address.findOne({
+    _id: req.$data.addressId,
     user: req.$user._id,
   });
 
-  if (address === null) {
-    return res.status(400).json({
+  if (doc === null) {
+    return res.status(404).json({
       code: "not-found",
       message: "address not found",
     });
   }
 
-  res.status(200).json(address);
+  await doc.deleteOne();
+
+  res.status(200).json({ success: true });
 }
 
 export async function update(
-  req: MyRequest<{ $user: UserWithId }>,
+  req: AddressRequest<Record<string, any>>,
   res: NextApiResponse
 ) {
-  const address = await Address.findOneAndUpdate(
-    {
-      _id: req.body.VALID_ID.addressId,
-      user: req.$user._id,
-    },
-    req.body.VALID_REQ
-  );
+  const doc = await Address.findOne({
+    _id: req.$data.addressId,
+    user: req.$user._id,
+  });
 
-  if (address === null) {
-    return res.status(400).json({
+  if (doc === null) {
+    return res.status(404).json({
       code: "not-found",
       message: "address not found",
     });
   }
 
-  res.status(200).json(address);
+  await doc.updateOne(req.$data);
+
+  res.status(200).json({ success: true });
 }

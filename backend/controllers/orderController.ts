@@ -62,17 +62,21 @@ export async function get(
 }
 
 export async function checkout(
-  req: MyRequest<{ $user: UserWithId }>,
+  req: MyRequest<{
+    $user: UserWithId;
+    $data: {
+      items: {
+        price: number;
+        quantity: number;
+        imageURL: string;
+        name: string;
+        id: string;
+      }[];
+      addressId: string;
+    };
+  }>,
   res: NextApiResponse
 ) {
-  const items = req.body.VALID_REQ.items as {
-    price: number;
-    quantity: number;
-    imageURL: string;
-    name: string;
-    id: string;
-  }[];
-
   const session = await stripe.checkout.sessions.create({
     success_url: `${base}/me/orders/?success=true&id=${req.$user._id.toString()}`,
     cancel_url: `${base}/shipping`,
@@ -82,9 +86,9 @@ export async function checkout(
     client_reference_id: req.$user._id.toString(),
 
     shipping_options: [{ shipping_rate: "shr_1NKOayDAmKh5IENMXOovXHLW" }],
-    metadata: { addressId: req.body.VALID_REQ.addressId },
+    metadata: { addressId: req.$data.addressId },
 
-    line_items: items.map((item) => ({
+    line_items: req.$data.items.map((item) => ({
       quantity: item.quantity,
       tax_rates: ["txr_1NJbKiDAmKh5IENMxMW32K5n"],
       price_data: {

@@ -13,13 +13,13 @@ function calculateSkipNumber(num: string, fallback: number = 0, single = 2) {
 }
 
 export async function add(
-  req: MyRequest<{ $user: UserWithId }>,
+  req: MyRequest<{ $user: UserWithId; $data: Record<string, any> }>,
   res: NextApiResponse
 ) {
-  const newDocs = await Product.create(
-    Object.assign(req.body.VALID_REQ, { user: req.$user._id })
+  const doc = await Product.create(
+    Object.assign(req.$data, { user: req.$user._id })
   );
-  res.status(201).json(newDocs);
+  res.status(201).json(doc);
 }
 
 export async function query(req: NextApiRequest, res: NextApiResponse) {

@@ -8,11 +8,6 @@ import { ignoreUndefined } from "nested-object-validate";
 
 dbConnect();
 
-function Undefined(value: any, callback: () => boolean | string) {
-  if (value === undefined) return true;
-  return callback();
-}
-
 const router = createRouter();
 
 router.post(

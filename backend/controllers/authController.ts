@@ -7,8 +7,11 @@ import { NextApiResponse } from "next";
 import { MyRequest } from "@/types/NextApiResponse";
 import { UserWithId } from "@/types/UserInterface";
 
-export async function singup(req: MyRequest, res: NextApiResponse) {
-  const user = await User.create(req.body.VALID_REQ);
+export async function singup(
+  req: MyRequest<{ $data: Record<"password" | "name" | "email", string> }>,
+  res: NextApiResponse
+) {
+  const user = await User.create(req.$data);
 
   const jwt = await sign({ id: user._id, role: user.role });
 
@@ -20,8 +23,11 @@ export async function singup(req: MyRequest, res: NextApiResponse) {
   });
 }
 
-export async function singin(req: MyRequest, res: NextApiResponse) {
-  const { email, password } = req.body.VALID_REQ;
+export async function singin(
+  req: MyRequest<{ $data: { email: string; password: string } }>,
+  res: NextApiResponse
+) {
+  const { email, password } = req.$data;
 
   const user = await User.findOne({ email });
 
@@ -50,14 +56,17 @@ export async function singin(req: MyRequest, res: NextApiResponse) {
 }
 
 export async function update(
-  req: MyRequest<{ $user: UserWithId }>,
+  req: MyRequest<{
+    $user: UserWithId;
+    $data: { current: string; password: string };
+  }>,
   res: NextApiResponse
 ) {
   const user = await User.findById(req.$user._id);
 
   if (user !== null) {
-    if (compareSync(req.body.VALID_REQ.current, user.password)) {
-      user.password = req.body.VALID_REQ.password;
+    if (compareSync(req.$data.current, user.password)) {
+      user.password = req.$data.password;
 
       await user.save();
       return res.status(200).json({
