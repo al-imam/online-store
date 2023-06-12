@@ -6,6 +6,7 @@ import { ChangeEvent, FormEvent } from "react";
 import { toast } from "react-toastify";
 import useObjectStore from "use-object-store";
 import { useRouter } from "next/navigation";
+import uuid from "@/utility/uuid";
 
 const init = {
   name: "",
@@ -44,9 +45,9 @@ export default function () {
 
     create({
       ...store,
-      onSuccess(response) {
+      onSuccess() {
         updateStore(init);
-        router.replace(`/me/admin/products`);
+        router.push(`/me/admin/products?id=${uuid()}`);
       },
       onError(error) {
         console.warn(error);
