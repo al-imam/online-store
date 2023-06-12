@@ -2,9 +2,9 @@ import { Types } from "mongoose";
 import wrap from "@/utility/wrapHandler";
 
 function validateObjectId(ids: string[], validate: "body" | "query" = "body") {
-  return wrap(async (req, res, next) => {
+  return wrap<{ $data: Record<string, any> }>(async (req, res, next) => {
     const invalidIds: Record<string, string>[] = [];
-    const valid: Record<string, string> = {};
+    const valid: Record<string, any> = {};
 
     ids.forEach((id) => {
       if (!Types.ObjectId.isValid(req[validate][id])) {
@@ -16,19 +16,13 @@ function validateObjectId(ids: string[], validate: "body" | "query" = "body") {
 
     if (invalidIds.length === 0) {
       if (
-        req.body.VALID_ID !== null &&
-        req.body.VALID_ID instanceof Object &&
-        !Array.isArray(req.body.VALID_ID)
+        typeof req.$data === "object" &&
+        !Array.isArray(req.$data) &&
+        req.$data !== null
       ) {
-        req.body.VALID_ID = Object.assign(req.body.VALID_ID, valid);
-      } else if (
-        req.body instanceof Object &&
-        !Array.isArray(req.body) &&
-        req.body !== null
-      ) {
-        req.body.VALID_ID = valid;
+        req.$data = Object.assign(req.$data, valid);
       } else {
-        req.body = { VALID_ID: valid };
+        req.$data = valid;
       }
 
       return next();
