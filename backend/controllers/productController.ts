@@ -56,7 +56,5 @@ export async function remove(req: NextApiRequest, res: NextApiResponse) {
 
   await doc.deleteOne();
 
-  // revalidatePath("/me/admin/products");
-
-  res.status(201).json({ success: true });
+  res.status(200).json({ success: true });
 }

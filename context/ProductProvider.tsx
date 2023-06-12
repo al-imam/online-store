@@ -3,7 +3,7 @@
 import Prettify from "@/types/Prettify";
 import type { ReactNode } from "react";
 import { createContext, useContext } from "react";
-import { Post } from "@/utility/request";
+import { Delete, Post } from "@/utility/request";
 import COOKIES from "@/utility/COOKIES";
 import { getCookie } from "cookies-next";
 
@@ -21,6 +21,7 @@ type ModifyFun<T, S = any> = (values: T & Partial<CallBackFun<S>>) => void;
 
 interface ProductValue {
   create: ModifyFun<Product>;
+  remove: ModifyFun<{ id: string }>;
 }
 
 const ProductContext = createContext<ProductValue | null>(null);
@@ -54,8 +55,24 @@ export function ProductProvider({ children }: ProductProviderProps) {
     }
   };
 
+  const remove: ModifyFun<{ id: string }> = async ({
+    onError = () => {},
+    onSuccess = () => {},
+    id,
+  }) => {
+    try {
+      const { data } = await Delete(`product/${id}`, {
+        headers: { Authorization: `Bearer ${getCookie(COOKIES)}` },
+      });
+
+      onSuccess(data);
+    } catch (e) {
+      onError(e);
+    }
+  };
+
   return (
-    <ProductContext.Provider value={{ create }}>
+    <ProductContext.Provider value={{ create, remove }}>
       {children}
     </ProductContext.Provider>
   );
