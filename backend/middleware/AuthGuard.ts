@@ -2,6 +2,8 @@ import { verify } from "../util/jwt";
 import wrap from "@/utility/wrapHandler";
 import { isValidObjectId } from "mongoose";
 import User from "@/backend/models/user";
+import { UserWithId } from "@/types/UserInterface";
+import Prettify from "@/types/Prettify";
 
 function authRole(role: "user" | "admin", userRole: "user" | "admin") {
   if (role === "user") return true;
@@ -9,24 +11,16 @@ function authRole(role: "user" | "admin", userRole: "user" | "admin") {
 }
 
 function AuthGuard(role: "user" | "admin" = "user") {
-  return wrap(async (req, res, next) => {
+  return wrap<{ $user: UserWithId }>(async (req, res, next) => {
     const auth = req.headers.authorization;
     if (auth && auth.startsWith("Bearer ")) {
       const { id } = await verify(auth.replace("Bearer ", ""));
 
       if (id !== null && isValidObjectId(id)) {
-        const $USER = await User.findById(id).select("-password");
+        const user = await User.findById(id).select("-password");
 
-        if ($USER && authRole(role, $USER.role)) {
-          if (
-            req.body instanceof Object &&
-            !Array.isArray(req.body) &&
-            req.body !== null
-          ) {
-            req.body.$USER = $USER;
-          } else {
-            req.body = { $USER };
-          }
+        if (user && authRole(role, user.role)) {
+          req.$user = user.toObject();
           return next();
         }
       }

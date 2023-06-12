@@ -3,9 +3,11 @@ import { compareSync } from "bcryptjs";
 import { sign } from "../util/jwt";
 import { setCookie } from "cookies-next";
 import COOKIES from "@/utility/COOKIES";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiResponse } from "next";
+import { MyRequest } from "@/types/NextApiResponse";
+import { UserWithId } from "@/types/UserInterface";
 
-export async function singup(req: NextApiRequest, res: NextApiResponse) {
+export async function singup(req: MyRequest, res: NextApiResponse) {
   const user = await User.create(req.body.VALID_REQ);
 
   const jwt = await sign({ id: user._id, role: user.role });
@@ -18,7 +20,7 @@ export async function singup(req: NextApiRequest, res: NextApiResponse) {
   });
 }
 
-export async function singin(req: NextApiRequest, res: NextApiResponse) {
+export async function singin(req: MyRequest, res: NextApiResponse) {
   const { email, password } = req.body.VALID_REQ;
 
   const user = await User.findOne({ email });
@@ -47,8 +49,11 @@ export async function singin(req: NextApiRequest, res: NextApiResponse) {
   });
 }
 
-export async function update(req: NextApiRequest, res: NextApiResponse) {
-  const user = await User.findById(req.body.$USER._id);
+export async function update(
+  req: MyRequest<{ $user: UserWithId }>,
+  res: NextApiResponse
+) {
+  const user = await User.findById(req.$user._id);
 
   if (user !== null) {
     if (compareSync(req.body.VALID_REQ.current, user.password)) {

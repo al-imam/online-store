@@ -2,7 +2,8 @@ import Product from "@/backend/models/product";
 import filter from "@/backend/util/filter";
 import { NextApiRequest, NextApiResponse } from "next";
 import parseNumber from "../util/parseNumber";
-import { revalidatePath } from "next/cache";
+import { MyRequest } from "@/types/NextApiResponse";
+import { UserWithId } from "@/types/UserInterface";
 
 function calculateSkipNumber(num: string, fallback: number = 0, single = 2) {
   const n = parseInt(num as string);
@@ -11,9 +12,12 @@ function calculateSkipNumber(num: string, fallback: number = 0, single = 2) {
   return n === 0 ? 0 : n * single - single;
 }
 
-export async function add(req: NextApiRequest, res: NextApiResponse) {
+export async function add(
+  req: MyRequest<{ $user: UserWithId }>,
+  res: NextApiResponse
+) {
   const newDocs = await Product.create(
-    Object.assign(req.body.VALID_REQ, { user: req.body.$USER._id })
+    Object.assign(req.body.VALID_REQ, { user: req.$user._id })
   );
   res.status(201).json(newDocs);
 }

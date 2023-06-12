@@ -11,6 +11,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import Address from "@/backend/models/address";
 import User from "@/backend/models/user";
 import Product from "@/backend/models/product";
+import { MyRequest } from "@/types/NextApiResponse";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2022-11-15",
@@ -28,8 +29,11 @@ function calculateSkipNumber(num: string, fallback: number = 0) {
   return n === 0 ? 0 : n * single - single;
 }
 
-export async function get(req: NextApiRequest, res: NextApiResponse) {
-  const query = { user: req.body.$USER._id };
+export async function get(
+  req: MyRequest<{ $user: UserWithId }>,
+  res: NextApiResponse
+) {
+  const query = { user: req.$user._id };
 
   const orders = await Order.find(query, undefined, {
     limit: single,
@@ -57,8 +61,10 @@ export async function get(req: NextApiRequest, res: NextApiResponse) {
   res.status(200).json({ orders, single, count });
 }
 
-export async function checkout(req: NextApiRequest, res: NextApiResponse) {
-  const $user = req.body.$USER as UserWithId;
+export async function checkout(
+  req: MyRequest<{ $user: UserWithId }>,
+  res: NextApiResponse
+) {
   const items = req.body.VALID_REQ.items as {
     price: number;
     quantity: number;
@@ -68,12 +74,12 @@ export async function checkout(req: NextApiRequest, res: NextApiResponse) {
   }[];
 
   const session = await stripe.checkout.sessions.create({
-    success_url: `${base}/me/orders/?success=true&id=${$user._id.toString()}`,
+    success_url: `${base}/me/orders/?success=true&id=${req.$user._id.toString()}`,
     cancel_url: `${base}/shipping`,
     mode: "payment",
     payment_method_types: ["card"],
-    customer_email: $user.email,
-    client_reference_id: $user._id.toString(),
+    customer_email: req.$user.email,
+    client_reference_id: req.$user._id.toString(),
 
     shipping_options: [{ shipping_rate: "shr_1NKOayDAmKh5IENMXOovXHLW" }],
     metadata: { addressId: req.body.VALID_REQ.addressId },
