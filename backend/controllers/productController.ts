@@ -2,6 +2,7 @@ import Product from "@/backend/models/product";
 import filter from "@/backend/util/filter";
 import { NextApiRequest, NextApiResponse } from "next";
 import parseNumber from "../util/parseNumber";
+import { revalidatePath } from "next/cache";
 
 function calculateSkipNumber(num: string, fallback: number = 0, single = 2) {
   const n = parseInt(num as string);
@@ -41,4 +42,21 @@ export async function get(req: NextApiRequest, res: NextApiResponse) {
   }
 
   res.status(200).json(doc);
+}
+
+export async function remove(req: NextApiRequest, res: NextApiResponse) {
+  const doc = await Product.findById(req.query.id);
+
+  if (!doc) {
+    return res.status(404).json({
+      code: "remove-product",
+      message: "Product not found!",
+    });
+  }
+
+  await doc.deleteOne();
+
+  // revalidatePath("/me/admin/products");
+
+  res.status(201).json({ success: true });
 }
