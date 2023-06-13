@@ -1,6 +1,11 @@
 import { Model, Schema, model, models } from "mongoose";
+import ProductInterface from "@/types/productInterface";
 
-const Product = new Schema(
+interface ProductIF extends ProductInterface {
+  user: Schema.Types.ObjectId;
+}
+
+const Product = new Schema<Omit<ProductIF, "__v" | "_id">>(
   {
     user: {
       type: Schema.Types.ObjectId,
@@ -83,5 +88,5 @@ const Product = new Schema(
   { timestamps: { createdAt: "created", updatedAt: false } }
 );
 
-export default (models.Product as Model<typeof Product>) ||
+export default (models.Product as Model<Omit<ProductIF, "__v" | "_id">>) ||
   model("Product", Product);

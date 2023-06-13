@@ -1,12 +1,11 @@
 import dbConnect from "@/backend/config/dbConnect";
 import createRouter from "next-connect";
 import multer from "@/backend/util/multer";
-import { PageConfig } from "next";
-import COOKIES from "@/utility/COOKIES";
-import { verify } from "@/backend/util/jwt";
-import { Types } from "mongoose";
+import { NextApiResponse, PageConfig } from "next";
 import User from "@/backend/models/user";
 import { UserWithId } from "@/types/UserInterface";
+import AuthGuard from "@/backend/middleware/AuthGuard";
+import { MyRequest } from "@/types/NextApiResponse";
 
 dbConnect();
 
@@ -16,30 +15,15 @@ export const config: PageConfig = {
   },
 };
 
-const router = createRouter();
+const router = createRouter<
+  MyRequest<{ $user: UserWithId }>,
+  NextApiResponse
+>();
 
 router.post(
-  async (req, res, next) => {
-    const cookies = req.cookies[COOKIES];
-    const { id } = await verify(cookies);
-
-    if (id && Types.ObjectId.isValid(id)) {
-      const user = await User.findById(id);
-      if (user) {
-        /* @ts-ignore */
-        req.$USER = user;
-        return next();
-      }
-    }
-
-    return res.status(401).json({
-      code: "authorization",
-      message: "authorization headers is not valid or not sent",
-    });
-  },
+  AuthGuard(),
   multer("avatar").single("avatar"),
   async (req, res) => {
-    const { $USER } = req as typeof req & { $USER: UserWithId };
     const name = Object.assign({}, req.body).name;
 
     if (!["string", "undefined"].includes(typeof name)) {
@@ -49,7 +33,7 @@ router.post(
       });
     }
 
-    const user = await User.findById($USER._id).select("-password");
+    const user = await User.findById(req.$user._id).select("-password");
 
     if (!user) {
       return res.status(404).json({
@@ -61,7 +45,8 @@ router.post(
     req.file && (user.avatar = req.file.path.replace("public", ""));
     name && (user.name = name);
     await user.save();
-    return res.status(200).json(user);
+
+    return res.json(user);
   }
 );
 

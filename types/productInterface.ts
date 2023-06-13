@@ -17,7 +17,14 @@ export default interface ProductInterface {
   seller: string;
   stock: number;
   rating: number;
-  category: string;
+  category:
+    | "electronics"
+    | "cameras"
+    | "laptops"
+    | "headphones"
+    | "sports"
+    | "toys"
+    | "beauty";
   images: Image[];
   reviews: Review[];
   created: string;
