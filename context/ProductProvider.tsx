@@ -20,7 +20,7 @@ type Product = Record<
 type ModifyFun<T, S = any> = (values: T & Partial<CallBackFun<S>>) => void;
 
 interface ProductValue {
-  create: ModifyFun<Product>;
+  create: ModifyFun<Product & { url: string }>;
   remove: ModifyFun<{ id: string }>;
   uploadImages: ModifyFun<{
     id: string;
@@ -35,9 +35,10 @@ interface ProductProviderProps {
 }
 
 export function ProductProvider({ children }: ProductProviderProps) {
-  const create: ModifyFun<Product> = async ({
+  const create: ModifyFun<Product & { url: string }> = async ({
     onError = () => {},
     onSuccess = () => {},
+    url,
     ...rest
   }) => {
     const product = Object.fromEntries(
@@ -49,7 +50,7 @@ export function ProductProvider({ children }: ProductProviderProps) {
     );
 
     try {
-      const { data } = await Post("product", product, {
+      const { data } = await Post(url, product, {
         headers: { Authorization: `Bearer ${getCookie(COOKIES)}` },
       });
 

@@ -1,5 +1,5 @@
-import CreateProduct from "@/components/admin/CreateProduct";
+import ProductForm from "@/components/admin/ProductForm";
 
 export default function () {
-  return <CreateProduct />;
+  return <ProductForm />;
 }
