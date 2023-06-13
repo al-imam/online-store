@@ -22,6 +22,26 @@ export async function add(
   res.status(201).json(doc);
 }
 
+export async function update(
+  req: MyRequest<{ $user: UserWithId; $data: Record<string, any> }>,
+  res: NextApiResponse
+) {
+  const doc = await Product.findByIdAndUpdate(
+    req.query.id,
+    { $set: req.$data },
+    { new: true }
+  );
+
+  if (!doc) {
+    return res.status(404).json({
+      code: "update-product",
+      message: "product not found!",
+    });
+  }
+
+  res.status(200).json(doc);
+}
+
 export async function query(req: NextApiRequest, res: NextApiResponse) {
   const single = parseNumber(req.query["docs-per-page"] as string, 2);
 

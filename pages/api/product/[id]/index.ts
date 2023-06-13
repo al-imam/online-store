@@ -1,5 +1,5 @@
 import dbConnect from "@/backend/config/dbConnect";
-import { get, remove } from "@/backend/controllers/productController";
+import { get, remove, update } from "@/backend/controllers/productController";
 import AuthGuard from "@/backend/middleware/AuthGuard";
 import validateObjectId from "@/backend/middleware/validateObjectId";
 import { MyRequest } from "@/types/NextApiResponse";
@@ -7,6 +7,7 @@ import { UserWithId } from "@/types/UserInterface";
 import wrap from "@/utility/wrapHandler";
 import { NextApiResponse } from "next";
 import createRouter from "next-connect";
+import { productValidate } from "..";
 
 dbConnect();
 
@@ -16,6 +17,13 @@ const router = createRouter<
 >();
 
 router.get(validateObjectId(["id"], "query"), wrap(get, "get-product"));
+
+router.post(
+  validateObjectId(["id"], "query"),
+  productValidate,
+  AuthGuard("admin"),
+  update
+);
 
 router.delete(
   AuthGuard("admin"),
