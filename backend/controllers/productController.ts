@@ -82,3 +82,19 @@ export async function remove(req: NextApiRequest, res: NextApiResponse) {
 
   res.status(200).json({ success: true });
 }
+
+export async function products(
+  req: MyRequest<{ $user: UserWithId }>,
+  res: NextApiResponse
+) {
+  const single = parseNumber(req.query["docs-per-page"] as string, 2);
+
+  const docs = await Product.find({ user: req.$user._id }, undefined, {
+    skip: calculateSkipNumber(req.query.page as string),
+    limit: single,
+  });
+
+  const count = await Product.find({ user: req.$user._id }).countDocuments();
+
+  res.status(200).json({ products: docs, count, single });
+}

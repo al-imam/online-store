@@ -2,7 +2,6 @@ import Address from "@/backend/models/address";
 import { NextApiResponse } from "next";
 import { MyRequest } from "@/types/NextApiResponse";
 import { UserWithId } from "@/types/UserInterface";
-import colorLog from "@/utility/colorLog";
 
 type AddressRequest<T extends object = {}> = MyRequest<{
   $user: UserWithId;
@@ -13,7 +12,6 @@ export async function add(
   req: MyRequest<{ $user: UserWithId; $data: Record<string, any> }>,
   res: NextApiResponse
 ) {
-  colorLog(req);
   const address = await Address.create({
     ...req.$data,
     user: req.$user._id,

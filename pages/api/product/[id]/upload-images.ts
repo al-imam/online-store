@@ -9,6 +9,7 @@ import Product from "@/backend/models/product";
 import { isValidObjectId } from "mongoose";
 import { unlinkSync } from "fs";
 import uuid from "@/utility/uuid";
+import wrap from "@/utility/wrapHandler";
 
 dbConnect();
 
@@ -35,7 +36,7 @@ interface FilePaths {
 router.post(
   AuthGuard("admin"),
   multer("products").array("images"),
-  async (req, res) => {
+  wrap(async (req, res) => {
     const files = Array.isArray(req.files)
       ? req.files.map((f) => ({ id: uuid(), url: f.path }))
       : [];
@@ -58,23 +59,20 @@ router.post(
       });
     }
 
-    doc.images = [
-      ...doc.images,
-      ...files.map((file) => {
-        if (file.url.includes("public")) {
-          return {
-            id: file.id,
-            url: file.url.replace("public", ""),
-          };
-        }
-        return file;
-      }),
-    ];
+    doc.images = files.map((file) => {
+      if (file.url.includes("public")) {
+        return {
+          id: file.id,
+          url: file.url.replace("public", ""),
+        };
+      }
+      return file;
+    });
 
     await doc.save();
 
     res.status(200).json({ success: true });
-  }
+  })
 );
 
 export default router;

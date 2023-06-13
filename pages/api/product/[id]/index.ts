@@ -22,7 +22,7 @@ router.post(
   validateObjectId(["id"], "query"),
   productValidate,
   AuthGuard("admin"),
-  update
+  wrap(update, "update-product")
 );
 
 router.delete(
