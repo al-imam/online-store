@@ -1,2 +1,33 @@
-POST http://localhost:3000/api/product/edit/1245645
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzM5ODA4NDZkMzU4ZTAyNDVhOTNkZiIsImlhdCI6MTY4NTM4NTA0NX0.JcGbvSMcxK_ljaUg64jlhc9RU8OUmpYpCVKI7gsOcxI
+### @name GetAllProducts
+GET {{host}}/product
+
+@id = {{GetAllProducts.response.body.products[0]._id}}
+
+
+### @name GetProductById
+GET {{host}}/product/{{id}}
+
+
+### @name CreateNewProduct
+POST {{host}}/product
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Shure SM7B Cardioid Dynamic Microphone",
+  "price": 349,
+  "description": "The Shure SM7B is a cardioid dynamic microphone that is designed for use in a variety of settings, including live performances, podcasting, and home recording. It features a smooth, flat, wide-range frequency response and a built-in pop filter and shock mount for reduced noise and handling noise.",
+  "category": "electronics",
+  "seller": "Shure",
+  "stock": 5
+}
+
+
+
+### @name UpdateProduct
+POST {{host}}/product/edit/1245645
+Authorization: Bearer {{token}}
+
+
+@host = http://localhost:3000/api
+@token = eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY0ODU4ZjlmYmEwNDQ5ZTYxOTgyM2Q5ZiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY4NjQ3NDY1NX0.Ca-NA7R5AudkwmVCJD5oDe6w62jaw-3uiYOg6gqMP1o

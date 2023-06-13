@@ -1,6 +1,10 @@
-POST http://localhost:3000/api/order/checkout
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzM5ODA4NDZkMzU4ZTAyNDVhOTNkZiIsImlhdCI6MTY4NTM4NTA0NX0.JcGbvSMcxK_ljaUg64jlhc9RU8OUmpYpCVKI7gsOcxI
-Content-Type: application/json
+@host = http://localhost:3000/api
+@token = eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY0ODU4ZjlmYmEwNDQ5ZTYxOTgyM2Q5ZiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY4NjQ3NDY1NX0.Ca-NA7R5AudkwmVCJD5oDe6w62jaw-3uiYOg6gqMP1o
+
+
+# @name
+POST {{host}}/order/checkout
+Authorization: Bearer {{token}}
 
 {
   "items": [
@@ -18,6 +22,6 @@ Content-Type: application/json
 
 
 ### 
-GET http://localhost:3000/api/order/get-orders
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY0NzY1ZTE1MjM4Mzk5NDJkMGU3NWI0NiIsImlhdCI6MTY4NTkxMzkzMH0.fH6e8szF7r8vPabY_YKmC79jPLETTFPbuWRqQrQbBMU
+GET {{host}}/order/get-orders
+Authorization: Bearer {{token}}
 Content-Type: application/json
