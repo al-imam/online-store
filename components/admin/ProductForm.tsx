@@ -8,7 +8,7 @@ import useObjectStore from "use-object-store";
 import { useRouter } from "next/navigation";
 import uuid from "@/utility/uuid";
 
-const init = {
+const value = {
   name: "",
   description: "",
   price: "",
@@ -17,7 +17,12 @@ const init = {
   stock: "",
 };
 
-export default function () {
+export default function ({
+  init = value,
+  title = "Create new product",
+  is = "Create product",
+  url = "product",
+}) {
   const [store, updateStore] = useObjectStore(init);
   const { create } = useProduct();
   const router = useRouter();
@@ -27,7 +32,7 @@ export default function () {
   ) {
     updateStore({
       [e.target.name]: e.target.value,
-    } as Record<keyof typeof init, string>);
+    } as Record<keyof typeof value, string>);
   }
 
   function onSubmit(e: FormEvent) {
@@ -45,8 +50,9 @@ export default function () {
 
     create({
       ...store,
+      url,
       onSuccess() {
-        updateStore(init);
+        updateStore(value);
         router.push(`/me/admin/products?id=${uuid()}`);
       },
       onError(error) {
@@ -58,7 +64,7 @@ export default function () {
   return (
     <section className="container max-w-3xl p-6 mx-auto">
       <h1 className="mb-3 text-xl md:text-3xl font-semibold text-black">
-        Create New Product
+        {title}
       </h1>
 
       <form onSubmit={onSubmit} noValidate>
@@ -171,7 +177,7 @@ export default function () {
           type="submit"
           className="my-2 px-4 py-2 text-center inline-block text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 w-full"
         >
-          Create Product
+          {is}
         </button>
       </form>
     </section>
