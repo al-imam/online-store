@@ -22,6 +22,10 @@ type ModifyFun<T, S = any> = (values: T & Partial<CallBackFun<S>>) => void;
 interface ProductValue {
   create: ModifyFun<Product>;
   remove: ModifyFun<{ id: string }>;
+  uploadImages: ModifyFun<{
+    id: string;
+    formData: FormData;
+  }>;
 }
 
 const ProductContext = createContext<ProductValue | null>(null);
@@ -71,8 +75,28 @@ export function ProductProvider({ children }: ProductProviderProps) {
     }
   };
 
+  const uploadImages: ModifyFun<{ id: string; formData: FormData }> = async ({
+    onError = () => {},
+    onSuccess = () => {},
+    id,
+    formData,
+  }) => {
+    try {
+      const { data } = await Post(`product/${id}/upload-images`, formData, {
+        headers: {
+          Authorization: `Bearer ${getCookie(COOKIES)}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      onSuccess(data);
+    } catch (e) {
+      onError(e);
+    }
+  };
+
   return (
-    <ProductContext.Provider value={{ create, remove }}>
+    <ProductContext.Provider value={{ create, remove, uploadImages }}>
       {children}
     </ProductContext.Provider>
   );

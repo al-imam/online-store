@@ -29,7 +29,7 @@ export default function ({ product }: ProductRowProps) {
           </Link>
 
           <Link
-            href={`/me/admin/products/${product._id}/upload-product`}
+            href={`/me/admin/products/${product._id}/edit-product`}
             className="px-2 py-2 inline-block text-yellow-600 bg-white shadow-sm border border-gray-200 rounded-md hover:bg-gray-100 cursor-pointer mr-2"
           >
             <i className="fa fa-edit" aria-hidden="true"></i>

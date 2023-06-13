@@ -1,10 +1,14 @@
 "use client";
 
-import Image from "next/image";
-import { ChangeEvent, FormEvent, useState } from "react";
+import useProduct from "@/context/ProductProvider";
+import { ChangeEvent, FormEvent, useRef, useState } from "react";
+import { toast } from "react-toastify";
 
 export default function ({ id }: { id: string }) {
   const [images, setImages] = useState<string[]>([]);
+  const { uploadImages } = useProduct();
+
+  const ref = useRef<HTMLInputElement>(null);
 
   function onChange(e: ChangeEvent<HTMLInputElement>) {
     const files = Array.from<File>(e.target.files as any);
@@ -13,7 +17,25 @@ export default function ({ id }: { id: string }) {
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
+
+    if (images.length === 0) {
+      return toast.error("Select at least one image!");
+    }
+
+    const formData = new FormData(e.currentTarget);
+    uploadImages({
+      id,
+      formData,
+      onError(e) {
+        console.warn(e);
+        toast.error("Something went wrong!");
+      },
+      onSuccess() {
+        toast.success("Images uploaded successfully!");
+        setImages([]);
+        ref.current && (ref.current.value = "");
+      },
+    });
   }
 
   return (
@@ -31,20 +53,20 @@ export default function ({ id }: { id: string }) {
               type="file"
               name="images"
               multiple={true}
+              accept="image/*"
+              ref={ref}
               onChange={onChange}
             />
           </div>
         </div>
 
-        <div className="grid grid-cols-6 gap-2 my-5">
+        <div className="mt-4">
           {images.map((img) => (
-            <Image
+            <img
               src={img}
               key={img}
               alt="Preview"
-              className="col-span-1 object-contain shadow rounded border-2 border-gray p-2 h-full w-full"
-              width="50"
-              height="50"
+              className="object-contain mb-4 shadow rounded h-full w-full"
             />
           ))}
         </div>
