@@ -24,7 +24,7 @@ export default function ({
   url = "product",
 }) {
   const [store, updateStore] = useObjectStore(init);
-  const { create } = useProduct();
+  const { addOrEdit } = useProduct();
   const router = useRouter();
 
   function onChange(
@@ -48,7 +48,7 @@ export default function ({
       toast.error("Enter valid data!");
     }
 
-    create({
+    addOrEdit({
       ...store,
       url,
       onSuccess() {

@@ -20,7 +20,7 @@ type Product = Record<
 type ModifyFun<T, S = any> = (values: T & Partial<CallBackFun<S>>) => void;
 
 interface ProductValue {
-  create: ModifyFun<Product & { url: string }>;
+  addOrEdit: ModifyFun<Product & { url: string }>;
   remove: ModifyFun<{ id: string }>;
   uploadImages: ModifyFun<{
     id: string;
@@ -35,7 +35,7 @@ interface ProductProviderProps {
 }
 
 export function ProductProvider({ children }: ProductProviderProps) {
-  const create: ModifyFun<Product & { url: string }> = async ({
+  const addOrEdit: ModifyFun<Product & { url: string }> = async ({
     onError = () => {},
     onSuccess = () => {},
     url,
@@ -97,7 +97,7 @@ export function ProductProvider({ children }: ProductProviderProps) {
   };
 
   return (
-    <ProductContext.Provider value={{ create, remove, uploadImages }}>
+    <ProductContext.Provider value={{ addOrEdit, remove, uploadImages }}>
       {children}
     </ProductContext.Provider>
   );

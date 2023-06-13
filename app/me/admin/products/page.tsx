@@ -1,6 +1,8 @@
 import { Get } from "@/utility/request";
 import ProductInterface from "@/types/productInterface";
 import ProductTable from "@/components/admin/ProductTable";
+import COOKIES from "@/utility/COOKIES";
+import { cookies } from "next/headers";
 
 interface DATA {
   count: number;
@@ -14,7 +16,11 @@ interface Props {
 
 export default async function ({ searchParams }: Props) {
   const page = searchParams.page ?? 1;
-  const { data } = await Get<DATA>(`product/?docs-per-page=5&page=${page}`);
+  const jwt = cookies().get(COOKIES)?.value;
+
+  const { data } = await Get<DATA>(`my/products?docs-per-page=5&page=${page}`, {
+    headers: { Authorization: `Bearer ${jwt}` },
+  });
 
   return <ProductTable data={data} />;
 }
