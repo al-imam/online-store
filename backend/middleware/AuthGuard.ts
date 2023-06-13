@@ -3,22 +3,35 @@ import wrap from "@/utility/wrapHandler";
 import { isValidObjectId } from "mongoose";
 import User from "@/backend/models/user";
 import { UserWithId } from "@/types/UserInterface";
-import Prettify from "@/types/Prettify";
+import COOKIES from "@/utility/COOKIES";
 
 function authRole(role: "user" | "admin", userRole: "user" | "admin") {
   if (role === "user") return true;
   return role === userRole;
 }
 
+function getAuthToken(
+  authorization: string | undefined,
+  cookies: string | undefined
+) {
+  if (authorization && authorization.startsWith("Bearer ")) {
+    return authorization.replace("Bearer ", "");
+  }
+
+  return cookies;
+}
+
 function AuthGuard(role: "user" | "admin" = "user") {
   return wrap<{ $user: UserWithId }>(async (req, res, next) => {
-    const auth = req.headers.authorization;
-    if (auth && auth.startsWith("Bearer ")) {
-      const { id } = await verify(auth.replace("Bearer ", ""));
+    const authorization = getAuthToken(
+      req.headers.authorization,
+      req.cookies[COOKIES]
+    );
 
-      if (id !== null && isValidObjectId(id)) {
+    if (authorization) {
+      const { id } = await verify(authorization);
+      if (id && isValidObjectId(id)) {
         const user = await User.findById(id).select("-password");
-
         if (user && authRole(role, user.role)) {
           req.$user = user.toObject();
           return next();
