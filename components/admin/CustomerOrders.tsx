@@ -1,7 +1,13 @@
 import Link from "next/link";
 import { Fragment } from "react";
+import Pagination from "../layout/Pagination";
+import { Order, OrderResponse } from "@/types/OrderInterface";
 
-export default function () {
+interface CustomerOrdersProps {
+  data: OrderResponse;
+}
+
+export default function ({ data }: CustomerOrdersProps) {
   return (
     <Fragment>
       <h1 className="text-3xl my-5 ml-4 font-bold">12 Orders</h1>
@@ -23,19 +29,28 @@ export default function () {
           </tr>
         </thead>
         <tbody>
-          <TR />
+          {data.orders.map((order) => (
+            <TR data={order} />
+          ))}
         </tbody>
       </table>
+      <div className="mb-6">
+        <Pagination
+          single={data.single}
+          total={data.count}
+          path="me/admin/customer-orders"
+        />
+      </div>
     </Fragment>
   );
 }
 
-function TR() {
+function TR({ data }: { data: Order }) {
   return (
     <tr className="bg-white">
-      <td className="px-6 py-2">12345667</td>
-      <td className="px-6 py-2">$232</td>
-      <td className="px-6 py-2">Processing</td>
+      <td className="px-6 py-2">{data.payment.id}</td>
+      <td className="px-6 py-2">${data.payment.amount}</td>
+      <td className="px-6 py-2">{data.status}</td>
       <td className="px-6 py-2">
         <div>
           <Link

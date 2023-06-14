@@ -15,6 +15,7 @@ import { MyRequest } from "@/types/NextApiResponse";
 import product from "@/backend/models/product";
 import colorLog from "@/utility/colorLog";
 import round from "@/utility/round";
+import parseNumber from "../util/parseNumber";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2022-11-15",
@@ -203,6 +204,23 @@ export async function webhook(req: NextApiRequest, res: NextApiResponse) {
   await Order.create(orderDocs);
 
   res.json({ success: true });
+}
+
+export async function query(
+  req: MyRequest<{ $user: UserWithId }>,
+  res: NextApiResponse
+) {
+  const single = parseNumber(req.query["docs-per-page"] as string, 5);
+  const query = { seller: req.$user._id };
+
+  const orders = await Order.find(query, undefined, {
+    limit: single,
+    skip: calculateSkipNumber(req.query.page as string),
+  });
+
+  const count = await Order.find(query).countDocuments();
+
+  res.status(200).json({ orders, single, count });
 }
 
 async function parseItems(lineItems: ModifiedLineItems[]): Promise<Suborder[]> {
