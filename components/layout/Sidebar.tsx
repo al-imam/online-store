@@ -34,7 +34,7 @@ export default function () {
 
             <li>
               <Link
-                href="/me/admin/orders"
+                href="/me/admin/customer-orders"
                 className="block px-3 py-2 text-gray-800 hover:bg-blue-100 hover:text-blue-500 rounded-md"
               >
                 Customer Orders <span className="text-red-500">(Admin)</span>

@@ -6,89 +6,68 @@ import { Delete, Post, Put } from "@/utility/request";
 import { getCookie } from "cookies-next";
 import COOKIES from "@/utility/COOKIES";
 
+interface CallBackFun<Res = any> {
+  onError: (error: any) => void;
+  onSuccess: (response: Res) => void;
+}
+
+type ModifyFun<T, S = any> = (values: T & Partial<CallBackFun<S>>) => void;
+
 interface AddressInterface {
-  addNewAddress: (
-    object: Address & {
-      id: string;
-      onError?: (e: any) => void;
-      onSuccess?: () => void;
-    }
-  ) => Promise<void>;
-  updateAddress: (
-    object: Address & {
-      onError?: (e: any) => void;
-      onSuccess?: () => void;
-      id: string;
-    }
-  ) => Promise<void>;
-  removeAddress: (object: {
-    onError?: (e: any) => void;
-    onSuccess?: () => void;
-    id: string;
-  }) => Promise<void>;
+  addNewAddress: ModifyFun<Address & { id: string }>;
+  updateAddress: ModifyFun<Address & { id: string }>;
+  removeAddress: ModifyFun<{ id: string }>;
 }
 
 const Context = createContext<AddressInterface | null>(null);
 
 export function AddressProvider({ children }: { children: ReactNode }) {
-  async function addNewAddress({
+  const addNewAddress: ModifyFun<Address & { id: string }> = async ({
     onError = () => {},
     onSuccess = () => {},
     id,
     ...address
-  }: Address & {
-    onError?: (e: any) => void;
-    onSuccess?: () => void;
-    id: string;
-  }) {
+  }) => {
     try {
       await Post("address", address, {
         headers: { Authorization: `Bearer ${getCookie(COOKIES)}` },
       });
-      onSuccess();
+      onSuccess(undefined);
     } catch (e: any) {
       onError(e);
     }
-  }
+  };
 
-  async function updateAddress({
+  const updateAddress: ModifyFun<Address & { id: string }> = async ({
     onError = () => {},
     onSuccess = () => {},
     id,
     ...address
-  }: Address & {
-    onError?: (e: any) => void;
-    onSuccess?: () => void;
-    id: string;
-  }) {
+  }) => {
     try {
       await Put(`address/${id}`, address, {
         headers: { Authorization: `Bearer ${getCookie(COOKIES)}` },
       });
-      onSuccess();
+      onSuccess(undefined);
     } catch (e: any) {
       onError(e);
     }
-  }
+  };
 
-  async function removeAddress({
+  const removeAddress: ModifyFun<{ id: string }> = async ({
     onError = () => {},
     onSuccess = () => {},
     id,
-  }: {
-    onError?: (e: any) => void;
-    onSuccess?: () => void;
-    id: string;
-  }) {
+  }) => {
     try {
       await Delete(`address/${id}`, {
         headers: { Authorization: `Bearer ${getCookie(COOKIES)}` },
       });
-      onSuccess();
+      onSuccess(undefined);
     } catch (e: any) {
       onError(e);
     }
-  }
+  };
 
   return (
     <Context.Provider value={{ addNewAddress, updateAddress, removeAddress }}>

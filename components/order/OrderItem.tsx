@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Order } from "@/types/OrderInterface";
+import round from "@/utility/round";
 
 interface OrderItemProps {
   order: Order;
@@ -72,7 +73,7 @@ export default function ({ order }: OrderItemProps) {
             <figcaption className="ml-3">
               <p>{item.name.substring(0, 35)}</p>
               <p className="mt-1 font-semibold">
-                {item.quantity}x = ${item.price * item.quantity}
+                {item.quantity}x = ${round(item.price * item.quantity)}
               </p>
             </figcaption>
           </figure>

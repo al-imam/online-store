@@ -1,6 +1,7 @@
 import Pagination from "@/components/layout/Pagination";
 import ProductInterface from "@/types/productInterface";
 import ProductRow from "@/components/admin/ProductRow";
+import { Fragment } from "react";
 
 interface ProductTableProps {
   data: { products: ProductInterface[]; count: number; single: number };
@@ -8,8 +9,8 @@ interface ProductTableProps {
 
 export default function ({ data }: ProductTableProps) {
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <h1 className="text-3xl my-5 ml-4 font-bold">{data.count} Products</h1>
+    <Fragment>
+      <h1 className="text-3xl  m-4 font-bold">{data.count} Products</h1>
       <table className="w-full text-sm text-left">
         <thead className="text-l text-gray-700 uppercase">
           <tr>
@@ -40,6 +41,6 @@ export default function ({ data }: ProductTableProps) {
           path="me/admin/products"
         />
       </div>
-    </div>
+    </Fragment>
   );
 }
