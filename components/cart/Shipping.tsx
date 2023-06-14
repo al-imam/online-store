@@ -24,13 +24,25 @@ export default function ({ addresses }: ShippingProps) {
     if (items.length === 0) return;
     if (typeof addressId !== "string") return;
 
+    alert(items.length);
+
     const { data: url } = await Post<string>(
       "order/checkout",
-      { items, addressId },
+      {
+        items: items.map((item) => ({
+          ...item,
+          imageURL: item.imageURL.startsWith("http")
+            ? item.imageURL
+            : `http://localshot:3000/public${item.imageURL}`,
+        })),
+        addressId,
+      },
       {
         headers: { Authorization: `Bearer ${getCookie(COOKIES)}` },
       }
     );
+
+    alert(url);
 
     window.location.href = url;
   }

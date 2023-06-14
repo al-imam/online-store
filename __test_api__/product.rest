@@ -1,14 +1,14 @@
-### @name GetAllProducts
+# @name GetAllProducts
 GET {{host}}/product
 
-@id = {{GetAllProducts.response.body.products[0]._id}}
 
-
-### @name GetProductById
+####
+# @name GetProductById
 GET {{host}}/product/{{id}}
 
 
-### @name CreateNewProduct
+####
+# @name CreateNewProduct
 POST {{host}}/product
 Authorization: Bearer {{token}}
 Content-Type: application/json
@@ -29,5 +29,7 @@ POST {{host}}/product/edit/1245645
 Authorization: Bearer {{token}}
 
 
+####
 @host = http://localhost:3000/api
 @token = eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY0ODU4ZjlmYmEwNDQ5ZTYxOTgyM2Q5ZiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY4NjQ3NDY1NX0.Ca-NA7R5AudkwmVCJD5oDe6w62jaw-3uiYOg6gqMP1o
+@id = {{GetAllProducts.response.body.products[0]._id}}

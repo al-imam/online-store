@@ -4,6 +4,7 @@ import Prettify from "@/types/Prettify";
 interface OrderSchema {
   address: Schema.Types.ObjectId;
   user: Schema.Types.ObjectId;
+  seller: Schema.Types.ObjectId;
   order: {
     product: Schema.Types.ObjectId;
     name: string;
@@ -26,6 +27,12 @@ const order = new Schema<Prettify<OrderSchema>>(
       type: Types.ObjectId,
       required: true,
       ref: "Address",
+    },
+
+    seller: {
+      type: Types.ObjectId,
+      required: true,
+      ref: "User",
     },
 
     user: {

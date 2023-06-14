@@ -117,18 +117,19 @@ interface Suborder {
   imageURL: string;
 }
 
-interface OrderInterface {
-  seller: string;
-  user: string;
-  order: Suborder[];
-  payment: {
-    id: string | Stripe.PaymentIntent;
-    status: Stripe.Checkout.Session.PaymentStatus;
-    amount: number;
-    tax: number;
-  };
-  address: string;
-}
+type ModifiedLineItems = Modify<
+  Stripe.LineItem,
+  {
+    price: Modify<
+      Stripe.Price,
+      {
+        product: string;
+        unit_amount: number;
+      }
+    >;
+    quantity: number;
+  }
+>;
 
 export async function webhook(req: NextApiRequest, res: NextApiResponse) {
   const raw = await getRawBody(req);
@@ -178,28 +179,33 @@ export async function webhook(req: NextApiRequest, res: NextApiResponse) {
     return accumulator;
   }, {} as Record<string, (Suborder | undefined)[]>);
 
-  const orderDocs: OrderInterface[] = [];
+  const orderDocs = Object.keys(sortProductIdByUser).map((key) => {
+    const subOrders = sortProductIdByUser[key].filter(
+      (product) => product !== undefined
+    ) as Suborder[];
+
+    const total = subOrders.reduce((a, v) => a + v.price * v.quantity, 0);
+
+    return {
+      seller: key,
+      user: session.client_reference_id,
+      order: subOrders,
+      payment: {
+        id: session.payment_intent,
+        status: session.payment_status,
+        amount: round(total),
+        tax: round(total * 1.05 - total),
+      },
+      address: session.metadata.addressId,
+    };
+  });
 
   await Order.create(orderDocs);
 
   res.json({ success: true });
 }
 
-async function parseItems(
-  lineItems: Modify<
-    Stripe.LineItem,
-    {
-      price: Modify<
-        Stripe.Price,
-        {
-          product: string;
-          unit_amount: number;
-        }
-      >;
-      quantity: number;
-    }
-  >[]
-): Promise<Suborder[]> {
+async function parseItems(lineItems: ModifiedLineItems[]): Promise<Suborder[]> {
   return new Promise(async (resolve) => {
     const items = await Promise.all(
       lineItems.map(async (item) => {

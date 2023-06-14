@@ -17,7 +17,7 @@ export default function ({ order }: OrderItemProps) {
                 order.status == "processing" ? "text-red-500" : "text-green-500"
               }`}
             >
-              • {order.status}
+              • {order.status.toUpperCase()}
             </span>
           </p>
           <p className="text-gray-500">{order.created.substring(0, 10)} </p>
