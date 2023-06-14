@@ -12,6 +12,9 @@ import Address from "@/backend/models/address";
 import User from "@/backend/models/user";
 import Product from "@/backend/models/product";
 import { MyRequest } from "@/types/NextApiResponse";
+import product from "@/backend/models/product";
+import colorLog from "@/utility/colorLog";
+import round from "@/utility/round";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2022-11-15",
@@ -106,6 +109,27 @@ export async function checkout(
   res.json(session.url);
 }
 
+interface Suborder {
+  product: string;
+  name: string;
+  price: number;
+  quantity: number;
+  imageURL: string;
+}
+
+interface OrderInterface {
+  seller: string;
+  user: string;
+  order: Suborder[];
+  payment: {
+    id: string | Stripe.PaymentIntent;
+    status: Stripe.Checkout.Session.PaymentStatus;
+    amount: number;
+    tax: number;
+  };
+  address: string;
+}
+
 export async function webhook(req: NextApiRequest, res: NextApiResponse) {
   const raw = await getRawBody(req);
   const sig = req.headers["stripe-signature"] as string;
@@ -132,17 +156,31 @@ export async function webhook(req: NextApiRequest, res: NextApiResponse) {
     event.data.object.id
   );
 
-  await Order.create({
-    user: session.client_reference_id,
-    order: await parseItems(lineItems.data as any),
-    payment: {
-      id: session.payment_intent,
-      status: session.payment_status,
-      amount: session.amount_total / 100,
-      tax: session.total_details.amount_tax / 100,
-    },
-    address: session.metadata.addressId,
+  const orders = await parseItems(lineItems.data as any);
+
+  const products = await product.find({
+    $or: orders.map((o) => ({ _id: o.product })),
   });
+
+  const sortProductIdByUser = products.reduce((accumulator, value) => {
+    if (Object.hasOwn(accumulator, value.user.toString())) {
+      accumulator[value.user.toString()].push(
+        orders.find((o) => o.product === value._id.toString())
+      );
+
+      return accumulator;
+    }
+
+    accumulator[value.user.toString()] = [
+      orders.find((o) => o.product === value._id.toString()),
+    ];
+
+    return accumulator;
+  }, {} as Record<string, (Suborder | undefined)[]>);
+
+  const orderDocs: OrderInterface[] = [];
+
+  await Order.create(orderDocs);
 
   res.json({ success: true });
 }
@@ -161,15 +199,7 @@ async function parseItems(
       quantity: number;
     }
   >[]
-): Promise<
-  {
-    product: string;
-    name: string;
-    price: number;
-    quantity: number;
-    imageURL: string;
-  }[]
-> {
+): Promise<Suborder[]> {
   return new Promise(async (resolve) => {
     const items = await Promise.all(
       lineItems.map(async (item) => {
