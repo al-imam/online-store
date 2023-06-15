@@ -268,3 +268,23 @@ export async function singleCustomerOrder(
 
   res.status(200).json(order);
 }
+
+export async function updateOrderStatus(
+  req: MyRequest<{ $data: { status: "processing" | "shipped" | "delivered" } }>,
+  res: NextApiResponse
+) {
+  const doc = await Order.findById(req.query.id);
+
+  if (!doc) {
+    return res.status(404).json({
+      code: "update-status",
+      message: "Order not found!",
+    });
+  }
+
+  doc.status = req.$data.status;
+
+  await doc.save();
+
+  res.status(200).json({ success: true });
+}

@@ -86,7 +86,7 @@ const order = new Schema<Prettify<OrderSchema>>(
 
     status: {
       type: String,
-      enum: ["processing", "pending", "completed"] as const,
+      enum: ["processing", "shipped", "delivered"] as const,
       default: "processing",
     },
   },
