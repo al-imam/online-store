@@ -1,5 +1,6 @@
 import dbConnect from "@/backend/config/dbConnect";
 import {
+  deleteOrder,
   singleCustomerOrder,
   updateOrderStatus,
 } from "@/backend/controllers/orderController";
@@ -31,5 +32,7 @@ router.put(
   AuthGuard("admin") as any,
   wrap(updateOrderStatus, "update-order-status")
 );
+
+router.delete(AuthGuard("admin"), wrap(deleteOrder, "delete-order"));
 
 export default router;

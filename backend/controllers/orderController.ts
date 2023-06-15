@@ -288,3 +288,21 @@ export async function updateOrderStatus(
 
   res.status(200).json({ success: true });
 }
+
+export async function deleteOrder(
+  req: MyRequest<{ $user: UserWithId }>,
+  res: NextApiResponse
+) {
+  const doc = await Order.findOne({ seller: req.$user._id });
+
+  if (!doc) {
+    return res.status(404).json({
+      code: "delete-order",
+      message: "Order not found!",
+    });
+  }
+
+  await doc.deleteOne();
+
+  res.status(200).json({ success: true });
+}

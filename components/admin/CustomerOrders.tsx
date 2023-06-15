@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Fragment } from "react";
 import Pagination from "../layout/Pagination";
 import { Order, OrderResponse } from "@/types/OrderInterface";
+import DeleteOrder from "./DeleteOrder";
 
 interface CustomerOrdersProps {
   data: OrderResponse;
@@ -10,7 +11,7 @@ interface CustomerOrdersProps {
 export default function ({ data }: CustomerOrdersProps) {
   return (
     <Fragment>
-      <h1 className="text-3xl my-5 ml-4 font-bold">12 Orders</h1>
+      <h1 className="text-3xl my-5 ml-4 font-bold">{data.count} Orders</h1>
       <table className="w-full text-sm text-left">
         <thead className="text-l text-gray-700 uppercase">
           <tr>
@@ -59,9 +60,8 @@ function TR({ data }: { data: Order }) {
           >
             <i className="fa fa-edit" aria-hidden="true"></i>
           </Link>
-          <button className="px-2 py-2 inline-block text-red-600 bg-white shadow-sm border border-gray-200 rounded-md hover:bg-gray-100 cursor-pointer">
-            <i className="fa fa-trash" aria-hidden="true"></i>
-          </button>
+
+          <DeleteOrder />
         </div>
       </td>
     </tr>
