@@ -10,7 +10,7 @@ export interface Order {
   address: Address;
   user: User;
   order: OrderDetails[];
-  status: string;
+  status: "processing" | "shipped" | "delivered";
   created: string;
   __v: number;
 }

@@ -243,3 +243,28 @@ async function parseItems(lineItems: ModifiedLineItems[]): Promise<Suborder[]> {
     resolve(items);
   });
 }
+
+export async function singleCustomerOrder(
+  req: MyRequest<{ $user: UserWithId }>,
+  res: NextApiResponse
+) {
+  const order = await Order.findById(req.query.id).populate([
+    {
+      model: Address,
+      path: "address",
+      select: "-__v -_id -user",
+    },
+    {
+      model: User,
+      path: "user",
+      select: "name email -_id",
+    },
+    {
+      path: "order.product",
+      model: Product,
+      select: "rating seller category created -_id",
+    },
+  ]);
+
+  res.status(200).json(order);
+}

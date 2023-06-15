@@ -18,7 +18,7 @@ interface OrderSchema {
     tax: number;
     amount: number;
   };
-  status: "processing" | "pending" | "completed";
+  status: "processing" | "shipped" | "delivered";
 }
 
 const order = new Schema<Prettify<OrderSchema>>(
