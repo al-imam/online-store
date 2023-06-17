@@ -1,7 +1,6 @@
 import React from "react";
 import type { FunctionComponent } from "react";
 import ProductInterface from "@/types/productInterface";
-import Filters from "@/components/layout/Filters";
 import { Product } from "@/components/products";
 import Pagination from "@/components/layout/Pagination";
 import Filter from "@/components/filters";
@@ -41,7 +40,9 @@ const ListProduct: FunctionComponent<ListProductProps> = ({ data }) => (
             <Product item={item} key={item._id} />
           ))}
         </ul>
-        <Pagination total={data.count} single={data.single} path="/" />
+        <div className="mt-8">
+          <Pagination total={data.count} single={data.single} />
+        </div>
       </div>
     </div>
   </section>

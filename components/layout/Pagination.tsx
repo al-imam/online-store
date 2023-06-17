@@ -15,7 +15,7 @@ function parseInteger(str: string, fallback = 1) {
   return fallback;
 }
 
-function Pagination({ total, single, path = "" }: PaginationProps) {
+export default function ({ total, single, path = "" }: PaginationProps) {
   const sp = useSearchParams();
   const router = useRouter();
 
@@ -28,20 +28,45 @@ function Pagination({ total, single, path = "" }: PaginationProps) {
   }
 
   return (
-    <div className="flex mt-20 justify-center">
-      <ReactJsPagination
-        activePage={page}
-        itemsCountPerPage={single}
-        totalItemsCount={total}
-        onChange={changePage}
-        nextPageText="Next"
-        prevPageText="Prev"
-        itemClass="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
-        activeLinkClass="z-10 inline-flex items-center border border-indigo-500 bg-indigo-50 text-sm font-medium text-indigo-600 focus:z-20"
-        activeClass="z-10 inline-flex items-center border border-indigo-500 bg-indigo-50 text-sm font-medium text-indigo-600 focus:z-20"
-      />
-    </div>
+    <ReactJsPagination
+      activePage={page}
+      itemsCountPerPage={single}
+      totalItemsCount={total}
+      onChange={changePage}
+      innerClass="flex justify-center gap-1 text-xs font-medium"
+      nextPageText={
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-3 w-3"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      }
+      prevPageText={
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-3 w-3"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      }
+      itemClassNext="inline-flex items-center justify-center"
+      itemClassPrev="inline-flex items-center justify-center"
+      itemClass="block h-8 w-8 rounded border border-gray-100 text-center leading-8 cursor-pointer"
+      activeClass="border-black bg-black text-white"
+      hideFirstLastPages={true}
+    />
   );
 }
-
-export default Pagination;
