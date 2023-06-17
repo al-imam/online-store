@@ -43,7 +43,7 @@ export async function update(
 }
 
 export async function query(req: NextApiRequest, res: NextApiResponse) {
-  const single = parseNumber(req.query["docs-per-page"] as string, 2);
+  const single = parseNumber(req.query["docs-per-page"] as string, 3);
 
   const docs = await Product.find(filter(req.query), undefined, {
     skip: calculateSkipNumber(req.query.page as string),

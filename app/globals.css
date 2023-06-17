@@ -11,3 +11,9 @@
     -moz-appearance: textfield;
   }
 }
+
+@layer components {
+  .outline-v2 * {
+    outline: solid rgb(0 0 0 / 0.5) 1px;
+  }
+}
