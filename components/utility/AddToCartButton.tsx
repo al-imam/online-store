@@ -25,9 +25,9 @@ function AddToCartButton({
           stock,
         })
       }
-      className="px-4 py-2 inline-block text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 cursor-pointer"
+      className="block w-full rounded text-white bg-blue-600 px-4 py-3 text-sm font-medium transition hover:bg-blue-700 cursor-pointer"
     >
-      {/* <i className="fa fa-shopping-cart mr-2"></i> */}
+      <i className="fa fa-shopping-cart mr-2"></i>
       Add to Cart
     </button>
   );
