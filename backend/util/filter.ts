@@ -1,4 +1,4 @@
-import QueryInterface from "@/types/queryInterface";
+import { QueryInterface } from "@/types/queryInterface";
 import categories from "@/utility/categories";
 import capitalize from "@/utility/capitalize";
 import escapeStringRegexp from "escape-string-regexp";
@@ -13,6 +13,7 @@ interface QUERY {
   category: string;
   price: Partial<{ $gte: number; $lte: number }>;
   rating: { $gte: number };
+  stock: { $gte: number } | number;
 }
 
 function filter(query: Partial<QueryInterface>) {
@@ -22,6 +23,11 @@ function filter(query: Partial<QueryInterface>) {
 
   if (query.search) {
     q.name = { $regex: escapeStringRegexp(query.search), $options: "i" };
+  }
+
+  if (query.availability) {
+    if (query.availability === "unavailable") q.stock = 0;
+    if (query.availability === "available") q.stock = { $gte: 1 };
   }
 
   if (query.category) {

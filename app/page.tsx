@@ -1,7 +1,7 @@
 import { Get } from "@/utility/request";
 import ProductInterface from "@/types/productInterface";
 import ListProduct from "@/components/products/ListProduct";
-import QueryInterface from "@/types/queryInterface";
+import {QueryInterface} from "@/types/queryInterface";
 import stringifyQuery from "@/utility/stringifyQuery";
 
 interface HomeProps {
