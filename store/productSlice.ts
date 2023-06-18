@@ -23,5 +23,24 @@ export const productSlice = createSlice({
         state.items[index].quantity++;
       }
     },
+
+    addQuantity: function (state, action: PayloadAction<string>) {
+      const index = state.items.findIndex((e) => e.id === action.payload);
+
+      if (
+        index !== -1 &&
+        state.items[index].stock > state.items[index].quantity
+      ) {
+        state.items[index].quantity++;
+      }
+    },
+
+    removeQuantity: function (state, action: PayloadAction<string>) {
+      const index = state.items.findIndex((e) => e.id === action.payload);
+
+      if (index !== -1 && state.items[index].quantity > 1) {
+        state.items[index].quantity--;
+      }
+    },
   },
 });
