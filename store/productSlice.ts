@@ -42,5 +42,9 @@ export const productSlice = createSlice({
         state.items[index].quantity--;
       }
     },
+
+    deleteItem: function (state, action: PayloadAction<string>) {
+      state.items = state.items.filter((item) => item.id !== action.payload);
+    },
   },
 });
