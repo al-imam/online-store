@@ -1,6 +1,6 @@
-import { create } from "zustand";
-import { persist, subscribeWithSelector, combine } from "zustand/middleware";
 import CartItemInterface from "@/types/cartItemInterface";
+import { create } from "zustand";
+import { combine, persist, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 
 export const useCart = create(
@@ -88,5 +88,3 @@ useCart.subscribe(
   },
   { fireImmediately: true }
 );
-
-export default useCart;
