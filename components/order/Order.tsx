@@ -1,12 +1,13 @@
 "use client";
 
-import Pagination from "@/components/layout/Pagination";
-import OrderItem from "@/components/order/OrderItem";
+import Pagination from "$components/layout/Pagination";
+import OrderItem from "$components/order/OrderItem";
+import { clear } from "$store/index";
+import { OrderResponse } from "$types/OrderInterface";
 import useAuth from "@/context/AuthProvider";
-import useCart from "@/store/useCart";
-import { OrderResponse } from "@/types/OrderInterface";
 import { useRouter } from "next/navigation";
 import { Fragment, useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 interface OderProps {
   data: OrderResponse;
@@ -15,7 +16,7 @@ interface OderProps {
 export default function ({ data }: OderProps) {
   const { currentUser } = useAuth();
   const router = useRouter();
-  const clearItems = useCart((store) => store.clearItems);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const qp = new URLSearchParams(window.location.search);
@@ -24,7 +25,7 @@ export default function ({ data }: OderProps) {
       qp.get("success") === "true" &&
       currentUser._id.toString() === qp.get("id")
     ) {
-      clearItems();
+      dispatch(clear());
       router.replace("/me/orders");
     }
   }, []);

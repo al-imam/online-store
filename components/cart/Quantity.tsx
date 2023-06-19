@@ -1,23 +1,20 @@
 "use client";
 
+import { addQuantity, removeQuantity } from "$store/index";
 import CartItemInterface from "@/types/cartItemInterface";
-import useCart from "@/store/useCart";
+import { useDispatch } from "react-redux";
 
 interface QuantityProps {
   item: CartItemInterface;
 }
 
-const Quantity = ({ item }: QuantityProps) => {
-  const [add, remove] = useCart((store) => [
-    store.addQuantity,
-    store.removeQuantity,
-  ]);
-
+export default function ({ item }: QuantityProps) {
+  const dispatch = useDispatch();
   return (
     <div className="w-24">
       <div className="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
         <button
-          onClick={() => remove(item)}
+          onClick={() => dispatch(removeQuantity(item.id))}
           className=" bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none"
         >
           <span className="m-auto text-2xl font-thin">-</span>
@@ -30,7 +27,7 @@ const Quantity = ({ item }: QuantityProps) => {
           readOnly
         />
         <button
-          onClick={() => add(item)}
+          onClick={() => dispatch(addQuantity(item.id))}
           className="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer"
         >
           <span className="m-auto text-2xl font-thin">+</span>
@@ -38,6 +35,4 @@ const Quantity = ({ item }: QuantityProps) => {
       </div>
     </div>
   );
-};
-
-export default Quantity;
+}

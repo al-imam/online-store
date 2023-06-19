@@ -1,15 +1,15 @@
 "use client";
 
-import Link from "next/link";
-import AddressCheckBox from "@/components/cart/AddressCheckBox";
-import ShippingItem from "@/components/cart/ShippingItem";
-import useCart from "@/store/useCart";
-import round from "@/utility/round";
-import AddressInterface from "@/types/AddressInterface";
-import Prettify from "@/types/Prettify";
-import { Post } from "@/utility/request";
-import COOKIES from "@/utility/COOKIES";
+import AddressCheckBox from "$components/cart/AddressCheckBox";
+import ShippingItem from "$components/cart/ShippingItem";
+import { compute, useSelector } from "$store/index";
+import AddressInterface from "$types/AddressInterface";
+import Prettify from "$types/Prettify";
+import COOKIES from "$utility/COOKIES";
+import { Post } from "$utility/request";
+import round from "$utility/round";
 import { getCookie } from "cookies-next";
+import Link from "next/link";
 import { useState } from "react";
 
 interface ShippingProps {
@@ -17,14 +17,12 @@ interface ShippingProps {
 }
 
 export default function ({ addresses }: ShippingProps) {
-  const { tax, totalWithTax, items, total } = useCart((store) => store);
+  const { tax, totalWithTax, total } = useSelector(compute);
+  const items = useSelector((state) => state.items);
   const [addressId, setAddressId] = useState<string>(addresses[0]?._id);
 
   async function onCheckout() {
-    if (items.length === 0) return;
-    if (typeof addressId !== "string") return;
-
-    alert(items.length);
+    if (items.length === 0 || typeof addressId !== "string") return;
 
     const { data: url } = await Post<string>(
       "order/checkout",
@@ -41,8 +39,6 @@ export default function ({ addresses }: ShippingProps) {
         headers: { Authorization: `Bearer ${getCookie(COOKIES)}` },
       }
     );
-
-    alert(url);
 
     window.location.href = url;
   }

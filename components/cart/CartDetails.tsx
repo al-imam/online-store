@@ -1,12 +1,12 @@
 "use client";
 
-import TotalPriceInfo from "@/components/cart/TotalPriceInfo";
-import useCart from "@/store/useCart";
-import CartItem from "@/components/cart/CartItem";
+import CartItem from "$components/cart/CartItem";
+import TotalPriceInfo from "$components/cart/TotalPriceInfo";
+import { useSelector } from "$store/index";
 import { Fragment } from "react";
 
 export default function () {
-  const items = useCart((store) => store.items);
+  const items = useSelector((state) => state.items);
 
   return (
     <Fragment>

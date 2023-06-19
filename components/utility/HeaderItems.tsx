@@ -1,15 +1,13 @@
 "use client";
 
-import Link from "next/link";
-import useCart from "@/store/useCart";
-import { useEffect } from "react";
-import Avatar from "@/components/utility/Avatar";
+import Avatar from "$components/utility/Avatar";
+import { useSelector } from "$store/index";
 import useAuth from "@/context/AuthProvider";
+import Link from "next/link";
 
 export default function () {
   const { currentUser } = useAuth();
-
-  const count = useCart((store) => store.items).length;
+  const count = useSelector((state) => state.items.length);
 
   return (
     <div className="flex items-center space-x-2 ml-auto">

@@ -1,14 +1,11 @@
 "use client";
 
+import { compute, useSelector } from "$store/index";
+import round from "$utility/round";
 import Link from "next/link";
-import useCart from "@/store/useCart";
-import round from "@/utility/round";
 
 export default function () {
-  const unit = useCart((store) => store.unit);
-  const total = useCart((store) => store.total);
-  const tax = useCart((store) => store.tax);
-  const totalWithTax = useCart((store) => store.totalWithTax);
+  const { tax, totalWithTax, unit, total } = useSelector(compute);
 
   return (
     <aside className="md:w-1/4">
