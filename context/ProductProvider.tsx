@@ -1,11 +1,11 @@
 "use client";
 
-import Prettify from "@/types/Prettify";
+import Prettify from "$types/Prettify";
+import COOKIES from "$utility/COOKIES";
+import { Delete, Post } from "$utility/request";
+import { getCookie } from "cookies-next";
 import type { ReactNode } from "react";
 import { createContext, useContext } from "react";
-import { Delete, Post } from "@/utility/request";
-import COOKIES from "@/utility/COOKIES";
-import { getCookie } from "cookies-next";
 
 interface CallBackFun<Res = any> {
   onError: (error: any) => void;

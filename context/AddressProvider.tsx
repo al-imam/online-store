@@ -1,10 +1,10 @@
 "use client";
 
-import { ReactNode, createContext, useContext } from "react";
-import { Address } from "@/components/user/NewAddress";
-import { Delete, Post, Put } from "@/utility/request";
+import { Address } from "$components/user/NewAddress";
+import COOKIES from "$utility/COOKIES";
+import { Delete, Post, Put } from "$utility/request";
 import { getCookie } from "cookies-next";
-import COOKIES from "@/utility/COOKIES";
+import { ReactNode, createContext, useContext } from "react";
 
 interface CallBackFun<Res = any> {
   onError: (error: any) => void;

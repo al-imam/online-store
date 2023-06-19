@@ -1,11 +1,11 @@
 "use client";
 
-import Prettify from "@/types/Prettify";
-import { UserWithOutPassword } from "@/types/UserInterface";
-import COOKIES from "@/utility/COOKIES";
-import { dispatchManualChange, onLocalStorageChange } from "@/utility/event";
-import { Post, Put } from "@/utility/request";
-import { parseLocal, removeLocal, setLocal } from "@/utility/store";
+import Prettify from "$types/Prettify";
+import { UserWithOutPassword } from "$types/UserInterface";
+import COOKIES from "$utility/COOKIES";
+import { dispatchManualChange, onLocalStorageChange } from "$utility/event";
+import { Post, Put } from "$utility/request";
+import { parseLocal, removeLocal, setLocal } from "$utility/store";
 import { getCookie, hasCookie, removeCookies, setCookie } from "cookies-next";
 import { isString, validate } from "nested-object-validate";
 import type { FunctionComponent, ReactNode } from "react";
@@ -21,7 +21,9 @@ type AuthFun<TObject, S = any> = (
   values: TObject & Partial<CallBackFun<S>>
 ) => void;
 
-interface CurrentUser extends UserWithOutPassword {}
+interface CurrentUser extends UserWithOutPassword {
+  created: string;
+}
 
 type SingupFun = AuthFun<NEP>;
 type SinginFun = AuthFun<Omit<NEP, "name">>;
