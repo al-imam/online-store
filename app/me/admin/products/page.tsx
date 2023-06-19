@@ -1,7 +1,7 @@
-import { Get } from "@/utility/request";
-import ProductInterface from "@/types/productInterface";
-import ProductTable from "@/components/admin/ProductTable";
-import COOKIES from "@/utility/COOKIES";
+import ProductTable from "$components/admin/ProductTable";
+import ProductInterface from "$types/productInterface";
+import COOKIES from "$utility/COOKIES";
+import { Get } from "$utility/request";
 import { cookies } from "next/headers";
 
 interface DATA {

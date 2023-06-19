@@ -1,9 +1,9 @@
-import Product from "@/backend/models/product";
-import filter from "@/backend/util/filter";
+import filter from "$backend/util/filter";
+import parseNumber from "$backend/util/parseNumber";
+import Product from "$models/Product";
+import { MyRequest } from "$types/NextApiResponse";
+import { UserWithId } from "$types/UserInterface";
 import { NextApiRequest, NextApiResponse } from "next";
-import parseNumber from "../util/parseNumber";
-import { MyRequest } from "@/types/NextApiResponse";
-import { UserWithId } from "@/types/UserInterface";
 
 function calculateSkipNumber(num: string, fallback: number = 0, single = 2) {
   const n = parseInt(num as string);

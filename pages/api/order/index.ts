@@ -1,16 +1,16 @@
-import dbConnect from "@/backend/config/dbConnect";
+import dbConnect from "$backend/config/dbConnect";
 import {
   deleteOrder,
   singleCustomerOrder,
   updateOrderStatus,
-} from "@/backend/controllers/orderController";
-import createRouter from "next-connect";
-import wrap from "@/utility/wrapHandler";
-import AuthGuard from "@/backend/middleware/AuthGuard";
-import validateObjectId from "@/backend/middleware/validateObjectId";
-import { MyRequest } from "@/types/NextApiResponse";
-import validateBody from "@/backend/middleware/validateBody";
+} from "$controllers/orderController";
+import AuthGuard from "$middleware/AuthGuard";
+import validateBody from "$middleware/validateBody";
+import validateObjectId from "$middleware/validateObjectId";
+import { MyRequest } from "$types/NextApiResponse";
+import wrap from "$utility/wrapHandler";
 import { isString } from "nested-object-validate";
+import createRouter from "next-connect";
 
 dbConnect();
 

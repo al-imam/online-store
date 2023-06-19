@@ -1,5 +1,5 @@
+import uuid from "$utility/uuid";
 import multer, { diskStorage } from "multer";
-import uuid from "@/utility/uuid";
 
 const time = new Intl.DateTimeFormat("en", {
   day: "2-digit",

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import COOKIES from "@/utility/COOKIES";
-import { verify } from "@/backend/util/jwt";
+import COOKIES from "$utility/COOKIES";
+import { verify } from "$backend/util/jwt";
 import { Types } from "mongoose";
 
 export async function middleware(req: NextRequest) {

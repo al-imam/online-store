@@ -1,8 +1,8 @@
-import Me from "@/components/auth/Me";
-import { Get } from "@/utility/request";
-import AddressInterface from "@/types/AddressInterface";
+import Me from "$components/auth/Me";
+import AddressInterface from "$types/AddressInterface";
+import COOKIES from "$utility/COOKIES";
+import { Get } from "$utility/request";
 import { cookies } from "next/headers";
-import COOKIES from "@/utility/COOKIES";
 
 export default async function ({
   searchParams,

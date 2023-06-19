@@ -1,9 +1,9 @@
-import { verify } from "../util/jwt";
-import wrap from "@/utility/wrapHandler";
+import { verify } from "$backend/util/jwt";
+import User from "$models/User";
+import { UserWithId } from "$types/UserInterface";
+import COOKIES from "$utility/COOKIES";
+import wrap from "$utility/wrapHandler";
 import { isValidObjectId } from "mongoose";
-import User from "@/backend/models/user";
-import { UserWithId } from "@/types/UserInterface";
-import COOKIES from "@/utility/COOKIES";
 
 function authRole(role: "user" | "admin", userRole: "user" | "admin") {
   if (role === "user") return true;

@@ -1,11 +1,11 @@
-import User from "@/backend/models/user";
+import { sign } from "$backend/util/jwt";
+import User from "$models/User";
+import { MyRequest } from "$types/NextApiResponse";
+import { UserWithId } from "$types/UserInterface";
+import COOKIES from "$utility/COOKIES";
 import { compareSync } from "bcryptjs";
-import { sign } from "../util/jwt";
 import { setCookie } from "cookies-next";
-import COOKIES from "@/utility/COOKIES";
 import { NextApiResponse } from "next";
-import { MyRequest } from "@/types/NextApiResponse";
-import { UserWithId } from "@/types/UserInterface";
 
 export async function singup(
   req: MyRequest<{ $data: Record<"password" | "name" | "email", string> }>,

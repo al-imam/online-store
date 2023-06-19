@@ -1,4 +1,4 @@
-import CartItemInterface from "@/types/cartItemInterface";
+/* import CartItemInterface from "$types/cartItemInterface";
 import { create } from "zustand";
 import { combine, persist, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
@@ -88,3 +88,4 @@ useCart.subscribe(
   },
   { fireImmediately: true }
 );
+ */

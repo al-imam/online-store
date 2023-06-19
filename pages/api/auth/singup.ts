@@ -1,10 +1,10 @@
-import dbConnect from "@/backend/config/dbConnect";
-import { singup } from "@/backend/controllers/authController";
-import validateBody from "@/backend/middleware/validateBody";
-import emailRegex, { urlRegex } from "@/utility/regex";
-import createRouter from "next-connect";
-import wrap from "@/utility/wrapHandler";
+import dbConnect from "$backend/config/dbConnect";
+import { singup } from "$controllers/authController";
+import validateBody from "$middleware/validateBody";
+import emailRegex, { urlRegex } from "$utility/regex";
+import wrap from "$utility/wrapHandler";
 import { ignoreUndefined } from "nested-object-validate";
+import createRouter from "next-connect";
 
 dbConnect();
 

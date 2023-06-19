@@ -1,9 +1,9 @@
 "use client";
 
 import Input from "$components/form/Input";
+import useAuth from "$context/AuthProvider";
 import emailRegex from "$utility/regex";
 import uuid from "$utility/uuid";
-import useAuth from "@/context/AuthProvider";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";

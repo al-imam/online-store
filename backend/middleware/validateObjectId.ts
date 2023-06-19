@@ -1,5 +1,5 @@
+import wrap from "$utility/wrapHandler";
 import { Types } from "mongoose";
-import wrap from "@/utility/wrapHandler";
 
 function validateObjectId(ids: string[], validate: "body" | "query" = "body") {
   return wrap<{ $data: Record<string, any> }>(async (req, res, next) => {

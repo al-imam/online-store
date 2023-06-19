@@ -24,8 +24,13 @@
       "@/*": ["./*"],
       "$store/*": ["store/*"],
       "$components/*": ["components/*"],
+      "$context/*": ["context/*"],
       "$utility/*": ["utility/*"],
-      "$types/*": ["types/*"]
+      "$types/*": ["types/*"],
+      "$backend/*": ["backend/*"],
+      "$controllers/*": ["backend/controllers/*"],
+      "$middleware/*": ["backend/middleware/*"],
+      "$models/*": ["backend/models/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

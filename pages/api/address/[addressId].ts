@@ -1,10 +1,10 @@
-import dbConnect from "@/backend/config/dbConnect";
-import { get, remove, update } from "@/backend/controllers/addressController";
-import AuthGuard from "@/backend/middleware/AuthGuard";
-import validateBody from "@/backend/middleware/validateBody";
-import validateObjectId from "@/backend/middleware/validateObjectId";
-import { MyRequest } from "@/types/NextApiResponse";
-import wrap from "@/utility/wrapHandler";
+import dbConnect from "$backend/config/dbConnect";
+import { get, remove, update } from "$controllers/addressController";
+import AuthGuard from "$middleware/AuthGuard";
+import validateBody from "$middleware/validateBody";
+import validateObjectId from "$middleware/validateObjectId";
+import { MyRequest } from "$types/NextApiResponse";
+import wrap from "$utility/wrapHandler";
 import { countries } from "countries-list";
 import { ValidatorType, isNumber, isString } from "nested-object-validate";
 import { NextApiResponse } from "next";

@@ -1,5 +1,5 @@
+import Prettify from "$types/Prettify";
 import { Model, Schema, Types, model, models } from "mongoose";
-import Prettify from "@/types/Prettify";
 
 interface OrderSchema {
   address: Schema.Types.ObjectId;

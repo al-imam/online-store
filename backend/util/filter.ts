@@ -1,8 +1,8 @@
-import { QueryInterface } from "@/types/queryInterface";
-import categories from "@/utility/categories";
-import capitalize from "@/utility/capitalize";
+import { QueryInterface } from "$types/queryInterface";
+import capitalize from "$utility/capitalize";
+import categories from "$utility/categories";
 import escapeStringRegexp from "escape-string-regexp";
-import parseNumber from "./parseNumber";
+import parseNumber from "$backend/util/parseNumber";
 
 function isEmpty(o: object): boolean {
   return Object.keys(o).length === 0;

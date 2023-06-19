@@ -45,10 +45,7 @@ export default function () {
         value={search}
         onChange={searchChange}
       />
-      <button
-        type="button"
-        className="px-4 py-2 inline-block text-white border border-transparent bg-blue-600 rounded-md hover:bg-blue-700"
-      >
+      <button className="px-4 py-2 inline-block text-white border border-transparent bg-blue-600 rounded-md hover:bg-blue-700">
         Search
       </button>
     </form>

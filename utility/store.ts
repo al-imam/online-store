@@ -1,4 +1,4 @@
-import { dispatch } from "@/utility/event";
+import { dispatch } from "$utility/event";
 
 export function setLocal(key: string, value: { [key: string]: any }) {
   localStorage.setItem(key, JSON.stringify(value));

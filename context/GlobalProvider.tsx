@@ -1,9 +1,9 @@
 "use client";
 
+import { AddressProvider } from "$context/AddressProvider";
+import { AuthProvider } from "$context/AuthProvider";
+import { ProductProvider } from "$context/ProductProvider";
 import { persistor, store } from "$store/index";
-import { AddressProvider } from "@/context/AddressProvider";
-import { AuthProvider } from "@/context/AuthProvider";
-import { ProductProvider } from "@/context/ProductProvider";
 import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

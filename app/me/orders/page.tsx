@@ -1,8 +1,8 @@
-import Order from "@/components/order/Order";
-import COOKIES from "@/utility/COOKIES";
-import { Get } from "@/utility/request";
+import Order from "$components/order/Order";
+import { OrderResponse } from "$types/OrderInterface";
+import COOKIES from "$utility/COOKIES";
+import { Get } from "$utility/request";
 import { cookies } from "next/headers";
-import { OrderResponse } from "@/types/OrderInterface";
 
 export default async function ({
   searchParams,

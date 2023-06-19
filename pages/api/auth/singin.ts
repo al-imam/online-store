@@ -1,8 +1,8 @@
-import dbConnect from "@/backend/config/dbConnect";
-import { singin } from "@/backend/controllers/authController";
-import validateBody from "@/backend/middleware/validateBody";
-import emailRegex from "@/utility/regex";
-import wrap from "@/utility/wrapHandler";
+import dbConnect from "$backend/config/dbConnect";
+import { singin } from "$controllers/authController";
+import validateBody from "$middleware/validateBody";
+import emailRegex from "$utility/regex";
+import wrap from "$utility/wrapHandler";
 import createRouter from "next-connect";
 
 dbConnect();

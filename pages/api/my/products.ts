@@ -1,7 +1,7 @@
-import dbConnect from "@/backend/config/dbConnect";
-import { products } from "@/backend/controllers/productController";
-import AuthGuard from "@/backend/middleware/AuthGuard";
-import wrap from "@/utility/wrapHandler";
+import dbConnect from "$backend/config/dbConnect";
+import { products } from "$controllers/productController";
+import AuthGuard from "$middleware/AuthGuard";
+import wrap from "$utility/wrapHandler";
 import createRouter from "next-connect";
 
 dbConnect();

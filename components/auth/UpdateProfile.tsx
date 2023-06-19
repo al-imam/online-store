@@ -1,7 +1,7 @@
 "use client";
 
 import Input from "$components/form/Input";
-import useAuth from "@/context/AuthProvider";
+import useAuth from "$context/AuthProvider";
 import { ChangeEvent, FormEvent, useRef } from "react";
 import { toast } from "react-toastify";
 import useObjectStore from "use-object-store";

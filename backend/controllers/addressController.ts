@@ -1,7 +1,7 @@
-import Address from "@/backend/models/address";
+import Address from "$models/Address";
+import { MyRequest } from "$types/NextApiResponse";
+import { UserWithId } from "$types/UserInterface";
 import { NextApiResponse } from "next";
-import { MyRequest } from "@/types/NextApiResponse";
-import { UserWithId } from "@/types/UserInterface";
 
 type AddressRequest<T extends object = {}> = MyRequest<{
   $user: UserWithId;

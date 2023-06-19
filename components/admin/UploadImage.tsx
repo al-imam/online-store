@@ -1,6 +1,6 @@
 "use client";
 
-import useProduct from "@/context/ProductProvider";
+import useProduct from "$context/ProductProvider";
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { toast } from "react-toastify";
 

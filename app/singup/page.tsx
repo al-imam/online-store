@@ -1,5 +1,5 @@
+import Singup from "$components/auth/Singup";
 import type { FunctionComponent } from "react";
-import Singup from "@/components/auth/Singup";
 
 interface SingupPageProps {}
 

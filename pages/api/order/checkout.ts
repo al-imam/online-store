@@ -1,13 +1,13 @@
-import dbConnect from "@/backend/config/dbConnect";
-import { checkout } from "@/backend/controllers/orderController";
-import AuthGuard from "@/backend/middleware/AuthGuard";
-import validateBody from "@/backend/middleware/validateBody";
+import dbConnect from "$backend/config/dbConnect";
+import { checkout } from "$controllers/orderController";
+import AuthGuard from "$middleware/AuthGuard";
+import validateBody from "$middleware/validateBody";
+import { UserWithId } from "$types/UserInterface";
+import { urlRegex } from "$utility/regex";
+import wrap from "$utility/wrapHandler";
 import { isValidObjectId } from "mongoose";
-import wrap from "@/utility/wrapHandler";
-import createRouter from "next-connect";
 import { isString } from "nested-object-validate";
-import { UserWithId } from "@/types/UserInterface";
-import { urlRegex } from "@/utility/regex";
+import createRouter from "next-connect";
 
 dbConnect();
 

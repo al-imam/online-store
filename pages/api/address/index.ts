@@ -1,13 +1,13 @@
-import createRouter from "next-connect";
-import dbConnect from "@/backend/config/dbConnect";
-import { add, query } from "@/backend/controllers/addressController";
-import validateBody from "@/backend/middleware/validateBody";
-import AuthGuard from "@/backend/middleware/AuthGuard";
-import wrap from "@/utility/wrapHandler";
-import { validateCountry } from "./[addressId]";
+import dbConnect from "$backend/config/dbConnect";
+import { add, query } from "$controllers/addressController";
+import AuthGuard from "$middleware/AuthGuard";
+import validateBody from "$middleware/validateBody";
+import { MyRequest } from "$types/NextApiResponse";
+import wrap from "$utility/wrapHandler";
 import { isNumber, isString } from "nested-object-validate";
-import { MyRequest } from "@/types/NextApiResponse";
 import { NextApiResponse } from "next";
+import createRouter from "next-connect";
+import { validateCountry } from "./[addressId]";
 
 const router = createRouter<
   MyRequest<{ $data: Record<string, any> }>,

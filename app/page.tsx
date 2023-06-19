@@ -1,8 +1,8 @@
-import { Get } from "@/utility/request";
-import ProductInterface from "@/types/productInterface";
-import ListProduct from "@/components/products/ListProduct";
-import {QueryInterface} from "@/types/queryInterface";
-import stringifyQuery from "@/utility/stringifyQuery";
+import ListProduct from "$components/products/ListProduct";
+import ProductInterface from "$types/productInterface";
+import { QueryInterface } from "$types/queryInterface";
+import { Get } from "$utility/request";
+import stringifyQuery from "$utility/stringifyQuery";
 
 interface HomeProps {
   searchParams: Partial<QueryInterface>;

@@ -1,7 +1,7 @@
-import dbConnect from "@/backend/config/dbConnect";
-import { webhook } from "@/backend/controllers/orderController";
+import dbConnect from "$backend/config/dbConnect";
+import { webhook } from "$controllers/orderController";
+import wrap from "$utility/wrapHandler";
 import createRouter from "next-connect";
-import wrap from "@/utility/wrapHandler";
 
 dbConnect();
 

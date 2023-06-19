@@ -1,15 +1,15 @@
-import dbConnect from "@/backend/config/dbConnect";
-import multer from "@/backend/util/multer";
-import createRouter from "next-connect";
-import { NextApiResponse } from "next";
-import { UserWithId } from "@/types/UserInterface";
-import AuthGuard from "@/backend/middleware/AuthGuard";
-import { MyRequest } from "@/types/NextApiResponse";
-import Product from "@/backend/models/product";
-import { isValidObjectId } from "mongoose";
+import dbConnect from "$backend/config/dbConnect";
+import multer from "$backend/util/multer";
+import AuthGuard from "$middleware/AuthGuard";
+import Product from "$models/Product";
+import { MyRequest } from "$types/NextApiResponse";
+import { UserWithId } from "$types/UserInterface";
+import uuid from "$utility/uuid";
+import wrap from "$utility/wrapHandler";
 import { unlinkSync } from "fs";
-import uuid from "@/utility/uuid";
-import wrap from "@/utility/wrapHandler";
+import { isValidObjectId } from "mongoose";
+import { NextApiResponse } from "next";
+import createRouter from "next-connect";
 
 dbConnect();
 

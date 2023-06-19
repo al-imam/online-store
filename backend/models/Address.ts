@@ -1,5 +1,5 @@
+import AddressInterface from "$types/AddressInterface";
 import { Model, Schema, model, models } from "mongoose";
-import AddressInterface from "@/types/AddressInterface";
 
 interface AI extends AddressInterface {
   user: Schema.Types.ObjectId;

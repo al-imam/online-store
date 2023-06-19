@@ -1,21 +1,19 @@
 /// <reference types="stripe-event-types" />
 
-import { UserWithId } from "@/types/UserInterface";
+import parseNumber from "$backend/util/parseNumber";
+import Address from "$models/Address";
+import Order from "$models/Order";
+import { default as Product, default as product } from "$models/Product";
+import User from "$models/User";
+import { Modify } from "$types/Modify";
+import { MyRequest } from "$types/NextApiResponse";
+import { RequiredAndNotNull } from "$types/RequiredAndNotNull";
+import { UserWithId } from "$types/UserInterface";
+import round from "$utility/round";
+import { isValidObjectId } from "mongoose";
+import { NextApiRequest, NextApiResponse } from "next";
 import getRawBody from "raw-body";
 import Stripe from "stripe";
-import { Modify } from "@/types/Modify";
-import Order from "@/backend/models/order";
-import { isValidObjectId } from "mongoose";
-import { RequiredAndNotNull } from "@/types/RequiredAndNotNull";
-import { NextApiRequest, NextApiResponse } from "next";
-import Address from "@/backend/models/address";
-import User from "@/backend/models/user";
-import Product from "@/backend/models/product";
-import { MyRequest } from "@/types/NextApiResponse";
-import product from "@/backend/models/product";
-import colorLog from "@/utility/colorLog";
-import round from "@/utility/round";
-import parseNumber from "../util/parseNumber";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2022-11-15",

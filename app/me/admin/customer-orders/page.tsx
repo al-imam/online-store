@@ -1,7 +1,7 @@
-import CustomerOrders from "@/components/admin/CustomerOrders";
-import { OrderResponse } from "@/types/OrderInterface";
-import COOKIES from "@/utility/COOKIES";
-import { Get } from "@/utility/request";
+import CustomerOrders from "$components/admin/CustomerOrders";
+import { OrderResponse } from "$types/OrderInterface";
+import COOKIES from "$utility/COOKIES";
+import { Get } from "$utility/request";
 import { cookies } from "next/headers";
 
 interface Props {

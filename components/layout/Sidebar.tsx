@@ -1,6 +1,6 @@
 "use client";
 
-import useAuth from "@/context/AuthProvider";
+import useAuth from "$context/AuthProvider";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Fragment } from "react";

@@ -1,7 +1,7 @@
-import NewAddress from "@/components/user/NewAddress";
-import AddressInterface from "@/types/AddressInterface";
-import COOKIES from "@/utility/COOKIES";
-import { Get } from "@/utility/request";
+import NewAddress from "$components/user/NewAddress";
+import AddressInterface from "$types/AddressInterface";
+import COOKIES from "$utility/COOKIES";
+import { Get } from "$utility/request";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 

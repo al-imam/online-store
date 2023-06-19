@@ -1,7 +1,7 @@
 "use client";
 
 import { addQuantity, removeQuantity } from "$store/index";
-import CartItemInterface from "@/types/cartItemInterface";
+import CartItemInterface from "$types/cartItemInterface";
 import { useDispatch } from "react-redux";
 
 interface QuantityProps {

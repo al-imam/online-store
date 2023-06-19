@@ -1,4 +1,4 @@
-import Prettify from "./Prettify";
+import Prettify from "$types/Prettify";
 
 export type RequiredAndNotNull<T extends object, R = false> = Prettify<
   Required<{

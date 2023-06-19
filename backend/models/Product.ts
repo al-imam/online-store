@@ -1,5 +1,5 @@
+import ProductInterface from "$types/productInterface";
 import { Model, Schema, model, models } from "mongoose";
-import ProductInterface from "@/types/productInterface";
 
 interface ProductIF extends ProductInterface {
   user: Schema.Types.ObjectId;

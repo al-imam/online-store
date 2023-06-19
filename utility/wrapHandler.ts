@@ -1,4 +1,4 @@
-import { NextApiResponse, NextApiRequest } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 import { NextHandler } from "next-connect";
 
 function wrap<T extends object = {}>(

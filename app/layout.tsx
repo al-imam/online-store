@@ -1,7 +1,7 @@
-import type { ReactNode } from "react";
+import Header from "$components/layout/Header";
+import GlobalProvider from "$context/GlobalProvider";
 import "@/app/globals.css";
-import Header from "@/components/layout/Header";
-import GlobalProvider from "@/context/GlobalProvider";
+import type { ReactNode } from "react";
 
 export const metadata = {
   title: "Create Next App",

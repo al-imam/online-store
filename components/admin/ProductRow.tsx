@@ -1,8 +1,8 @@
 "use client";
 
+import useProduct from "$context/ProductProvider";
 import ProductInterface from "$types/productInterface";
 import uuid from "$utility/uuid";
-import useProduct from "@/context/ProductProvider";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 

@@ -1,8 +1,8 @@
 "use client";
 
 import Avatar from "$components/utility/Avatar";
+import useAuth from "$context/AuthProvider";
 import { useSelector } from "$store/index";
-import useAuth from "@/context/AuthProvider";
 import Link from "next/link";
 
 export default function () {

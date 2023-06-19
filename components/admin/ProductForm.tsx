@@ -1,8 +1,8 @@
 "use client";
 
+import useProduct from "$context/ProductProvider";
 import categories from "$utility/categories";
 import uuid from "$utility/uuid";
-import useProduct from "@/context/ProductProvider";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent } from "react";
 import { toast } from "react-toastify";

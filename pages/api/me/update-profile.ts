@@ -1,11 +1,11 @@
-import dbConnect from "@/backend/config/dbConnect";
-import createRouter from "next-connect";
-import multer from "@/backend/util/multer";
+import dbConnect from "$backend/config/dbConnect";
+import multer from "$backend/util/multer";
+import AuthGuard from "$middleware/AuthGuard";
+import User from "$models/User";
+import { MyRequest } from "$types/NextApiResponse";
+import { UserWithId } from "$types/UserInterface";
 import { NextApiResponse, PageConfig } from "next";
-import User from "@/backend/models/user";
-import { UserWithId } from "@/types/UserInterface";
-import AuthGuard from "@/backend/middleware/AuthGuard";
-import { MyRequest } from "@/types/NextApiResponse";
+import createRouter from "next-connect";
 
 dbConnect();
 

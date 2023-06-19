@@ -1,4 +1,4 @@
-import UpdatePassword from "@/components/auth/UpdatePassword";
+import UpdatePassword from "$components/auth/UpdatePassword";
 
 export default function () {
   return <UpdatePassword />;

@@ -1,7 +1,7 @@
-import getProfile from "@/utility/getProfile";
-import { Model, Schema, model, models } from "mongoose";
+import { UserInterface } from "$types/UserInterface";
+import getProfile from "$utility/getProfile";
 import { hashSync } from "bcryptjs";
-import { UserInterface } from "@/types/UserInterface";
+import { Model, Schema, model, models } from "mongoose";
 
 const user = new Schema<UserInterface>(
   {

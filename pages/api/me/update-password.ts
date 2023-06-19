@@ -1,10 +1,10 @@
-import dbConnect from "@/backend/config/dbConnect";
+import dbConnect from "$backend/config/dbConnect";
+import { update } from "$controllers/authController";
+import AuthGuard from "$middleware/AuthGuard";
+import validateBody from "$middleware/validateBody";
+import { UserWithId } from "$types/UserInterface";
+import wrap from "$utility/wrapHandler";
 import createRouter from "next-connect";
-import { update } from "@/backend/controllers/authController";
-import AuthGuard from "@/backend/middleware/AuthGuard";
-import validateBody from "@/backend/middleware/validateBody";
-import wrap from "@/utility/wrapHandler";
-import { UserWithId } from "@/types/UserInterface";
 
 dbConnect();
 

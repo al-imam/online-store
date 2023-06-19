@@ -1,6 +1,6 @@
-import ProductDetails from "@/components/products/ProductDetails";
-import { Get } from "@/utility/request";
-import ProductInterface from "@/types/productInterface";
+import ProductDetails from "$components/products/ProductDetails";
+import ProductInterface from "$types/productInterface";
+import { Get } from "$utility/request";
 
 interface ProductDetailsPageProps {
   params: { id: string };

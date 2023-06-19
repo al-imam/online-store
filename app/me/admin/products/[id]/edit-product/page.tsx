@@ -1,7 +1,7 @@
-import ProductForm from "@/components/admin/ProductForm";
-import ProductInterface from "@/types/productInterface";
-import COOKIES from "@/utility/COOKIES";
-import { Get } from "@/utility/request";
+import ProductForm from "$components/admin/ProductForm";
+import ProductInterface from "$types/productInterface";
+import COOKIES from "$utility/COOKIES";
+import { Get } from "$utility/request";
 import { cookies } from "next/headers";
 
 export default async function ({ params }: { params: { id: string } }) {

@@ -1,8 +1,8 @@
 "use client";
 
 import Input from "$components/form/Input";
+import useAuth from "$context/AuthProvider";
 import uuid from "$utility/uuid";
-import useAuth from "@/context/AuthProvider";
 import { useRouter } from "next/navigation";
 import { FormEvent } from "react";
 import { toast } from "react-toastify";

@@ -2,9 +2,9 @@
 
 import Pagination from "$components/layout/Pagination";
 import OrderItem from "$components/order/OrderItem";
+import useAuth from "$context/AuthProvider";
 import { clear } from "$store/index";
 import { OrderResponse } from "$types/OrderInterface";
-import useAuth from "@/context/AuthProvider";
 import { useRouter } from "next/navigation";
 import { Fragment, useEffect } from "react";
 import { useDispatch } from "react-redux";

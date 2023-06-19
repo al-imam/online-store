@@ -2,8 +2,8 @@
 
 import Addresses from "$components/user/Addresses";
 import Avatar from "$components/utility/Avatar";
+import useAuth from "$context/AuthProvider";
 import AddressInterface from "$types/AddressInterface";
-import useAuth from "@/context/AuthProvider";
 import Link from "next/link";
 import { Fragment } from "react";
 
