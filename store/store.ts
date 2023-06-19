@@ -8,6 +8,10 @@ export const store = configureStore({
     { key: "redux-local", storage },
     productSlice.reducer
   ),
+  middleware: (middlewares) =>
+    middlewares({
+      serializableCheck: false,
+    }),
 });
 
 export const persistor = persistStore(store);
