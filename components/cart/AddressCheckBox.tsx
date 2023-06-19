@@ -1,5 +1,5 @@
-import AddressInterface from "@/types/AddressInterface";
-import Prettify from "@/types/Prettify";
+import AddressInterface from "$types/AddressInterface";
+import Prettify from "$types/Prettify";
 
 interface AddressCheckBoxProps {
   address: Prettify<AddressInterface & { _id: string }>;

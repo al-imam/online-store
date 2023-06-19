@@ -1,8 +1,8 @@
 "use client";
 
-import COOKIES from "@/utility/COOKIES";
-import { Delete } from "@/utility/request";
-import uuid from "@/utility/uuid";
+import COOKIES from "$utility/COOKIES";
+import { Delete } from "$utility/request";
+import uuid from "$utility/uuid";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 

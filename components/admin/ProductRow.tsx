@@ -1,10 +1,10 @@
 "use client";
 
-import Link from "next/link";
-import ProductInterface from "@/types/productInterface";
+import ProductInterface from "$types/productInterface";
+import uuid from "$utility/uuid";
 import useProduct from "@/context/ProductProvider";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import uuid from "@/utility/uuid";
 
 interface ProductRowProps {
   product: Pick<ProductInterface, "name" | "price" | "stock" | "_id">;

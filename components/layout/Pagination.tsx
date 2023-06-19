@@ -1,7 +1,7 @@
 "use client";
 
-import ReactJsPagination from "react-js-pagination";
 import { useRouter, useSearchParams } from "next/navigation";
+import ReactJsPagination from "react-js-pagination";
 
 interface PaginationProps {
   total: number;

@@ -1,11 +1,10 @@
 "use client";
 
-import Input from "@/components/form/Input";
+import Input from "$components/form/Input";
 import useAuth from "@/context/AuthProvider";
 import { ChangeEvent, FormEvent, useRef } from "react";
-import useObjectStore from "use-object-store";
-import emailRegex from "@/utility/regex";
 import { toast } from "react-toastify";
+import useObjectStore from "use-object-store";
 
 interface Store {
   name: string;

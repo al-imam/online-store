@@ -1,13 +1,13 @@
 "use client";
 
-import COOKIES from "@/utility/COOKIES";
-import colorLog from "@/utility/colorLog";
-import { Put } from "@/utility/request";
+import COOKIES from "$utility/COOKIES";
+import colorLog from "$utility/colorLog";
+import { Put } from "$utility/request";
+import uuid from "$utility/uuid";
 import { getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
 import { FormEvent } from "react";
 import useObjectStore from "use-object-store";
-import { useRouter } from "next/navigation";
-import uuid from "@/utility/uuid";
 
 export default function ({
   init,

@@ -1,6 +1,6 @@
-import ProductInterface from "@/types/productInterface";
+import AddToCartButton from "$components/utility/AddToCartButton";
+import ProductInterface from "$types/productInterface";
 import Link from "next/link";
-import AddToCartButton from "../utility/AddToCartButton";
 
 interface ProductProps {
   item: ProductInterface;

@@ -1,6 +1,6 @@
-import { Order, OrderDetails } from "@/types/OrderInterface";
-import round from "@/utility/round";
-import ModifyOrderForm from "./ModifyOrderForm";
+import ModifyOrderForm from "$components/admin/ModifyOrderForm";
+import { Order, OrderDetails } from "$types/OrderInterface";
+import round from "$utility/round";
 
 export default function ({ order }: { order: Order }) {
   return (

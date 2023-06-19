@@ -1,8 +1,8 @@
+import DeleteOrder from "$components/admin/DeleteOrder";
+import Pagination from "$components/layout/Pagination";
+import { Order, OrderResponse } from "$types/OrderInterface";
 import Link from "next/link";
 import { Fragment } from "react";
-import Pagination from "../layout/Pagination";
-import { Order, OrderResponse } from "@/types/OrderInterface";
-import DeleteOrder from "./DeleteOrder";
 
 interface CustomerOrdersProps {
   data: OrderResponse;

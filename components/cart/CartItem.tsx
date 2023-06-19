@@ -1,7 +1,7 @@
-import CartItemInterface from "@/types/cartItemInterface";
-import Quantity from "@/components/cart/Quantity";
-import round from "@/utility/round";
-import RemoveItem from "@/components/cart/RemoveItem";
+import CartItemInterface from "$types/cartItemInterface";
+import Quantity from "$components/cart/Quantity";
+import round from "$utility/round";
+import RemoveItem from "$components/cart/RemoveItem";
 
 const CartItem = ({ item }: { item: CartItemInterface }) => {
   return (

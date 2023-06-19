@@ -1,12 +1,12 @@
 "use client";
 
-import Input from "@/components/form/Input";
+import Input from "$components/form/Input";
+import uuid from "$utility/uuid";
 import useAuth from "@/context/AuthProvider";
+import { useRouter } from "next/navigation";
 import { FormEvent } from "react";
 import { toast } from "react-toastify";
 import useObjectStore from "use-object-store";
-import { useRouter } from "next/navigation";
-import uuid from "@/utility/uuid";
 
 const init = { current: "", password: "" };
 

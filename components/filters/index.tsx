@@ -1,9 +1,9 @@
-import Availability from "./Availability";
-import Category from "./Category";
-import Price from "./Price";
-import Sort from "./Sort";
+import Availability from "$components/filters/Availability";
+import Category from "$components/filters/Category";
+import Price from "$components/filters/Price";
+import Sort from "$components/filters/Sort";
 
-export { Availability, Price, Sort, Category };
+export { Availability, Category, Price, Sort };
 
 export default function () {
   return (

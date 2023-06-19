@@ -1,8 +1,7 @@
 "use client";
 
-import React from "react";
-import StarRatings from "react-star-ratings";
 import type { FunctionComponent } from "react";
+import StarRatings from "react-star-ratings";
 
 interface StarRatingProps {
   rating: number;

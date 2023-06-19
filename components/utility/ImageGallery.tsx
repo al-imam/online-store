@@ -1,6 +1,6 @@
 "use client";
 
-import { Image as ImageType } from "@/types/productInterface";
+import { Image as ImageType } from "$types/productInterface";
 import { useRef } from "react";
 
 interface ImageGalleryProps {

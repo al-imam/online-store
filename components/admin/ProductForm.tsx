@@ -1,12 +1,12 @@
 "use client";
 
+import categories from "$utility/categories";
+import uuid from "$utility/uuid";
 import useProduct from "@/context/ProductProvider";
-import categories from "@/utility/categories";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent } from "react";
 import { toast } from "react-toastify";
 import useObjectStore from "use-object-store";
-import { useRouter } from "next/navigation";
-import uuid from "@/utility/uuid";
 
 const value = {
   name: "",

@@ -1,12 +1,12 @@
 "use client";
 
-import { FormEvent } from "react";
-import { countries } from "countries-list";
-import useObjectStore from "use-object-store";
+import uuid from "$utility/uuid";
 import useAddress from "@/context/AddressProvider";
-import { toast } from "react-toastify";
+import { countries } from "countries-list";
 import { useRouter } from "next/navigation";
-import uuid from "@/utility/uuid";
+import { FormEvent } from "react";
+import { toast } from "react-toastify";
+import useObjectStore from "use-object-store";
 
 const countriesList = Object.values(countries).sort((a, b) =>
   a.name.localeCompare(b.name)

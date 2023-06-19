@@ -1,14 +1,14 @@
 "use client";
 
-import { FormEvent, FunctionComponent } from "react";
-import Link from "next/link";
-import Input from "@/components/form/Input";
+import Input from "$components/form/Input";
+import emailRegex from "$utility/regex";
+import uuid from "$utility/uuid";
 import useAuth from "@/context/AuthProvider";
-import useObjectStore from "use-object-store";
-import emailRegex from "@/utility/regex";
-import { toast } from "react-toastify";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import uuid from "@/utility/uuid";
+import { FormEvent, FunctionComponent } from "react";
+import { toast } from "react-toastify";
+import useObjectStore from "use-object-store";
 
 interface SingupProps {}
 

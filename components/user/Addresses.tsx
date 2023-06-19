@@ -1,5 +1,5 @@
+import AddressInterface from "$types/AddressInterface";
 import Link from "next/link";
-import AddressInterface from "@/types/AddressInterface";
 import { Fragment } from "react";
 
 interface AddressesProps {

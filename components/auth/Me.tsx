@@ -1,11 +1,11 @@
 "use client";
 
-import Link from "next/link";
+import Addresses from "$components/user/Addresses";
+import Avatar from "$components/utility/Avatar";
+import AddressInterface from "$types/AddressInterface";
 import useAuth from "@/context/AuthProvider";
-import Avatar from "@/components/utility/Avatar";
+import Link from "next/link";
 import { Fragment } from "react";
-import AddressInterface from "@/types/AddressInterface";
-import Addresses from "@/components/user/Addresses";
 
 const time = new Intl.DateTimeFormat("en", {
   dateStyle: "long",

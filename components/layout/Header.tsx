@@ -1,6 +1,6 @@
+import Search from "$components/layout/Search";
+import HeaderItems from "$components/utility/HeaderItems";
 import Link from "next/link";
-import Search from "@/components/layout/Search";
-import HeaderItems from "@/components/utility/HeaderItems";
 
 const Header = () => (
   <header className="bg-white py-2 border-b">

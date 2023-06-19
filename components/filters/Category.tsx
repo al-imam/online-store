@@ -1,10 +1,10 @@
 "use client";
 
-import categories from "@/utility/categories";
+import capitalize from "$utility/capitalize";
+import categories from "$utility/categories";
 import { useRouter } from "next/navigation";
 import { useEffect, useId } from "react";
 import useObjectStore from "use-object-store";
-import capitalize from "@/utility/capitalize";
 
 export default function () {
   const router = useRouter();

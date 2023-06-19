@@ -1,6 +1,6 @@
-import Pagination from "@/components/layout/Pagination";
-import ProductInterface from "@/types/productInterface";
-import ProductRow from "@/components/admin/ProductRow";
+import ProductRow from "$components/admin/ProductRow";
+import Pagination from "$components/layout/Pagination";
+import ProductInterface from "$types/productInterface";
 import { Fragment } from "react";
 
 interface ProductTableProps {

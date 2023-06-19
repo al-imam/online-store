@@ -1,1 +1,1 @@
-export * from "./productItem";
+export * from "$components/products/productItem";

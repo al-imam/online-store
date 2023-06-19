@@ -1,13 +1,13 @@
 "use client";
 
-import Link from "next/link";
-import useObjectStore from "use-object-store";
-import Input from "@/components/form/Input";
+import Input from "$components/form/Input";
+import emailRegex from "$utility/regex";
+import uuid from "$utility/uuid";
 import useAuth from "@/context/AuthProvider";
-import { toast } from "react-toastify";
-import emailRegex from "@/utility/regex";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import uuid from "@/utility/uuid";
+import { toast } from "react-toastify";
+import useObjectStore from "use-object-store";
 
 const init = { email: "", password: "" };
 

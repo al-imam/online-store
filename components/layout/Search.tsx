@@ -1,8 +1,8 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent } from "react";
 import useObjectStore from "use-object-store";
-import { useRouter } from "next/navigation";
 
 export default function () {
   const [{ search }, updateStore] = useObjectStore({ search: "" });

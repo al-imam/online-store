@@ -1,5 +1,5 @@
-import CartItemInterface from "@/types/cartItemInterface";
-import round from "@/utility/round";
+import CartItemInterface from "$types/cartItemInterface";
+import round from "$utility/round";
 
 export default function ({ item }: { item: CartItemInterface }) {
   return (

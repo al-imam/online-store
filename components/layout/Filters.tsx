@@ -1,12 +1,11 @@
 "use client";
 
-import React, { FormEvent } from "react";
-import StarRating from "@/components/utility/StarRating";
-import useObjectStore from "use-object-store";
+import StarRating from "$components/utility/StarRating";
+import capitalize from "$utility/capitalize";
+import categories from "$utility/categories";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import capitalize from "@/utility/capitalize";
-import categories from "@/utility/categories";
+import { FormEvent, useEffect } from "react";
+import useObjectStore from "use-object-store";
 
 const prices = [
   { ui: "Min", store: "min" },

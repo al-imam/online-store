@@ -1,9 +1,8 @@
-import React from "react";
+import Filter from "$components/filters";
+import Pagination from "$components/layout/Pagination";
+import { Product } from "$components/products";
+import ProductInterface from "$types/productInterface";
 import type { FunctionComponent } from "react";
-import ProductInterface from "@/types/productInterface";
-import { Product } from "@/components/products";
-import Pagination from "@/components/layout/Pagination";
-import Filter from "@/components/filters";
 
 interface ListProductProps {
   data: { products: ProductInterface[]; count: number; single: number };

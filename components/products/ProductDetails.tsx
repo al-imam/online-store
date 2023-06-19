@@ -1,9 +1,8 @@
-import React from "react";
-import StarRating from "@/components/utility/StarRating";
-import ProductInterface from "@/types/productInterface";
-import ImageGallery from "@/components/utility/ImageGallery";
-import BreadCrumbs from "@/components/layout/BreadCrumbs";
-import AddToCartButton from "../utility/AddToCartButton";
+import BreadCrumbs from "$components/layout/BreadCrumbs";
+import AddToCartButton from "$components/utility/AddToCartButton";
+import ImageGallery from "$components/utility/ImageGallery";
+import StarRating from "$components/utility/StarRating";
+import ProductInterface from "$types/productInterface";
 
 interface ProductDetailsProps {
   product: ProductInterface;

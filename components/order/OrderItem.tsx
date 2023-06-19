@@ -1,6 +1,6 @@
+import { Order } from "$types/OrderInterface";
+import round from "$utility/round";
 import Image from "next/image";
-import { Order } from "@/types/OrderInterface";
-import round from "@/utility/round";
 
 interface OrderItemProps {
   order: Order;
