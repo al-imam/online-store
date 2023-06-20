@@ -3,7 +3,7 @@ import HeaderItems from "$components/utility/HeaderItems";
 import Link from "next/link";
 
 const Header = () => (
-  <header className="bg-white py-2 border-b">
+  <header className="bg-white flex h-[var(--nav-size)] items-center border-b ">
     <div className="container max-w-screen-xl mx-auto px-4">
       <div className="flex flex-wrap items-center">
         <div className="flex-shrink-0 mr-5">

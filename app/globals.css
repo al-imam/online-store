@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --nav-size: 8rem;
+    @apply md:[--nav-size:4rem];
+  }
+
   input[type="number"]::-webkit-outer-spin-button,
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"] {
@@ -15,5 +20,14 @@
 @layer components {
   .outline-v2 * {
     outline: solid rgb(0 0 0 / 0.5) 1px;
+  }
+
+  .remove-scroll-bar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .remove-scroll-bar::-webkit-scrollbar {
+    display: none;
   }
 }

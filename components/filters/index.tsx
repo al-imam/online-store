@@ -7,7 +7,7 @@ export { Availability, Category, Price, Sort };
 
 export default function () {
   return (
-    <div className="hidden lg:block">
+    <div className="hidden lg:block lg:h-[calc(100vh-calc(var(--nav-size)+3rem))] overflow-y-scroll remove-scroll-bar pb-4">
       <div>
         <p className="block text-xs font-medium text-gray-700">Filters</p>
 
