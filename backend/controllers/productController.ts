@@ -5,9 +5,9 @@ import { MyRequest } from "$types/NextApiResponse";
 import { UserWithId } from "$types/UserInterface";
 import { NextApiRequest, NextApiResponse } from "next";
 
-function calculateSkipNumber(num: string, fallback: number = 0, single = 2) {
+function calculateSkipNumber(num: string, single = 2) {
   const n = parseInt(num as string);
-  if (isNaN(n)) return fallback;
+  if (isNaN(n)) return 0;
 
   return n === 0 ? 0 : n * single - single;
 }
@@ -46,7 +46,7 @@ export async function query(req: NextApiRequest, res: NextApiResponse) {
   const single = parseNumber(req.query["docs-per-page"] as string, 3);
 
   const docs = await Product.find(filter(req.query), undefined, {
-    skip: calculateSkipNumber(req.query.page as string),
+    skip: calculateSkipNumber(req.query.page as string, single),
     limit: single,
   });
 
