@@ -10,6 +10,7 @@
     "stripe:webhook": "stripe listen --events checkout.session.completed --forward-to localhost:3000/api/order/stripe-webhook"
   },
   "dependencies": {
+    "@radix-ui/react-popover": "^1.0.6",
     "@reduxjs/toolkit": "^1.9.5",
     "@tailwindcss/forms": "^0.5.3",
     "@types/bcryptjs": "^2.4.2",
