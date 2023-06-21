@@ -2,14 +2,13 @@ import Filter from "$components/filters";
 import Pagination from "$components/layout/Pagination";
 import { Product } from "$components/products";
 import ProductInterface from "$types/productInterface";
-import type { FunctionComponent } from "react";
 
 interface ListProductProps {
   data: { products: ProductInterface[]; count: number; single: number };
 }
 
-const ListProduct: FunctionComponent<ListProductProps> = ({ data }) => (
-  <section className="mx-auto max-w-screen-xl px-8 py-2">
+export default ({ data }: ListProductProps) => (
+  <section className="mx-auto max-w-screen-xl px-4 py-2">
     <div className="block lg:hidden py-2 mb-6">
       <button className="flex cursor-pointer items-center gap-2 border-b border-gray-400 pb-1 text-gray-900 transition hover:border-gray-600">
         <span className="text-sm font-medium"> Filters & Sorting </span>
@@ -31,7 +30,7 @@ const ListProduct: FunctionComponent<ListProductProps> = ({ data }) => (
       </button>
     </div>
 
-    <div className=" lg:mt-8 lg:grid lg:grid-cols-4 lg:items-start lg:gap-8">
+    <div className="lg:mt-8 lg:grid lg:grid-cols-4 lg:items-start lg:gap-8">
       <Filter />
       <div className="lg:col-span-3">
         <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -46,5 +45,3 @@ const ListProduct: FunctionComponent<ListProductProps> = ({ data }) => (
     </div>
   </section>
 );
-
-export default ListProduct;

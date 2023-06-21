@@ -1,7 +1,5 @@
 import BreadCrumbs from "$components/layout/BreadCrumbs";
-import AddToCartButton from "$components/utility/AddToCartButton";
-import ImageGallery from "$components/utility/ImageGallery";
-import StarRating from "$components/utility/StarRating";
+import { AddCart, Gallery, StarRating } from "$components/utility";
 import ProductInterface from "$types/productInterface";
 
 interface ProductDetailsProps {
@@ -25,7 +23,7 @@ export default ({ product }: ProductDetailsProps) => (
     <section className="bg-white py-10">
       <div className="container max-w-screen-xl mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-5">
-          <ImageGallery images={product.images} />
+          <Gallery images={product.images} />
           <main>
             <h2 className="font-semibold text-2xl mb-4">{product.name}</h2>
 
@@ -59,7 +57,7 @@ export default ({ product }: ProductDetailsProps) => (
             <p className="mb-4 text-gray-500">{product.description}</p>
 
             <div className="flex flex-wrap gap-2 mb-5">
-              <AddToCartButton product={product} />
+              <AddCart product={product} />
             </div>
 
             <ul className="mb-5">

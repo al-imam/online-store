@@ -1,6 +1,6 @@
 "use client";
 
-import StarRating from "$components/utility/StarRating";
+import { StarRating } from "$components/utility";
 import capitalize from "$utility/capitalize";
 import categories from "$utility/categories";
 import { useRouter } from "next/navigation";

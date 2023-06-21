@@ -1,7 +1,7 @@
 "use client";
 
 import Addresses from "$components/user/Addresses";
-import Avatar from "$components/utility/Avatar";
+import { Avatar } from "$components/utility";
 import useAuth from "$context/AuthProvider";
 import AddressInterface from "$types/AddressInterface";
 import Link from "next/link";
@@ -11,11 +11,11 @@ const time = new Intl.DateTimeFormat("en", {
   dateStyle: "long",
 });
 
-export default function ({
-  addresses,
-}: {
+interface MeProps {
   addresses: (AddressInterface & { _id: string })[];
-}) {
+}
+
+export default function ({ addresses }: MeProps) {
   const { currentUser } = useAuth();
 
   return currentUser ? (

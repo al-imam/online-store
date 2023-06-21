@@ -1,4 +1,4 @@
-import AddToCartButton from "$components/utility/AddToCartButton";
+import { AddCart } from "$components/utility";
 import ProductInterface from "$types/productInterface";
 import Link from "next/link";
 
@@ -51,7 +51,7 @@ export function Product({ item }: ProductProps) {
         </div>
 
         <div className="mt-4 z-50">
-          <AddToCartButton product={item} />
+          <AddCart product={item} />
         </div>
       </div>
     </li>
