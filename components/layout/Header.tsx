@@ -3,6 +3,7 @@
 import Search from "$components/layout/Search";
 import { Auth } from "$components/utility";
 import { useSelector } from "$store/index";
+import { CartIcon } from "$svg/icons";
 import Link from "next/link";
 
 export default function () {
@@ -19,10 +20,10 @@ export default function () {
 
         <Link
           href="/cart"
-          className="px-3 py-2 text-center text-gray-700 bg-white shadow rounded-md hover:bg-gray-100 hover:border-gray-300 hidden md:inline-block"
+          className="hidden md:block space-x-1 px-3 py-2 text-gray-700 bg-white shadow rounded-md hover:bg-gray-100 "
         >
-          <i className="text-gray-600/80 w-5 fa fa-shopping-cart"></i>
-          <span className="ml-1">
+          <CartIcon className="text-2xl inline-block" />
+          <span>
             Cart (<b>{count}</b>)
           </span>
         </Link>

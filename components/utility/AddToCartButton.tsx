@@ -3,6 +3,7 @@
 import { addItem } from "$store/index";
 import ProductInterface from "$types/productInterface";
 import { useDispatch } from "react-redux";
+import { CartIcon } from "$svg/icons";
 
 interface AddToCartButtonProps {
   product: ProductInterface;
@@ -28,9 +29,9 @@ function AddToCartButton({
           })
         )
       }
-      className="block w-full rounded text-white bg-blue-600 px-4 py-3 text-sm font-medium transition hover:bg-blue-700 cursor-pointer"
+      className="flex items-center justify-center gap-2 w-full rounded text-white bg-blue-600 px-4 py-3 text-sm font-medium transition hover:bg-blue-700 cursor-pointer"
     >
-      <i className="fa fa-shopping-cart mr-2"></i>
+      <CartIcon className="text-2xl" />
       Add to Cart
     </button>
   );

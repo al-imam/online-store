@@ -2,6 +2,7 @@
 
 import { Avatar } from "$components/utility";
 import { useSelector } from "$store/index";
+import { CartIcon } from "$svg/icons";
 import * as Model from "@radix-ui/react-popover";
 import Link from "next/link";
 import { useState } from "react";
@@ -71,7 +72,7 @@ export default function () {
               className="block md:hidden"
               action="/cart"
               close={() => setIsOpen(false)}
-              icon={<i className="fa fa-shopping-cart" />}
+              icon={<CartIcon className="text-2xl" />}
             />
           </ul>
         </Model.Content>

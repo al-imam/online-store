@@ -21,7 +21,6 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"],
       "$store/*": ["store/*"],
       "$components/*": ["components/*"],
       "$context/*": ["context/*"],
@@ -30,7 +29,9 @@
       "$backend/*": ["backend/*"],
       "$controllers/*": ["backend/controllers/*"],
       "$middleware/*": ["backend/middleware/*"],
-      "$models/*": ["backend/models/*"]
+      "$models/*": ["backend/models/*"],
+      "$svg/*": ["svg/*"],
+      "@/*": ["./*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
