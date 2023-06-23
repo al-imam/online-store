@@ -1,27 +1,24 @@
 import BreadCrumbs from "$components/layout/BreadCrumbs";
 import { AddCart, Gallery, StarRating } from "$components/utility";
 import ProductInterface from "$types/productInterface";
+import { Fragment } from "react";
 
 interface ProductDetailsProps {
   product: ProductInterface;
 }
 
 export default ({ product }: ProductDetailsProps) => (
-  <>
+  <Fragment>
     <BreadCrumbs
       list={[
-        { name: "Home", url: "/" },
         {
-          name:
-            product.name.length >= 100
-              ? `${product.name.substring(0, 100)}...`
-              : product.name,
+          name: product.name,
           url: `/product/${product._id}`,
         },
       ]}
     />
-    <section className="bg-white py-10">
-      <div className="container max-w-screen-xl mx-auto px-4">
+    <section>
+      <div className="max-w-screen-xl mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-5">
           <Gallery images={product.images} />
           <main>
@@ -90,5 +87,5 @@ export default ({ product }: ProductDetailsProps) => (
         </div>
       </div>
     </section>
-  </>
+  </Fragment>
 );
