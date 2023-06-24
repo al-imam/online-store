@@ -42,3 +42,25 @@ export function UserWriteIcon(props: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
+
+export function UserAddIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      viewBox="0 0 14 14"
+      {...props}
+    >
+      <g
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <circle cx="5" cy="2.75" r="2.25"></circle>
+        <path d="M4.5 12.5h-4V11A4.51 4.51 0 0 1 7 7m3.5.5v6m-3-3h6"></path>
+      </g>
+    </svg>
+  );
+}

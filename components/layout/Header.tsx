@@ -20,7 +20,7 @@ export default function () {
 
         <Link
           href="/cart"
-          className="hidden md:block space-x-1 px-3 py-2 text-gray-700 bg-white shadow rounded-md hover:bg-gray-100 "
+          className="hidden md:flex justify-center items-center gap-1 px-6 py-2 text-gray-700 bg-white shadow-sm rounded hover:bg-gray-100"
         >
           <CartIcon className="text-2xl inline-block" />
           <span>
