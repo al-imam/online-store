@@ -1,6 +1,16 @@
 "use client";
 
 import useAuth from "$context/AuthProvider";
+import {
+  BoxAddIcon,
+  BoxIcon,
+  BoxesIcon,
+  CustomerOrderIcon,
+  LogoutIcon,
+  PasswordWriteIcon,
+  UserIcon,
+  UserWriteIcon,
+} from "$svg/icons";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Fragment } from "react";
@@ -11,7 +21,7 @@ export default function () {
 
   return (
     <aside className="md:w-1/3 lg:w-1/4 px-4">
-      <ul className="sidebar">
+      <ul>
         {currentUser && currentUser.role === "admin" && (
           <Fragment>
             <li>
@@ -89,5 +99,94 @@ export default function () {
         </li>
       </ul>
     </aside>
+  );
+}
+
+export function Sidebar() {
+  return (
+    <ul className="space-y-1">
+      <SidebarItem
+        icon={<BoxAddIcon className="h-5 w-5 opacity-75" strokeWidth={1.5} />}
+        text="Create product"
+        action="/me/admin/products/new"
+      />
+      <SidebarItem
+        icon={<BoxesIcon className="h-5 w-5 opacity-75" />}
+        text="Products"
+        action="/me/admin/products"
+      />
+      <SidebarItem
+        icon={<CustomerOrderIcon className="h-5 w-5 opacity-75" />}
+        text="Customer orders"
+        action="/me/admin/customer-orders"
+      />
+      <SidebarItem
+        icon={<UserIcon className="h-5 w-5 opacity-75" />}
+        text="Profile"
+        action="/me"
+      />
+      <SidebarItem
+        icon={<BoxIcon className="h-5 w-5 opacity-75" />}
+        text="Orders"
+        action="/me/orders"
+      />
+      <SidebarItem
+        icon={<UserWriteIcon className="h-5 w-5 opacity-75" />}
+        text="Update profile"
+        action="/me/update-profile"
+      />
+      <SidebarItem
+        icon={<PasswordWriteIcon className="h-5 w-5 opacity-75" />}
+        text="Update password"
+        action="/me/update-password"
+      />
+      <SidebarItem
+        icon={<LogoutIcon className="h-5 w-5 opacity-75" strokeWidth={1.5} />}
+        text="Logout"
+        action={() => {}}
+      />
+    </ul>
+  );
+}
+
+function SidebarItem({
+  icon,
+  text,
+  action = () => [],
+}: {
+  icon: React.ReactNode;
+  text: string;
+  action?: string | (() => void);
+}) {
+  return (
+    <ButtonOrA action={action}>
+      {icon}
+
+      <span className="text-sm font-medium"> {text} </span>
+    </ButtonOrA>
+  );
+}
+
+function ButtonOrA({
+  className = "flex items-center gap-2 rounded-lg px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700 w-full",
+  action,
+  children,
+}: {
+  className?: string;
+  action: string | (() => void);
+  children: React.ReactNode;
+}) {
+  return typeof action === "string" ? (
+    <li>
+      <Link href={action} className={className}>
+        {children}
+      </Link>
+    </li>
+  ) : (
+    <li>
+      <button onClick={action} className={className}>
+        {children}
+      </button>
+    </li>
   );
 }
