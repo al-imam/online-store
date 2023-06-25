@@ -10,6 +10,7 @@
     "stripe:webhook": "stripe listen --events checkout.session.completed --forward-to localhost:3000/api/order/stripe-webhook"
   },
   "dependencies": {
+    "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-dropdown-menu": "^2.0.5",
     "@radix-ui/react-popover": "^1.0.6",
     "@reduxjs/toolkit": "^1.9.5",
