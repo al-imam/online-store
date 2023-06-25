@@ -35,7 +35,7 @@ export default function () {
       </Dropdown.Trigger>
       <Dropdown.Portal>
         <Dropdown.Content asChild>
-          <ul className="z-50 w-48 p-2 overflow-hidden bg-white text-gray-700 rounded-md shadow absolute top-2 -right-6">
+          <ul className="z-50 w-48 p-2 overflow-hidden backdrop-blur-sm bg-white/80 text-gray-700 rounded-md shadow absolute top-2 -right-6">
             {currentUser && (
               <Item
                 close={() => setIsOpen(false)}

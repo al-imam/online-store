@@ -10,7 +10,7 @@ interface BreadCrumbsProps {
 
 export default function ({ list }: BreadCrumbsProps) {
   return (
-    <nav aria-label="breadcrumb" className="p-8">
+    <nav aria-label="breadcrumb" className="py-8">
       <ol className="flex items-center gap-1 text-base text-gray-700 max-w-screen-xl mx-auto px-4">
         <li className="flex gap-1 items-center justify-center">
           <Link href="/" className="block transition hover:text-blue-600">

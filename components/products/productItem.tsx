@@ -9,7 +9,7 @@ interface ProductProps {
 export function Product({ item }: ProductProps) {
   return (
     <li className="group relative block overflow-hidden">
-      <button className="absolute end-4 top-4 z-[100] rounded-full bg-white p-1.5 text-gray-900 transition hover:text-gray-900/75">
+      <button className="absolute end-4 top-4 rounded-full bg-white p-1.5 text-gray-900 transition hover:text-gray-900/75">
         <span className="sr-only">Wishlist</span>
 
         <svg
