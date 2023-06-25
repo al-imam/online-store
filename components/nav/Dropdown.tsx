@@ -6,13 +6,15 @@ import { useSelector } from "$store/index";
 import { CartIcon, LogoutIcon, SettingIcon, ThreeDotIcon } from "$svg/icons";
 import * as Dropdown from "@radix-ui/react-dropdown-menu";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { twMerge as tw } from "tailwind-merge";
 
 export default function () {
   const [isOpen, setIsOpen] = useState(false);
   const count = useSelector((state) => state.items.length);
-  const { currentUser } = useAuth();
+  const { singout, currentUser } = useAuth();
+  const router = useRouter();
 
   return (
     <Dropdown.Root open={isOpen} onOpenChange={setIsOpen}>
@@ -58,7 +60,7 @@ export default function () {
             {currentUser ? (
               <Item
                 close={() => setIsOpen(false)}
-                action={() => {}}
+                action={() => singout(() => router.push("/"))}
                 text="Logout"
                 icon={
                   <LogoutIcon className="h-6 w-6 text-gray-950 group-data-[highlighted]/highlighted:text-white" />

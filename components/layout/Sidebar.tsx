@@ -12,8 +12,9 @@ import {
   UserWriteIcon,
 } from "$svg/icons";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Fragment } from "react";
+import { twMerge as tw } from "tailwind-merge";
 
 export default function () {
   const { singout, currentUser } = useAuth();
@@ -72,7 +73,7 @@ export default function () {
           />
         }
         text="Logout"
-        action={() => singout(() => router.push("/?page=1"))}
+        action={() => singout(() => router.push("/"))}
       />
     </ul>
   );
@@ -105,7 +106,12 @@ function ButtonOrLink({
   action: string | (() => void);
   children: React.ReactNode;
 }) {
-  const classes = `flex items-center gap-2 rounded-lg px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700 w-full ${className}`;
+  const path = usePathname();
+  const classes = tw(
+    "flex items-center gap-2 rounded-lg px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700 w-full",
+    path === action && "bg-gray-100"
+  );
+
   return typeof action === "string" ? (
     <li>
       <Link href={action} className={classes}>
