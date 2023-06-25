@@ -1,8 +1,85 @@
 "use client";
 
+import { Avatar } from "$components/utility";
+import useAuth from "$context/AuthProvider";
+import { useSelector } from "$store/index";
+import { CartIcon, LogoutIcon, SettingIcon, ThreeDotIcon } from "$svg/icons";
 import * as Dropdown from "@radix-ui/react-dropdown-menu";
 import Link from "next/link";
+import { useState } from "react";
 import { twMerge as tw } from "tailwind-merge";
+
+export default function () {
+  const [isOpen, setIsOpen] = useState(false);
+  const count = useSelector((state) => state.items.length);
+  const { currentUser } = useAuth();
+
+  return (
+    <Dropdown.Root open={isOpen} onOpenChange={setIsOpen}>
+      <Dropdown.Trigger asChild>
+        {currentUser ? (
+          <button
+            className={`h-10 w-10 hover:ring-4 cursor-pointer relative ring-blue-400/20 rounded-full bg-cover bg-center focus:outline-none focus-visible:ring-4 ${
+              isOpen && "ring-4"
+            }`}
+          >
+            <Avatar w={2.5} />{" "}
+          </button>
+        ) : (
+          <button className="focus:outline-none flex items-center justify-center text-gray-700 text-xl hover:text-gray-900 focus-visible:text-gray-900 w-10 h-full rounded">
+            <ThreeDotIcon />
+          </button>
+        )}
+      </Dropdown.Trigger>
+      <Dropdown.Portal>
+        <Dropdown.Content asChild>
+          <ul className="z-50 w-48 p-2 overflow-hidden bg-white text-gray-700 rounded-md shadow absolute top-2 -right-6">
+            {currentUser && (
+              <Item
+                close={() => setIsOpen(false)}
+                action="/me"
+                text="Setting"
+                icon={
+                  <SettingIcon className="h-6 w-6 text-gray-950 group-data-[highlighted]/highlighted:text-white" />
+                }
+              />
+            )}
+
+            <Item
+              text={`Cart (${count})`}
+              className="block md:hidden"
+              action="/cart"
+              close={() => setIsOpen(false)}
+              icon={
+                <CartIcon className="h-6 w-6 text-gray-950/90 group-data-[highlighted]/highlighted:text-white" />
+              }
+            />
+
+            {currentUser ? (
+              <Item
+                close={() => setIsOpen(false)}
+                action={() => {}}
+                text="Logout"
+                icon={
+                  <LogoutIcon className="h-6 w-6 text-gray-950 group-data-[highlighted]/highlighted:text-white" />
+                }
+              />
+            ) : (
+              <Item
+                close={() => setIsOpen(false)}
+                action="/singin"
+                text="Singin"
+                icon={
+                  <LogoutIcon className="h-6 w-6 text-gray-950 group-data-[highlighted]/highlighted:text-white" />
+                }
+              />
+            )}
+          </ul>
+        </Dropdown.Content>
+      </Dropdown.Portal>
+    </Dropdown.Root>
+  );
+}
 
 interface ItemProps {
   close: () => void;
