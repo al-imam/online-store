@@ -1,13 +1,17 @@
 "use client";
 
 import Search from "$components/layout/Search";
-import { Auth } from "$components/utility";
+import { Dropdown } from "$components/nav";
+import useAuth from "$context/AuthProvider";
 import { useSelector } from "$store/index";
-import { CartIcon } from "$svg/icons";
+import { CartIcon, UserAddIcon } from "$svg/icons";
 import Link from "next/link";
+import { useMediaQuery } from "react-responsive";
 
 export default function () {
   const count = useSelector((state) => state.items.length);
+  const hide = useMediaQuery({ query: "(min-width: 768px)" });
+  const { currentUser } = useAuth();
 
   return (
     <header className="bg-white text-gray-800 flex h-16 items-center shadow-sm">
@@ -28,7 +32,15 @@ export default function () {
           </span>
         </Link>
 
-        <Auth />
+        <Link
+          href="/singin"
+          className="hidden md:flex px-6 py-2 justify-center items-center gap-1 text-gray-700 bg-white shadow-sm rounded hover:bg-gray-100"
+        >
+          <UserAddIcon />
+          <span>Singin</span>
+        </Link>
+
+        {(!hide || currentUser) && <Dropdown />}
       </nav>
     </header>
   );
