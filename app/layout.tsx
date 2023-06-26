@@ -1,5 +1,6 @@
 import Header from "$components/layout/Header";
 import GlobalProvider from "$context/GlobalProvider";
+import PageLoading from "$components/layout/PageLoading";
 import "@/app/globals.css";
 import type { ReactNode } from "react";
 
@@ -18,6 +19,7 @@ export default function ({ children }: { children: ReactNode }) {
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         />
         <GlobalProvider>
+          <PageLoading />
           <Header />
           {children}
         </GlobalProvider>
