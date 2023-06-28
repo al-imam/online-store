@@ -1,1 +1,1 @@
-export * from "./Accordion";
+export * from "$components/accordion/Accordion";
