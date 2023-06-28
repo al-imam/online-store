@@ -4,34 +4,34 @@ import * as AccordionUI from "@radix-ui/react-accordion";
 import { AccordionItem } from "./AccordionItem";
 import { AccordionContent } from "./AccordionContent";
 import { AccordionTrigger } from "./AccordionTrigger";
+import { Price, Category, Availability } from "$components/filters";
 
 export function Accordion() {
   return (
     <AccordionUI.Root
-      className="bg-mauve6 w-[300px] rounded-md shadow-[0_2px_10px] shadow-black/5"
+      className="space-y-2 [&_.feature]:bg-red-700"
       type="single"
-      defaultValue="item-1"
+      defaultValue="category"
       collapsible
     >
-      <AccordionItem value="item-1">
-        <AccordionTrigger>Is it accessible?</AccordionTrigger>
+      <AccordionItem value="availability">
+        <AccordionTrigger>Availability</AccordionTrigger>
         <AccordionContent>
-          Yes. It adheres to the WAI-ARIA design pattern.
+          <Availability />
         </AccordionContent>
       </AccordionItem>
 
-      <AccordionItem value="item-2">
-        <AccordionTrigger>Is it unstyled?</AccordionTrigger>
+      <AccordionItem value="price">
+        <AccordionTrigger>Price</AccordionTrigger>
         <AccordionContent>
-          Yes. It's unstyled by default, giving you freedom over the look and
-          feel.
+          <Price />
         </AccordionContent>
       </AccordionItem>
 
-      <AccordionItem value="item-3">
-        <AccordionTrigger>Can it be animated?</AccordionTrigger>
+      <AccordionItem value="category">
+        <AccordionTrigger>Category</AccordionTrigger>
         <AccordionContent>
-          Yes! You can animate the Accordion with CSS or JavaScript.
+          <Category />
         </AccordionContent>
       </AccordionItem>
     </AccordionUI.Root>
