@@ -10,12 +10,12 @@ export const AccordionContent = forwardRef<
 >(({ children, className, ...props }, forwardedRef) => (
   <Accordion.Content
     className={tw(
-      "text-mauve11 bg-mauve2 data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp overflow-hidden text-[15px]",
+      "data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp overflow-hidden text-[15px]",
       className
     )}
     {...props}
     ref={forwardedRef}
   >
-    <div className="py-[15px] px-5">{children}</div>
+    {children}
   </Accordion.Content>
 ));
