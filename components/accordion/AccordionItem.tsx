@@ -10,7 +10,7 @@ export const AccordionItem = forwardRef<
 >(({ children, className, ...props }, forwardedRef) => (
   <Accordion.Item
     className={tw(
-      "focus-within:shadow-mauve12 mt-px overflow-hidden first:mt-0 first:rounded-t last:rounded-b focus-within:relative focus-within:z-10 focus-within:shadow-[0_0_0_2px]",
+      "overflow-hidden rounded border border-gray-300 relative focus-within:z-10 ",
       className
     )}
     {...props}
