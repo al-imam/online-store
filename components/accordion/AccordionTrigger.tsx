@@ -12,7 +12,7 @@ export const AccordionTrigger = forwardRef<
   <Accordion.Header className="flex">
     <Accordion.Trigger
       className={tw(
-        "text-violet11 shadow-mauve6 hover:bg-mauve2 group flex h-[45px] flex-1 cursor-default items-center justify-between bg-white px-5 text-[15px] leading-none shadow-[0_1px_0] outline-none",
+        "group/trigger flex flex-1 cursor-default items-center justify-between p-4 text-[15px] leading-none",
         className
       )}
       {...props}
@@ -20,7 +20,7 @@ export const AccordionTrigger = forwardRef<
     >
       {children}
       <ArrowLeftIcon
-        className="text-violet10 ease-[cubic-bezier(0.87,_0,_0.13,_1)] transition-transform duration-300 -rotate-90 group-data-[state=open]:rotate-90"
+        className="ease-[cubic-bezier(0.87,_0,_0.13,_1)] transition-transform duration-300 -rotate-90 group-data-[state=open]/trigger:rotate-90"
         aria-hidden
       />
     </Accordion.Trigger>
