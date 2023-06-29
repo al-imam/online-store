@@ -1,4 +1,4 @@
-import Filter from "$components/filters";
+import { Accordion } from "$components/accordion";
 import Pagination from "$components/layout/Pagination";
 import { Product } from "$components/products";
 import ProductInterface from "$types/productInterface";
@@ -8,7 +8,7 @@ interface ListProductProps {
 }
 
 export default ({ data }: ListProductProps) => (
-  <section className="mx-auto max-w-screen-xl px-4 py-2">
+  <section className="mx-auto max-w-screen-xl px-4 py-2 ">
     <div className="block lg:hidden py-2 mb-6">
       <button className="flex cursor-pointer items-center gap-2 border-b border-gray-400 pb-1 text-gray-900 transition hover:border-gray-600">
         <span className="text-sm font-medium"> Filters & Sorting </span>
@@ -31,7 +31,10 @@ export default ({ data }: ListProductProps) => (
     </div>
 
     <div className="lg:mt-8 lg:grid lg:grid-cols-4 lg:items-start lg:gap-8">
-      <Filter />
+      <div className="hidden lg:block lg:h-[calc(100vh-calc(var(--nav-size)+3rem))] overflow-y-scroll remove-scroll-bar pb-4">
+        <p className="block text-xs font-medium text-gray-700 mb-4">Filters</p>
+        <Accordion />
+      </div>
       <div className="lg:col-span-3">
         <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {data.products.map((item) => (
