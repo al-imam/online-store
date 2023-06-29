@@ -4,8 +4,9 @@
 
 @layer base {
   :root {
-    --nav-size: 8rem;
-    @apply md:[--nav-size:4rem];
+    --nav-size: 4rem;
+    --overlay-color: 255 255 255 / 0.2;
+    --overlay-opacity: 1;
   }
 
   input[type="number"]::-webkit-outer-spin-button,
@@ -29,5 +30,14 @@
 
   .remove-scroll-bar::-webkit-scrollbar {
     display: none;
+  }
+
+  .overlay-effect::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgb(var(--overlay-color));
+    opacity: var(--overlay-opacity);
+    z-index: 9999;
   }
 }
